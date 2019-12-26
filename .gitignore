@@ -1,0 +1,10 @@
+.coverage
+.dart_tool
+.dartfix
+.packages
+.pana
+coverage.json
+lcov.info
+node_modules
+package-lock.json
+pubspec.lock
