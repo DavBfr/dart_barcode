@@ -18,6 +18,7 @@
 
 import 'package:meta/meta.dart';
 
+import 'barcode_operations.dart';
 import 'code39.dart';
 
 enum BarcodeType {
@@ -30,45 +31,121 @@ enum BarcodeType {
   Code128,
 }
 
+@immutable
 abstract class Barcode {
-  Barcode(this.draw) : assert(draw != null);
+  const Barcode();
 
-  factory Barcode.fromType({
-    @required BarcodeType type,
-    @required BarcodeDraw draw,
-  }) {
+  factory Barcode.fromType(BarcodeType type) {
     assert(type != null);
 
     switch (type) {
-      case BarcodeType.CodeEAN13:
-      case BarcodeType.CodeEAN8:
-      case BarcodeType.Code93:
-      case BarcodeType.CodeUPCA:
-      case BarcodeType.CodeUPCE:
-      case BarcodeType.Code128:
       case BarcodeType.Code39:
+        return const BarcodeCode39();
       default:
-        return BarcodeCode39(draw: draw);
+        throw UnimplementedError('Barcode $type not supported');
     }
   }
 
-  factory Barcode.code39({BarcodeDraw draw}) => BarcodeCode39(draw: draw);
+  static Barcode code39() => const BarcodeCode39();
 
-  final BarcodeDraw draw;
+  Iterable<BarcodeElement> make(
+    String data, {
+    @required double width,
+    @required double height,
+    bool drawText = false,
+    double fontHeight,
+  }) sync* {
+    assert(data != null);
+    assert(width != null && width > 0);
+    assert(height != null && height > 0);
+    assert(!drawText || fontHeight != null);
 
-  void make(String data, double width, double height);
-}
+    final List<bool> bits = convert(data).toList();
 
-abstract class BarcodeDraw {
-  void fillRect(
-      double left, double top, double width, double height, bool black);
-}
+    if (bits.isEmpty) {
+      return;
+    }
 
-class BarcodeException implements Exception {
-  const BarcodeException(this.message);
+    final double lineWidth = width / bits.length;
 
-  final String message;
+    bool color = bits.first;
+    int count = 1;
 
-  @override
-  String toString() => '$runtimeType: $message';
+    for (int i = 1; i < bits.length; i++) {
+      if (color == bits[i]) {
+        count++;
+        continue;
+      }
+
+      yield BarcodeBar(
+        left: (i - count) * lineWidth,
+        top: 0,
+        width: count * lineWidth,
+        height: height - (drawText ? fontHeight : 0),
+        black: color,
+      );
+
+      color = bits[i];
+      count = 1;
+    }
+
+    yield BarcodeBar(
+      left: (bits.length - count) * lineWidth,
+      top: 0,
+      width: count * lineWidth,
+      height: height - (drawText ? fontHeight : 0),
+      black: color,
+    );
+
+    if (drawText) {
+      yield* makeText(data, width, height, fontHeight);
+    }
+  }
+
+  @protected
+  Iterable<BarcodeText> makeText(
+    String data,
+    double width,
+    double height,
+    double fontHeight,
+  ) sync* {
+    yield BarcodeText(
+      left: 0,
+      top: height - fontHeight,
+      width: width,
+      height: fontHeight,
+      text: data,
+    );
+  }
+
+  @protected
+  Iterable<bool> add(int data, int count) sync* {
+    for (int i = 0; i < count; i++) {
+      yield (1 & (data >> i)) == 1;
+    }
+  }
+
+  String toHex(String data) {
+    String intermediate = '';
+    for (bool bit in convert(data)) {
+      intermediate += bit ? '1' : '0';
+    }
+
+    String result = '';
+    while (intermediate.length > 8) {
+      final String sub = intermediate.substring(intermediate.length - 8);
+      result += int.parse(sub, radix: 2).toRadixString(16);
+      intermediate = intermediate.substring(0, intermediate.length - 8);
+    }
+    result += int.parse(intermediate, radix: 2).toRadixString(16);
+
+    return result;
+  }
+
+  @protected
+  Iterable<bool> convert(String data);
+
+  Iterable<int> get charSet;
+
+  String get name;
 }

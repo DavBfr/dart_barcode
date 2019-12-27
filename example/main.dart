@@ -2,15 +2,11 @@
 
 import 'package:barcode/barcode.dart';
 
-class MyBarcodeDraw extends BarcodeDraw {
-  @override
-  void fillRect(
-      double left, double top, double width, double height, bool black) {
-    print('BAR $left, $top, $width, $height, $black');
-  }
-}
-
 void main() {
-  final bc = Barcode.code39(draw: MyBarcodeDraw());
-  bc.make('HELLO 123', 200, 50);
+  final bc = Barcode.code39();
+  for (var elem in bc.make('HELLO 123', 200, 50, 10)) {
+    if (elem is BarcodeText) {
+      print(elem.text);
+    }
+  }
 }

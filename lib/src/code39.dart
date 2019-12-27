@@ -16,89 +16,105 @@
 
 // ignore_for_file: omit_local_variable_types
 
+import 'package:barcode/src/barcode_operations.dart';
+
 import 'barcode.dart';
+import 'barcode_exception.dart';
 
 class BarcodeCode39 extends Barcode {
-  BarcodeCode39({
-    BarcodeDraw draw,
-  }) : super(draw);
-
-  void _drawMatrix(int data, int position, double lineWidth, double height) {
-    for (int i = 0; i < 12; i++) {
-      draw.fillRect(
-        (13 * position + i) * lineWidth,
-        0,
-        lineWidth,
-        height,
-        (0x800 & (data << i)) == 0x800,
-      );
-    }
-  }
+  const BarcodeCode39();
 
   @override
-  void make(String data, double width, double height) {
-    final double lineWidth = width / (26 + 13 * data.length);
+  Iterable<int> get charSet => _matrix.keys;
 
-    _drawMatrix(_matrix[0], 0, lineWidth, height);
+  @override
+  String get name => 'CODE 39';
 
-    int index = 1;
+  @override
+  Iterable<bool> convert(String data) sync* {
+    yield* add(_startStop, _codeLen);
+
     for (int code in data.codeUnits) {
       final int codeValue = _matrix[code];
       if (codeValue == null) {
         throw BarcodeException(
-            'Unable to encode "${String.fromCharCode(code)}" to CODE 39 Barcode');
+            'Unable to encode "${String.fromCharCode(code)}" to $name Barcode');
       }
-      _drawMatrix(codeValue, index, lineWidth, height);
-      index++;
+      yield* add(codeValue, _codeLen);
     }
 
-    _drawMatrix(_matrix[0], index, lineWidth, height);
+    yield* add(_startStop, _codeLen);
   }
 
+  @override
+  Iterable<BarcodeText> makeText(
+    String data,
+    double width,
+    double height,
+    double fontHeight,
+  ) sync* {
+    final String text = '*$data*';
+    final double lineWidth = width / (text.length * _codeLen);
+
+    for (int i = 0; i < text.length; i++) {
+      yield BarcodeText(
+        left: lineWidth * _codeLen * i,
+        top: height - fontHeight,
+        width: lineWidth * _codeLen,
+        height: fontHeight,
+        text: text[i],
+      );
+    }
+  }
+
+  /// Code 39 conversion bits
   static const Map<int, int> _matrix = <int, int>{
-    0: 0x96d, // <start/end>
-    48: 0xa6d, // 0
-    49: 0xd2b, // 1
-    50: 0xb2b, // 2
-    51: 0xd95, // 3
-    52: 0xa6b, // 4
-    53: 0xd35, // 5
-    54: 0xb35, // 6
-    55: 0xa5b, // 7
-    56: 0xd2d, // 8
-    57: 0xb2d, // 9
-    65: 0xd4b, // A
-    66: 0xb4b, // B
-    67: 0xda5, // C
-    68: 0xacb, // D
-    69: 0xd65, // E
-    70: 0xb65, // F
-    71: 0xa9b, // G
-    72: 0xd4d, // H
-    73: 0xb4d, // I
-    74: 0xacd, // J
-    75: 0xd53, // K
-    76: 0xb53, // L
-    77: 0xda9, // M
-    78: 0xad3, // N
-    79: 0xd69, // O
-    80: 0xb69, // P
-    81: 0xab3, // Q
-    82: 0xd59, // R
-    83: 0xb59, // S
-    84: 0xad9, // T
-    85: 0xcab, // U
-    86: 0x9ab, // V
-    87: 0xcd5, // W
-    88: 0x96b, // X
-    89: 0xcb5, // Y
-    90: 0x9b5, // Z
-    45: 0x95b, // -
-    46: 0xcad, // .
-    32: 0x9ad, // <space>
-    36: 0x925, // $
-    47: 0x929, // /
-    43: 0x949, // +
-    37: 0xa49, // %
+    0x30: 0xb65, // 0
+    0x31: 0xd4b, // 1
+    0x32: 0xd4d, // 2
+    0x33: 0xa9b, // 3
+    0x34: 0xd65, // 4
+    0x35: 0xacb, // 5
+    0x36: 0xacd, // 6
+    0x37: 0xda5, // 7
+    0x38: 0xb4b, // 8
+    0x39: 0xb4d, // 9
+    0x41: 0xd2b, // A
+    0x42: 0xd2d, // B
+    0x43: 0xa5b, // C
+    0x44: 0xd35, // D
+    0x45: 0xa6b, // E
+    0x46: 0xa6d, // F
+    0x47: 0xd95, // G
+    0x48: 0xb2b, // H
+    0x49: 0xb2d, // I
+    0x4a: 0xb35, // J
+    0x4b: 0xcab, // K
+    0x4c: 0xcad, // L
+    0x4d: 0x95b, // M
+    0x4e: 0xcb5, // N
+    0x4f: 0x96b, // O
+    0x50: 0x96d, // P
+    0x51: 0xcd5, // Q
+    0x52: 0x9ab, // R
+    0x53: 0x9ad, // S
+    0x54: 0x9b5, // T
+    0x55: 0xd53, // U
+    0x56: 0xd59, // V
+    0x57: 0xab3, // W
+    0x58: 0xd69, // X
+    0x59: 0xad3, // Y
+    0x5a: 0xad9, // Z
+    0x2d: 0xda9, // -
+    0x2e: 0xb53, // .
+    0x20: 0xb59, //
+    0x24: 0xa49, // $
+    0x2f: 0x949, // /
+    0x2b: 0x929, // +
+    0x25: 0x925, // %
   };
+
+  static const int _startStop = 0xb69;
+
+  static const int _codeLen = 13;
 }

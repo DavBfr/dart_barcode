@@ -16,12 +16,11 @@
 
 // ignore_for_file: omit_local_variable_types
 
-import 'package:barcode/barcode.dart';
+class BarcodeException implements Exception {
+  const BarcodeException(this.message);
 
-class TestDraw extends BarcodeDraw {
+  final String message;
+
   @override
-  void fillRect(
-      double left, double top, double width, double height, bool black) {
-    print('BAR $left, $top, $width, $height, $black');
-  }
+  String toString() => '$runtimeType: $message';
 }
