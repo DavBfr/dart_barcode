@@ -83,4 +83,7 @@ void main() {
   buildBarcode(BarcodeType.Code39, 'CODE 39');
   buildBarcode(BarcodeType.Code93, 'CODE 93');
   buildBarcode(BarcodeType.Code128, 'Barcode 128', 'code-128b');
+  buildBarcode(BarcodeType.CodeEAN13, '590123412345');
+  buildBarcode(BarcodeType.CodeEAN8, '9638507');
+  buildBarcode(BarcodeType.CodeISBN, '978316148410');
 }

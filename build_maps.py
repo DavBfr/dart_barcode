@@ -212,5 +212,61 @@ def code128():
     print(f'static const int _codeLen = 11;')
 
 
+def ean13():
+    misc = {
+        'startEnd': '101',
+        'center': '01010',
+    }
+
+    digits = (
+        # Digit, L-code, G-code ,R-code
+        ('0', '0001101', '0100111', '1110010'),
+        ('1', '0011001', '0110011', '1100110'),
+        ('2', '0010011', '0011011', '1101100'),
+        ('3', '0111101', '0100001', '1000010'),
+        ('4', '0100011', '0011101', '1011100'),
+        ('5', '0110001', '0111001', '1001110'),
+        ('6', '0101111', '0000101', '1010000'),
+        ('7', '0111011', '0010001', '1000100'),
+        ('8', '0110111', '0001001', '1001000'),
+        ('9', '0001011', '0010111', '1110100'),
+    )
+
+    first = (
+        # First digit, First group of 6 digits, Last group of 6 digits
+        ('0', 'LLLLLL', 'RRRRRR'),
+        ('1', 'LLGLGG', 'RRRRRR'),
+        ('2', 'LLGGLG', 'RRRRRR'),
+        ('3', 'LLGGGL', 'RRRRRR'),
+        ('4', 'LGLLGG', 'RRRRRR'),
+        ('5', 'LGGLLG', 'RRRRRR'),
+        ('6', 'LGGGLL', 'RRRRRR'),
+        ('7', 'LGLGLG', 'RRRRRR'),
+        ('8', 'LGLGGL', 'RRRRRR'),
+        ('9', 'LGGLGL', 'RRRRRR'),
+    )
+
+    print('/// EAN 13 conversion bits')
+    print('static const Map<int, List<int>> _matrix = <int, List<int>>{')
+    for d, l, g, r in digits:
+        print(
+            f'{hex(ord(d))}: <int>[{hex(int(l[::-1], 2))}, {hex(int(g[::-1], 2))}, {hex(int(r[::-1], 2))}],')
+    print('};\n')
+
+    print('/// EAN 13 first digit')
+    print('static const Map<int, int> _first = <int, int>{')
+    for d, f, s in first:
+        v = 0
+        i = 0
+        for k in f:
+            v += 1 << i if k == 'G' else 0
+            i += 1
+        print(f'{hex(ord(d))}: {hex(v)}, // {f}')
+    print('};\n')
+
+    for name in misc:
+        print(f'static const int _{name} = {hex(int(misc[name][::-1], 2))};')
+
+
 if __name__ == '__main__':
-    code128()
+    ean13()
