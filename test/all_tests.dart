@@ -17,7 +17,9 @@
 // ignore_for_file: omit_local_variable_types
 
 import 'code39_test.dart' as code39;
+import 'code93_test.dart' as code93;
 
 void main() {
   code39.main();
+  code93.main();
 }

@@ -5,6 +5,7 @@
 Breaking change: different API
 
 - Supports text output
+- Add CODE 93
 
 ## 0.1.0
 
