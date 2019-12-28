@@ -71,27 +71,27 @@ abstract class Barcode {
   }
 
   /// Create a CODE 39 `Barcode` instance:
-  /// ![CODE 39](https://raw.githubusercontent.com/DavBfr/dart_barcode/master/example/code-39.png)
+  /// ![CODE 39](https://raw.githubusercontent.com/DavBfr/dart_barcode/master/img/code-39.png)
   static Barcode code39() => const BarcodeCode39();
 
   /// Create a CODE 93 `Barcode` instance:
-  /// ![CODE 93](https://raw.githubusercontent.com/DavBfr/dart_barcode/master/example/code-93.png)
+  /// ![CODE 93](https://raw.githubusercontent.com/DavBfr/dart_barcode/master/img/code-93.png)
   static Barcode code93() => const BarcodeCode93();
 
   /// Create a CODE 128 `Barcode` instance
-  /// ![CODE 128 B](https://raw.githubusercontent.com/DavBfr/dart_barcode/master/example/code-128b.png)
+  /// ![CODE 128 B](https://raw.githubusercontent.com/DavBfr/dart_barcode/master/img/code-128b.png)
   static Barcode code128() => const BarcodeCode128();
 
   /// Create an EAN 13 `Barcode` instance
-  /// ![EAN 13](https://raw.githubusercontent.com/DavBfr/dart_barcode/master/example/ean-13.png)
+  /// ![EAN 13](https://raw.githubusercontent.com/DavBfr/dart_barcode/master/img/ean-13.png)
   static Barcode ean13() => const BarcodeEan13();
 
   /// Create an EAN 8 `Barcode` instance
-  /// ![EAN 8](https://raw.githubusercontent.com/DavBfr/dart_barcode/master/example/ean-8.png)
+  /// ![EAN 8](https://raw.githubusercontent.com/DavBfr/dart_barcode/master/img/ean-8.png)
   static Barcode ean8() => const BarcodeEan8();
 
   /// Create an ISBN `Barcode` instance
-  /// ![EAN 8](https://raw.githubusercontent.com/DavBfr/dart_barcode/master/example/isbn.png)
+  /// ![EAN 8](https://raw.githubusercontent.com/DavBfr/dart_barcode/master/img/isbn.png)
   static Barcode isbn() => const BarcodeIsbn();
 
   /// Main method to produce the barcode graphic desctiotion.

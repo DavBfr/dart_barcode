@@ -30,36 +30,36 @@ node_modules:
 	npm install lcov-summary
 
 test: .coverage node_modules
-	pub get
-	pub global run coverage:collect_coverage --port=$(COV_PORT) -o coverage.json --resume-isolates --wait-paused &\
-	dart --enable-asserts --disable-service-auth-codes --enable-vm-service=$(COV_PORT) --pause-isolates-on-exit test/all_tests.dart
-	pub global run coverage:format_coverage --packages=.packages -i coverage.json --report-on lib --lcov --out lcov.info
+	cd barcode; pub get
+	cd barcode; pub global run coverage:collect_coverage --port=$(COV_PORT) -o coverage.json --resume-isolates --wait-paused &\
+	cd barcode; dart --enable-asserts --disable-service-auth-codes --enable-vm-service=$(COV_PORT) --pause-isolates-on-exit test/all_tests.dart
+	cd barcode; pub global run coverage:format_coverage --packages=.packages -i coverage.json --report-on lib --lcov --out ../lcov.info
 	cat lcov.info | node_modules/.bin/lcov-summary
 
 clean:
 	git clean -fdx -e .vscode
 
 publish: format clean
-	pub publish -f
+	cd barcode; pub publish -n
 
 .pana:
 	pub global activate pana
 	touch $@
 
 analyze: .pana
-	@pub global run pana --no-warning --source path .
+	@pub global run pana --no-warning --source path barcode
 
 .dartfix:
 	pub global activate dartfix
 	touch $@
 
 fix: .dartfix
-	pub get
-	pub global run dartfix --overwrite .
+	cd barcode; pub get
+	cd barcode; pub global run dartfix --overwrite .
 
 barcodes:
-	rm -f example/*.png
-	cd example; pub get
-	cd example; dart lib/main.dart
+	cd barcode/example; pub get
+	cd barcode/example; dart lib/main.dart
+	mv -f barcode/example/*.png img/
 
 .PHONY: test format format-dart clean publish analyze
