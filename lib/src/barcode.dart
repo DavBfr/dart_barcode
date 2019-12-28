@@ -19,6 +19,7 @@
 import 'package:meta/meta.dart';
 
 import 'barcode_operations.dart';
+import 'code128.dart';
 import 'code39.dart';
 import 'code93.dart';
 
@@ -29,7 +30,7 @@ enum BarcodeType {
   Code93,
   // CodeUPCA,
   // CodeUPCE,
-  // Code128,
+  Code128,
 }
 
 @immutable
@@ -44,6 +45,8 @@ abstract class Barcode {
         return const BarcodeCode39();
       case BarcodeType.Code93:
         return const BarcodeCode93();
+      case BarcodeType.Code128:
+        return const BarcodeCode128();
       default:
         throw UnimplementedError('Barcode $type not supported');
     }
@@ -51,6 +54,7 @@ abstract class Barcode {
 
   static Barcode code39() => const BarcodeCode39();
   static Barcode code93() => const BarcodeCode93();
+  static Barcode code128() => const BarcodeCode128();
 
   Iterable<BarcodeElement> make(
     String data, {
