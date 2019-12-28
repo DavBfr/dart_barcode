@@ -1,0 +1,19 @@
+name: example
+description: BarcodeWidget example
+version: 1.0.0+1
+
+environment:
+  sdk: ">=2.1.0 <3.0.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+  barcode_widget:
+  google_fonts:
+
+dependency_overrides:
+  barcode_widget:
+    path: ../
+
+flutter:
+  uses-material-design: true

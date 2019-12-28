@@ -42,15 +42,30 @@ test: node_modules test-barcode barcodes
 clean:
 	git clean -fdx -e .vscode
 
-publish: format clean
+publish-barcode: format clean
+	@find barcode -name pubspec.yaml -exec sed -i -e 's/^dependency_overrides:/_dependency_overrides:/g' '{}' ';'
 	cd barcode; pub publish -f
+	@find barcode -name pubspec.yaml -exec sed -i -e 's/^_dependency_overrides:/dependency_overrides:/g' '{}' ';'
+
+publish-flutter: format clean
+	@find flutter -name pubspec.yaml -exec sed -i -e 's/^dependency_overrides:/_dependency_overrides:/g' '{}' ';'
+	cd flutter; pub publish -f
+	@find flutter -name pubspec.yaml -exec sed -i -e 's/^_dependency_overrides:/dependency_overrides:/g' '{}' ';'
 
 .pana:
 	pub global activate pana
 	touch $@
 
-analyze: .pana
+analyze-barcode: .pana
+	@find barcode -name pubspec.yaml -exec sed -i -e 's/^dependency_overrides:/_dependency_overrides:/g' '{}' ';'
 	@pub global run pana --no-warning --source path barcode
+	@find barcode -name pubspec.yaml -exec sed -i -e 's/^_dependency_overrides:/dependency_overrides:/g' '{}' ';'
+
+analyze-flutter: .pana
+	@find flutter -name pubspec.yaml -exec sed -i -e 's/^dependency_overrides:/_dependency_overrides:/g' '{}' ';'
+	rm -f flutter/pubspec.lock
+	@flutter pub global run pana --no-warning --source path flutter
+	@find flutter -name pubspec.yaml -exec sed -i -e 's/^_dependency_overrides:/dependency_overrides:/g' '{}' ';'
 
 .dartfix:
 	pub global activate dartfix

@@ -9,3 +9,6 @@ lcov*.info
 node_modules
 package-lock.json
 pubspec.lock
+build
+flutter/example/.flutter-plugins
+flutter/example/.flutter-plugins-dependencies

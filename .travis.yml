@@ -10,6 +10,6 @@ addons:
       - lcov
 
 script:
-  - make analyze
+  - make analyze-barcode
   - make test
   - test -z "$(git status --porcelain)"
