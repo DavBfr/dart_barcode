@@ -16,9 +16,11 @@
 
 // ignore_for_file: omit_local_variable_types
 
+/// `Exception` raised if the library cannot generate the `Barcode`
 class BarcodeException implements Exception {
   const BarcodeException(this.message);
 
+  /// Error message
   final String message;
 
   @override

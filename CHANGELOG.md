@@ -7,6 +7,7 @@ Breaking change: different API
 - Supports text output
 - Add CODE 93
 - Add CODE 128 B
+- Add documentation
 
 ## 0.1.0
 

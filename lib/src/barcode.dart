@@ -23,6 +23,7 @@ import 'code128.dart';
 import 'code39.dart';
 import 'code93.dart';
 
+/// Supported barcode types
 enum BarcodeType {
   // CodeEAN13,
   // CodeEAN8,
@@ -33,10 +34,19 @@ enum BarcodeType {
   Code128,
 }
 
+/// Barcode generation class
 @immutable
 abstract class Barcode {
+  /// Abstract constructor
   const Barcode();
 
+  /// Create a specific `Barcode` instance based on the `BarcodeType`
+  /// this uses only the default barcode settings.
+  /// For finer-grained usage, use the static methods:
+  /// * Barcode.code39()
+  /// * Barcode.code93()
+  /// * Barcode.code128()
+  /// * ...
   factory Barcode.fromType(BarcodeType type) {
     assert(type != null);
 
@@ -52,10 +62,28 @@ abstract class Barcode {
     }
   }
 
+  /// Create a CODE 39 `Barcode` instance:
+  /// ![CODE 39](https://raw.githubusercontent.com/DavBfr/dart_barcode/master/example/code-39.png)
   static Barcode code39() => const BarcodeCode39();
+
+  /// Create a CODE 93 `Barcode` instance:
+  /// ![CODE 93](https://raw.githubusercontent.com/DavBfr/dart_barcode/master/example/code-93.png)
   static Barcode code93() => const BarcodeCode93();
+
+  /// Create a CODE 128 `Barcode` instance
+  /// ![CODE 128 B](https://raw.githubusercontent.com/DavBfr/dart_barcode/master/example/code-128b.png)
   static Barcode code128() => const BarcodeCode128();
 
+  /// Main method to produce the barcode graphic desctiotion.
+  /// Returns a stream of drawing operations required to properly
+  /// display the barcode.
+  ///
+  /// Use it with:
+  /// ```dart
+  /// for (var op in Barcode.code39().make('HELLO', width: 200, height: 300)) {
+  ///   print(op);
+  /// }
+  /// ```
   Iterable<BarcodeElement> make(
     String data, {
     @required double width,
@@ -110,6 +138,8 @@ abstract class Barcode {
     }
   }
 
+  /// Stream the text operations required to draw the
+  /// barcode texts. This is automatically called by `make`
   @protected
   Iterable<BarcodeText> makeText(
     String data,
@@ -126,6 +156,8 @@ abstract class Barcode {
     );
   }
 
+  /// Build a stream of `bool` that represents a white or black bar
+  /// from a bit encoded `int` with count as the number of bars to draw
   @protected
   Iterable<bool> add(int data, int count) sync* {
     for (int i = 0; i < count; i++) {
@@ -133,6 +165,8 @@ abstract class Barcode {
     }
   }
 
+  /// Computes a hexadecimal representation of the barcode, mostly for
+  /// testing purposes
   String toHex(String data) {
     String intermediate = '';
     for (bool bit in convert(data)) {
@@ -150,10 +184,14 @@ abstract class Barcode {
     return result;
   }
 
+  /// Actual barcode computation method, returns a stream of `bool`
+  /// which represents the presence or absence of a bar
   @protected
   Iterable<bool> convert(String data);
 
+  /// Returns the list of accepted codePoints for this `Barcode`
   Iterable<int> get charSet;
 
+  /// Returns the name of this `Barcode`
   String get name;
 }

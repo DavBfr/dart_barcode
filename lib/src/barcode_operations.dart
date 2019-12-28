@@ -18,6 +18,7 @@
 
 import 'package:meta/meta.dart';
 
+/// `Barcode` drawing operation
 class BarcodeElement {
   const BarcodeElement({
     @required this.left,
@@ -29,22 +30,29 @@ class BarcodeElement {
         assert(width != null),
         assert(height != null);
 
+  /// left position of this element
   final double left;
 
+  /// top position of this element
   final double top;
 
+  /// width of this element
   final double width;
 
+  /// height of this element
   final double height;
 
+  /// right position of this element
   double get right => left + width;
 
+  /// bottom position of this element
   double get bottom => top + height;
 
   @override
   String toString() => '$runtimeType $left $top $width $height';
 }
 
+/// Rectangle drawing operation
 class BarcodeBar extends BarcodeElement {
   const BarcodeBar({
     @required double left,
@@ -59,6 +67,7 @@ class BarcodeBar extends BarcodeElement {
           height: height,
         );
 
+  /// Black or white color of this rectangle
   final bool black;
 
   @override
@@ -66,6 +75,7 @@ class BarcodeBar extends BarcodeElement {
       '$runtimeType [${black ? 'X' : ' '}] $left $top $width $height';
 }
 
+/// Text drawing operation
 class BarcodeText extends BarcodeElement {
   const BarcodeText({
     @required double left,
@@ -80,6 +90,7 @@ class BarcodeText extends BarcodeElement {
           height: height,
         );
 
+  /// Text to display in this rectangle
   final String text;
 
   @override

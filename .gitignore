@@ -4,6 +4,7 @@
 .packages
 .pana
 coverage.json
+doc
 lcov.info
 node_modules
 package-lock.json
