@@ -37,6 +37,10 @@ class BarcodeElement {
 
   final double height;
 
+  double get right => left + width;
+
+  double get bottom => top + height;
+
   @override
   String toString() => '$runtimeType $left $top $width $height';
 }
