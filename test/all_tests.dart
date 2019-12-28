@@ -18,8 +18,10 @@
 
 import 'code39_test.dart' as code39;
 import 'code93_test.dart' as code93;
+import 'generic_test.dart' as generic;
 
 void main() {
+  generic.main();
   code39.main();
   code93.main();
 }
