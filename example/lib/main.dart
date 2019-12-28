@@ -21,9 +21,9 @@ int getStringWidth(BitmapFont font, String string) {
   return stringWidth;
 }
 
-void main() {
+void buildBarcode(BarcodeType type, String data, [String filename]) {
   // Create a Barcode
-  final bc = Barcode.code39();
+  final bc = Barcode.fromType(type);
 
   // Create an image
   final image = Image(660, 150);
@@ -38,7 +38,7 @@ void main() {
 
   // Draw the barcode
   for (var elem in bc.make(
-    'HELLO 123',
+    data,
     width: image.width.toDouble() - margin * 2,
     height: image.height.toDouble(),
     drawText: true,
@@ -75,5 +75,12 @@ void main() {
   }
 
   // Save the image to disk as a PNG
-  File('barcode.png').writeAsBytesSync(encodePng(image));
+  filename ??= bc.name.replaceAll(RegExp(r'\s'), '-').toLowerCase();
+  File('$filename.png').writeAsBytesSync(encodePng(image));
+}
+
+void main() {
+  buildBarcode(BarcodeType.Code39, 'CODE 39');
+  buildBarcode(BarcodeType.Code93, 'CODE 93');
+  buildBarcode(BarcodeType.Code128, 'Barcode 128', 'code-128b');
 }

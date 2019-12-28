@@ -57,4 +57,9 @@ fix: .dartfix
 	pub get
 	pub global run dartfix --overwrite .
 
+barcodes:
+	rm -f example/*.png
+	cd example; pub get
+	cd example; dart lib/main.dart
+
 .PHONY: test format format-dart clean publish analyze
