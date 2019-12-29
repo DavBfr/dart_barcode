@@ -20,6 +20,7 @@ import 'dart:ui' as ui;
 
 import 'package:barcode/barcode.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
 
 class BarcodePainter extends LeafRenderObjectWidget {
@@ -55,7 +56,12 @@ class BarcodePainter extends LeafRenderObjectWidget {
 
 class RenderBarcode extends RenderBox {
   RenderBarcode(
-      this.data, this.barcode, this.barStyle, this.drawText, this.style);
+    this.data,
+    this.barcode,
+    this.barStyle,
+    this.drawText,
+    this.style,
+  );
 
   final String data;
 
@@ -124,20 +130,38 @@ class RenderBarcode extends RenderBox {
     );
   }
 
+  void drawError(PaintingContext context, ui.Offset offset, String message) {
+    final RenderErrorBox errorBox = RenderErrorBox(message);
+    errorBox.layout(constraints);
+    errorBox.paint(context, offset);
+  }
+
   @override
   void paint(PaintingContext context, Offset offset) {
-    for (BarcodeElement element in barcode.make(
-      data,
-      width: size.width,
-      height: size.height,
-      drawText: drawText,
-      fontHeight: style.fontSize,
-    )) {
-      if (element is BarcodeBar) {
-        paintBar(context, offset, element);
-      } else if (element is BarcodeText) {
-        paintText(context, offset, element);
+    try {
+      for (BarcodeElement element in barcode.make(
+        data,
+        width: size.width,
+        height: size.height,
+        drawText: drawText,
+        fontHeight: style.fontSize,
+      )) {
+        if (element is BarcodeBar) {
+          paintBar(context, offset, element);
+        } else if (element is BarcodeText) {
+          paintText(context, offset, element);
+        }
       }
+    } on BarcodeException catch (error) {
+      FlutterError.reportError(FlutterErrorDetails(
+        exception: error,
+        library: 'Barcode Widget',
+      ));
+
+      assert(() {
+        drawError(context, offset, error.message);
+        return true;
+      }());
     }
   }
 }

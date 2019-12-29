@@ -5,7 +5,7 @@ author: David PHAM-VAN <dev.nfet.net@gmail.com
 homepage: https://github.com/DavBfr/dart_barcode/tree/master/flutter
 repository: https://github.com/DavBfr/dart_barcode
 issue_tracker: https://github.com/DavBfr/dart_barcode/issues
-version: 1.0.0
+version: 1.1.0
 
 environment:
   sdk: ">=2.1.0 <3.0.0"
@@ -13,7 +13,7 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  barcode: ^1.1.0
+  barcode: ^1.2.0
   meta: ^1.1.5
 
 dependency_overrides:
