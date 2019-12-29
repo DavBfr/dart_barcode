@@ -1,7 +1,13 @@
 language: dart
+dist: bionic
 dart:
   - stable
   - dev
+
+addons:
+  apt:
+    packages:
+      - lcov
 
 script:
   - make analyze

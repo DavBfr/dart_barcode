@@ -32,7 +32,7 @@ node_modules:
 test-barcode: .coverage
 	cd barcode; pub get
 	cd barcode; pub global run coverage:collect_coverage --port=$(COV_PORT) -o coverage.json --resume-isolates --wait-paused &\
-	cd barcode; dart --enable-asserts --disable-service-auth-codes --enable-vm-service=$(COV_PORT) --pause-isolates-on-exit test/all_tests.dart
+	dart --enable-asserts --disable-service-auth-codes --enable-vm-service=$(COV_PORT) --pause-isolates-on-exit test/all_tests.dart
 	cd barcode; pub global run coverage:format_coverage --packages=.packages -i coverage.json --report-on lib --lcov --out ../lcov-tests.info
 
 test: node_modules test-barcode barcodes
@@ -43,7 +43,7 @@ clean:
 	git clean -fdx -e .vscode
 
 publish: format clean
-	cd barcode; pub publish -n
+	cd barcode; pub publish -f
 
 .pana:
 	pub global activate pana

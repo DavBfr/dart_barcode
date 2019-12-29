@@ -3,7 +3,7 @@ description: |
   Barcode generation library for Dart that can generate
   generic drawing operations for any backend.
 author: David PHAM-VAN <dev.nfet.net@gmail.com
-homepage: https://github.com/DavBfr/dart_barcode/barcode/example
+homepage: https://github.com/DavBfr/dart_barcode/tree/master/barcode/example
 repository: https://github.com/DavBfr/dart_barcode
 issue_tracker: https://github.com/DavBfr/dart_barcode/issues
 version: 1.0.0

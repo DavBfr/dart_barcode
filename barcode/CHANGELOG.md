@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.1.1
+
+- Fix URLs
+
 ## 1.1.0
 
 - Add EAN13
