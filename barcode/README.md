@@ -2,6 +2,14 @@
 
 Barcode generation library for Dart that can generate generic drawing operations for any backend.
 
+* If you are looking to print barcodes, use [pub:pdf](https://pub.dev/packages/pdf).
+* If you want to display barcodes in a Flutter application, use [pub:barcode_widget](https://pub.dev/packages/barcode_widget).
+* To generate barcode images see the example tab.
+
+They all use this library to generate the drawing operations.
+
+---
+
 [![Buy Me A Coffee](https://bmc-cdn.nyc3.digitaloceanspaces.com/BMC-button-images/custom_images/orange_img.png "Buy Me A Coffee")](https://www.buymeacoffee.com/JORBmbw9h "Buy Me A Coffee")
 
 This library is the base to create flutter widgets or [pdf](https://pub.dev/packages/pdf) barcodes. It depends only on dart with no platform-dependent implementation.
