@@ -26,6 +26,7 @@ import 'ean13.dart';
 import 'ean8.dart';
 import 'isbn.dart';
 import 'upca.dart';
+import 'upce.dart';
 
 /// Supported barcode types
 enum BarcodeType {
@@ -35,7 +36,7 @@ enum BarcodeType {
   Code39,
   Code93,
   CodeUPCA,
-  // CodeUPCE,
+  CodeUPCE,
   Code128,
 }
 
@@ -57,19 +58,21 @@ abstract class Barcode {
 
     switch (type) {
       case BarcodeType.Code39:
-        return const BarcodeCode39();
+        return Barcode.code39();
       case BarcodeType.Code93:
-        return const BarcodeCode93();
+        return Barcode.code93();
       case BarcodeType.Code128:
-        return const BarcodeCode128();
+        return Barcode.code128();
       case BarcodeType.CodeEAN13:
-        return const BarcodeEan13();
+        return Barcode.ean13();
       case BarcodeType.CodeEAN8:
-        return const BarcodeEan8();
+        return Barcode.ean8();
       case BarcodeType.CodeISBN:
-        return const BarcodeIsbn();
+        return Barcode.isbn();
       case BarcodeType.CodeUPCA:
-        return const BarcodeUpcA();
+        return Barcode.upcA();
+      case BarcodeType.CodeUPCE:
+        return Barcode.upcE();
       default:
         throw UnimplementedError('Barcode $type not supported');
     }
@@ -100,8 +103,13 @@ abstract class Barcode {
   static Barcode isbn() => const BarcodeIsbn();
 
   /// Create an UPC A `Barcode` instance
-  /// ![EAN 8](https://raw.githubusercontent.com/DavBfr/dart_barcode/master/img/upc-a.png)
+  /// ![UPC A](https://raw.githubusercontent.com/DavBfr/dart_barcode/master/img/upc-a.png)
   static Barcode upcA() => const BarcodeUpcA();
+
+  /// Create an UPC E `Barcode` instance
+  /// * set fallback to true to silently try UPC-A if the code is not compatible with UPC-E
+  /// ![UPC E](https://raw.githubusercontent.com/DavBfr/dart_barcode/master/img/upc-e.png)
+  static Barcode upcE({bool fallback = false}) => BarcodeUpcE(fallback);
 
   /// Main method to produce the barcode graphic desctiotion.
   /// Returns a stream of drawing operations required to properly

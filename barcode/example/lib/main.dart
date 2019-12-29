@@ -21,10 +21,8 @@ int getStringWidth(BitmapFont font, String string) {
   return stringWidth;
 }
 
-void buildBarcode(BarcodeType type, String data, [String filename]) {
-  // Create a Barcode
-  final bc = Barcode.fromType(type);
-
+/// Create a Barcode
+void buildBarcode(Barcode bc, String data, [String filename]) {
   // Create an image
   final image = Image(660, 150);
 
@@ -80,11 +78,12 @@ void buildBarcode(BarcodeType type, String data, [String filename]) {
 }
 
 void main() {
-  buildBarcode(BarcodeType.Code39, 'CODE 39');
-  buildBarcode(BarcodeType.Code93, 'CODE 93');
-  buildBarcode(BarcodeType.Code128, 'Barcode 128', 'code-128b');
-  buildBarcode(BarcodeType.CodeEAN13, '590123412345');
-  buildBarcode(BarcodeType.CodeEAN8, '9638507');
-  buildBarcode(BarcodeType.CodeISBN, '978316148410');
-  buildBarcode(BarcodeType.CodeUPCA, '98765432109');
+  buildBarcode(Barcode.code39(), 'CODE 39');
+  buildBarcode(Barcode.code93(), 'CODE 93');
+  buildBarcode(Barcode.code128(), 'Barcode 128', 'code-128b');
+  buildBarcode(Barcode.ean13(), '590123412345');
+  buildBarcode(Barcode.ean8(), '9638507');
+  buildBarcode(Barcode.isbn(), '978316148410');
+  buildBarcode(Barcode.upcA(), '98765432109');
+  buildBarcode(Barcode.upcE(), '06510000432');
 }

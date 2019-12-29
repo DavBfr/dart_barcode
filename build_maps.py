@@ -259,6 +259,7 @@ def ean13():
     misc = {
         'StartEnd': '101',
         'Center': '01010',
+        'EndUpcE': '010101',
     }
 
     digits = (
@@ -289,6 +290,19 @@ def ean13():
         ('9', 'LGGLGL', 'RRRRRR'),
     )
 
+    upce = (
+        ('0', 'EEEOOO', 'OOOEEE'),
+        ('1', 'EEOEOO', 'OOEOEE'),
+        ('2', 'EEOOEO', 'OOEEOE'),
+        ('3', 'EEOOOE', 'OOEEEO'),
+        ('4', 'EOEEOO', 'OEOOEE'),
+        ('5', 'EOOEEO', 'OEEOOE'),
+        ('6', 'EOOOEE', 'OEEEOO'),
+        ('7', 'EOEOEO', 'OEOEOE'),
+        ('8', 'EOEOOE', 'OEOEEO'),
+        ('9', 'EOOEOE', 'OEEOEO '),
+    )
+
     print('/// EAN 13 conversion bits')
     print('static const Map<int, List<int>> ean = <int, List<int>>{')
     for d, l, g, r in digits:
@@ -305,6 +319,17 @@ def ean13():
             v += 1 << i if k == 'G' else 0
             i += 1
         print(f'{hex(ord(d))}: {hex(v)}, // {f}')
+    print('};\n')
+
+    print('/// UPC-A to UPC-E conversion')
+    print('static const Map<int, int> upce = <int, int>{')
+    for d, f, s in upce:
+        v = 0
+        i = 0
+        for k in f:
+            v += 1 << i if k == 'O' else 0
+            i += 1
+        print(f'{hex(ord(d))}: {hex(v)}, // {f} | {s}')
     print('};\n')
 
     print('/// EAN misc bits')

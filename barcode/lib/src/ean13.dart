@@ -16,55 +16,20 @@
 
 // ignore_for_file: omit_local_variable_types
 
-import 'barcode.dart';
 import 'barcode_exception.dart';
 import 'barcode_maps.dart';
 import 'barcode_operations.dart';
+import 'ean.dart';
 
-class BarcodeEan13 extends Barcode {
+class BarcodeEan13 extends BarcodeEan {
   const BarcodeEan13();
-
-  @override
-  Iterable<int> get charSet =>
-      List<int>.generate(10, (int index) => index + 0x30);
 
   @override
   String get name => 'EAN 13';
 
-  String checkSumModulo10(String data) {
-    int sum = 0;
-    int fak = data.length;
-    for (int c in data.codeUnits) {
-      if (fak % 2 == 0) {
-        sum = sum + (c - 0x30);
-      } else {
-        sum = sum + ((c - 0x30) * 3);
-      }
-      fak = fak - 1;
-    }
-    if (sum % 10 == 0) {
-      return '0';
-    } else {
-      return String.fromCharCode(10 - (sum % 10) + 0x30);
-    }
-  }
-
   @override
   Iterable<bool> convert(String data) sync* {
-    if (data.length == 12) {
-      data += checkSumModulo10(data);
-    } else {
-      if (data.length != 13) {
-        throw BarcodeException(
-            'Unable to encode "$data" to $name Barcode, it is not 13 digits');
-      }
-      final String last = data.substring(12);
-      final String checksum = checkSumModulo10(data.substring(0, 12));
-      if (last != checksum) {
-        throw BarcodeException(
-            'Unable to encode "$data" to $name Barcode, checksum "$last" should be "$checksum"');
-      }
-    }
+    data = checkLength(data, 13);
 
     // Start
     yield* add(BarcodeMaps.eanStartEnd, 3);
@@ -108,10 +73,7 @@ class BarcodeEan13 extends Barcode {
     double height,
     double fontHeight,
   ) {
-    if (data.length == 12) {
-      data += checkSumModulo10(data);
-    }
-
+    data = checkLength(data, 13);
     return super.makeText(data, width, height, fontHeight);
   }
 }

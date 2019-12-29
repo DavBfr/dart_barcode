@@ -23,14 +23,4 @@ class BarcodeIsbn extends BarcodeEan13 {
 
   @override
   String get name => 'ISBN';
-
-  String checkSumModulo11(String data) {
-    int sum = 0;
-    int pos = 10;
-    for (int c in data.codeUnits) {
-      sum += (c - 0x30) * pos;
-      pos--;
-    }
-    return String.fromCharCode(11 - (sum % 11) + 0x30);
-  }
 }

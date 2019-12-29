@@ -3,10 +3,11 @@
 ## 1.1.0
 
 - Add EAN13
-- Add EAN8,
+- Add EAN8
 - Add ISBN
 - Add UPC-A
-- Fix Code 93 for 'S'
+- Add UPC-E
+- Fix Code 93
 
 ## 1.0.0
 

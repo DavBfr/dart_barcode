@@ -19,9 +19,9 @@
 import 'barcode_exception.dart';
 import 'barcode_maps.dart';
 import 'barcode_operations.dart';
-import 'ean13.dart';
+import 'ean.dart';
 
-class BarcodeEan8 extends BarcodeEan13 {
+class BarcodeEan8 extends BarcodeEan {
   const BarcodeEan8();
 
   @override
@@ -29,20 +29,7 @@ class BarcodeEan8 extends BarcodeEan13 {
 
   @override
   Iterable<bool> convert(String data) sync* {
-    if (data.length == 7) {
-      data += checkSumModulo10(data);
-    } else {
-      if (data.length != 8) {
-        throw BarcodeException(
-            'Unable to encode "$data" to $name Barcode, it is not 8 digits');
-      }
-      final String last = data.substring(7);
-      final String checksum = checkSumModulo10(data.substring(0, 7));
-      if (last != checksum) {
-        throw BarcodeException(
-            'Unable to encode "$data" to $name Barcode, checksum "$last" should be "$checksum"');
-      }
-    }
+    data = checkLength(data, 8);
 
     // Start
     yield* add(BarcodeMaps.eanStartEnd, 3);
@@ -75,10 +62,7 @@ class BarcodeEan8 extends BarcodeEan13 {
     double height,
     double fontHeight,
   ) {
-    if (data.length == 7) {
-      data += checkSumModulo10(data);
-    }
-
+    data = checkLength(data, 8);
     return super.makeText(data, width, height, fontHeight);
   }
 }

@@ -610,7 +610,22 @@ class BarcodeMaps {
     0x39: 0x16, // LGGLGL
   };
 
+  /// UPC-A to UPC-E conversion
+  static const Map<int, int> upce = <int, int>{
+    0x30: 0x38, // EEEOOO | OOOEEE
+    0x31: 0x34, // EEOEOO | OOEOEE
+    0x32: 0x2c, // EEOOEO | OOEEOE
+    0x33: 0x1c, // EEOOOE | OOEEEO
+    0x34: 0x32, // EOEEOO | OEOOEE
+    0x35: 0x26, // EOOEEO | OEEOOE
+    0x36: 0xe, // EOOOEE | OEEEOO
+    0x37: 0x2a, // EOEOEO | OEOEOE
+    0x38: 0x1a, // EOEOOE | OEOEEO
+    0x39: 0x16, // EOOEOE | OEEOEO
+  };
+
   /// EAN misc bits
   static const int eanStartEnd = 0x5;
   static const int eanCenter = 0xa;
+  static const int eanEndUpcE = 0x2a;
 }

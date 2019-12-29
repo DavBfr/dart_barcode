@@ -40,3 +40,7 @@ See the example for how to use it.
 ## UPC-A
 
 <img alt="UPC A" src="https://raw.githubusercontent.com/DavBfr/dart_barcode/master/img/upc-a.png">
+
+## UPC-E
+
+<img alt="UPC E" src="https://raw.githubusercontent.com/DavBfr/dart_barcode/master/img/upc-e.png">
