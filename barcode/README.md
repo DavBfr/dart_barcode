@@ -24,3 +24,19 @@ See the example for how to use it.
 ## Code 128 B
 
 <img alt="CODE 128 B" src="https://raw.githubusercontent.com/DavBfr/dart_barcode/master/img/code-128b.png">
+
+## EAN 13
+
+<img alt="EAN 13" src="https://raw.githubusercontent.com/DavBfr/dart_barcode/master/img/ean-13.png">
+
+## EAN 8
+
+<img alt="EAN 8" src="https://raw.githubusercontent.com/DavBfr/dart_barcode/master/img/ean-8.png">
+
+## ISBN
+
+<img alt="ISBN" src="https://raw.githubusercontent.com/DavBfr/dart_barcode/master/img/isbn.png">
+
+## UPC-A
+
+<img alt="UPC A" src="https://raw.githubusercontent.com/DavBfr/dart_barcode/master/img/upc-a.png">

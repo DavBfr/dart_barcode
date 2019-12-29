@@ -25,6 +25,7 @@ import 'code93.dart';
 import 'ean13.dart';
 import 'ean8.dart';
 import 'isbn.dart';
+import 'upca.dart';
 
 /// Supported barcode types
 enum BarcodeType {
@@ -33,7 +34,7 @@ enum BarcodeType {
   CodeISBN,
   Code39,
   Code93,
-  // CodeUPCA,
+  CodeUPCA,
   // CodeUPCE,
   Code128,
 }
@@ -67,6 +68,8 @@ abstract class Barcode {
         return const BarcodeEan8();
       case BarcodeType.CodeISBN:
         return const BarcodeIsbn();
+      case BarcodeType.CodeUPCA:
+        return const BarcodeUpcA();
       default:
         throw UnimplementedError('Barcode $type not supported');
     }
@@ -95,6 +98,10 @@ abstract class Barcode {
   /// Create an ISBN `Barcode` instance
   /// ![EAN 8](https://raw.githubusercontent.com/DavBfr/dart_barcode/master/img/isbn.png)
   static Barcode isbn() => const BarcodeIsbn();
+
+  /// Create an UPC A `Barcode` instance
+  /// ![EAN 8](https://raw.githubusercontent.com/DavBfr/dart_barcode/master/img/upc-a.png)
+  static Barcode upcA() => const BarcodeUpcA();
 
   /// Main method to produce the barcode graphic desctiotion.
   /// Returns a stream of drawing operations required to properly

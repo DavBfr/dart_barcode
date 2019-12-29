@@ -86,4 +86,5 @@ void main() {
   buildBarcode(BarcodeType.CodeEAN13, '590123412345');
   buildBarcode(BarcodeType.CodeEAN8, '9638507');
   buildBarcode(BarcodeType.CodeISBN, '978316148410');
+  buildBarcode(BarcodeType.CodeUPCA, '98765432109');
 }

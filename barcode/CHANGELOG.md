@@ -2,7 +2,10 @@
 
 ## 1.1.0
 
-- Add EAN13, EAN8, ISBN
+- Add EAN13
+- Add EAN8,
+- Add ISBN
+- Add UPC-A
 
 ## 1.0.0
 
