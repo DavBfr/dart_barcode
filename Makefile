@@ -86,4 +86,9 @@ maps: build_maps.py
 	python3 build_maps.py > barcode/lib/src/barcode_maps.dart
 	dartfmt -w --fix barcode/lib/src/barcode_maps.dart
 
+gh-pages:
+	cd flutter/example; flutter build web
+	git checkout gh-pages
+	mv -f flutter/example/build/web/* .
+
 .PHONY: test format format-dart clean publish analyze

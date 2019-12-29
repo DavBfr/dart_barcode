@@ -8,6 +8,10 @@ This widget uses [pub:barcode](https://pub.dev/packages/barcode) to generate any
 
 <img alt="Barcode Demo" src="https://raw.githubusercontent.com/DavBfr/dart_barcode/master/img/flutter.png">
 
+## Live example with Flutter Web
+
+<https://davbfr.github.io/dart_barcode/>
+
 ## Getting Started
 
 In your flutter project add the dependency:
