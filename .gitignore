@@ -1,0 +1,7 @@
+.dart_tool
+main.dart.js.deps
+main.dart.js.map
+.flutter-plugins
+.flutter-plugins-dependencies
+.packages
+pubspec.lock
