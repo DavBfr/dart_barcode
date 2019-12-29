@@ -33,7 +33,7 @@ class BarcodeCode39 extends Barcode {
 
   @override
   Iterable<bool> convert(String data) sync* {
-    yield* add(_startStop, _codeLen);
+    yield* add(BarcodeMaps.code39StartStop, BarcodeMaps.code39Len);
 
     for (int code in data.codeUnits) {
       final int codeValue = BarcodeMaps.code39[code];
@@ -41,10 +41,10 @@ class BarcodeCode39 extends Barcode {
         throw BarcodeException(
             'Unable to encode "${String.fromCharCode(code)}" to $name Barcode');
       }
-      yield* add(codeValue, _codeLen);
+      yield* add(codeValue, BarcodeMaps.code39Len);
     }
 
-    yield* add(_startStop, _codeLen);
+    yield* add(BarcodeMaps.code39StartStop, BarcodeMaps.code39Len);
   }
 
   @override
@@ -55,20 +55,16 @@ class BarcodeCode39 extends Barcode {
     double fontHeight,
   ) sync* {
     final String text = '*$data*';
-    final double lineWidth = width / (text.length * _codeLen);
+    final double lineWidth = width / (text.length * BarcodeMaps.code39Len);
 
     for (int i = 0; i < text.length; i++) {
       yield BarcodeText(
-        left: lineWidth * _codeLen * i,
+        left: lineWidth * BarcodeMaps.code39Len * i,
         top: height - fontHeight,
-        width: lineWidth * _codeLen,
+        width: lineWidth * BarcodeMaps.code39Len,
         height: fontHeight,
         text: text[i],
       );
     }
   }
-
-  static const int _startStop = 0xb69;
-
-  static const int _codeLen = 13;
 }

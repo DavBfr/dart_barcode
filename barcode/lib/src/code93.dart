@@ -32,7 +32,7 @@ class BarcodeCode93 extends Barcode {
   @override
   Iterable<bool> convert(String data) sync* {
     // Start
-    yield* add(_startStop, _codeLen);
+    yield* add(BarcodeMaps.code93StartStop, BarcodeMaps.code93Len);
 
     final List<int> keys = BarcodeMaps.code93.keys.toList();
 
@@ -42,7 +42,7 @@ class BarcodeCode93 extends Barcode {
         throw BarcodeException(
             'Unable to encode "${String.fromCharCode(code)}" to $name Barcode');
       }
-      yield* add(codeValue, _codeLen);
+      yield* add(codeValue, BarcodeMaps.code93Len);
     }
 
     // Checksum
@@ -67,19 +67,15 @@ class BarcodeCode93 extends Barcode {
     }
 
     sumC = sumC % 47;
-    yield* add(BarcodeMaps.code93[keys[sumC]], _codeLen);
+    yield* add(BarcodeMaps.code93[keys[sumC]], BarcodeMaps.code93Len);
 
     sumK = (sumK + sumC) % 47;
-    yield* add(BarcodeMaps.code93[keys[sumK]], _codeLen);
+    yield* add(BarcodeMaps.code93[keys[sumK]], BarcodeMaps.code93Len);
 
     // Stop
-    yield* add(_startStop, _codeLen);
+    yield* add(BarcodeMaps.code93StartStop, BarcodeMaps.code93Len);
 
     // Termination Bar
     yield true;
   }
-
-  static const int _startStop = 0xf5;
-
-  static const int _codeLen = 9;
 }

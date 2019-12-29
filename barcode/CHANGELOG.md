@@ -6,6 +6,7 @@
 - Add EAN8,
 - Add ISBN
 - Add UPC-A
+- Fix Code 93 for 'S'
 
 ## 1.0.0
 

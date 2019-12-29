@@ -62,8 +62,11 @@ class BarcodeMaps {
     0x2f: 0x949, // /
     0x2b: 0x929, // +
     0x25: 0x925, // %
-    0x2a: 0xb69, // *
   };
+
+  /// Code 39 misc bits
+  static const int code39StartStop = 0xb69;
+  static const int code39Len = 13;
 
   /// Code 93 conversion bits
   static const Map<int, int> code93 = <int, int>{
@@ -110,12 +113,22 @@ class BarcodeMaps {
     0x2f: 0xed, // /
     0x2b: 0xdd, // +
     0x25: 0xeb, // %
-    0x2a: 0xf5, // *
-    0x61: 0xc9, // a
-    0x62: 0xb7, // b
-    0x63: 0xd7, // c
-    0x64: 0x99, // d
+    -1: code93Dollar,
+    -2: code93Percent,
+    -3: code93Slash,
+    -4: code93Plus,
+    -5: code93StartStop,
+    -6: code93ReverseStop,
   };
+
+  /// Code 93 misc bits
+  static const int code93Dollar = 0xc9;
+  static const int code93Percent = 0xb7;
+  static const int code93Slash = 0xd7;
+  static const int code93Plus = 0x99;
+  static const int code93StartStop = 0xf5;
+  static const int code93ReverseStop = 0xbd;
+  static const int code93Len = 9;
 
   /// Code 128 A
   static const Map<int, int> code128A = <int, int>{

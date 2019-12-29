@@ -48,10 +48,10 @@ void main() {
     expect(bc.toHex(r'M'), equals('bdd264cad42b'));
     expect(bc.toHex(r'N'), equals('bd32356ad42b'));
     expect(bc.toHex(r'O'), equals('bd5a64c9d22b'));
-    expect(bc.toHex(r'P'), equals('bd4ab768d12b'));
+    expect(bc.toHex(r'P'), equals('bdb2b668d12b'));
     expect(bc.toHex(r'Q'), equals('bd6aa64ddb2b'));
     expect(bc.toHex(r'R'), equals('bdda942ddb2b'));
-    expect(bc.toHex(r'S'), equals('bd52972edd2b'));
+    expect(bc.toHex(r'S'), equals('bd5267cdda2b'));
     expect(bc.toHex(r'T'), equals('bdba356dda2b'));
     expect(bc.toHex(r'U'), equals('bd9ab46cd92b'));
     expect(bc.toHex(r'V'), equals('bdcad4acd92b'));
