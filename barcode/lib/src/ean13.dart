@@ -28,8 +28,20 @@ class BarcodeEan13 extends BarcodeEan {
   String get name => 'EAN 13';
 
   @override
+  int get minLength => 12;
+
+  @override
+  int get maxLength => 13;
+
+  @override
+  void verify(String data) {
+    checkLength(data, maxLength);
+    super.verify(data);
+  }
+
+  @override
   Iterable<bool> convert(String data) sync* {
-    data = checkLength(data, 13);
+    data = checkLength(data, maxLength);
 
     // Start
     yield* add(BarcodeMaps.eanStartEnd, 3);
@@ -73,7 +85,7 @@ class BarcodeEan13 extends BarcodeEan {
     double height,
     double fontHeight,
   ) {
-    data = checkLength(data, 13);
+    data = checkLength(data, maxLength);
     return super.makeText(data, width, height, fontHeight);
   }
 }

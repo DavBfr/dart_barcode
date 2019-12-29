@@ -18,6 +18,7 @@
 
 import 'package:meta/meta.dart';
 
+import '../barcode.dart';
 import 'barcode_operations.dart';
 import 'code128.dart';
 import 'code39.dart';
@@ -226,9 +227,50 @@ abstract class Barcode {
   @protected
   Iterable<bool> convert(String data);
 
+  /// Check if the Barcode is valid
+  bool isValid(String data) {
+    try {
+      verify(data);
+    } catch (_) {
+      return false;
+    }
+
+    return true;
+  }
+
+  /// Check if the Barcode is valid. Throws `BarcodeException` with a proper
+  /// message in case of error
+  @mustCallSuper
+  void verify(String data) {
+    if (data.length > maxLength) {
+      throw BarcodeException(
+          'Unable to encode "$data", maximum length is $maxLength for $name Barcode');
+    }
+
+    if (data.length < minLength) {
+      throw BarcodeException(
+          'Unable to encode "$data", minimum length is $minLength for $name Barcode');
+    }
+
+    final Set<int> chr = charSet.toSet();
+
+    for (int code in data.codeUnits) {
+      if (!chr.contains(code)) {
+        throw BarcodeException(
+            'Unable to encode "${String.fromCharCode(code)}" to $name Barcode');
+      }
+    }
+  }
+
   /// Returns the list of accepted codePoints for this `Barcode`
   Iterable<int> get charSet;
 
   /// Returns the name of this `Barcode`
   String get name;
+
+  /// Returns maximum length of this `Barcode`
+  int get maxLength => 1000;
+
+  /// Returns minimum length of this `Barcode`
+  int get minLength => 1;
 }

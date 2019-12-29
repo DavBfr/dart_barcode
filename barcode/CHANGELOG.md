@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.2.0
+
+- Add a method to check barcode validity
+
 ## 1.1.2
 
 - Update README

@@ -28,8 +28,20 @@ class BarcodeUpcA extends BarcodeEan {
   String get name => 'UPC A';
 
   @override
+  int get minLength => 11;
+
+  @override
+  int get maxLength => 12;
+
+  @override
+  void verify(String data) {
+    checkLength(data, maxLength);
+    super.verify(data);
+  }
+
+  @override
   Iterable<bool> convert(String data) sync* {
-    data = checkLength(data, 12);
+    data = checkLength(data, maxLength);
 
     // Start
     yield* add(BarcodeMaps.eanStartEnd, 3);
@@ -62,7 +74,7 @@ class BarcodeUpcA extends BarcodeEan {
     double height,
     double fontHeight,
   ) {
-    data = checkLength(data, 12);
+    data = checkLength(data, maxLength);
     return super.makeText(data, width, height, fontHeight);
   }
 }

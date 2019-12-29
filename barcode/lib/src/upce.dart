@@ -31,6 +31,21 @@ class BarcodeUpcE extends BarcodeEan {
   @override
   String get name => 'UPC E';
 
+  @override
+  int get minLength => 11;
+
+  @override
+  int get maxLength => 12;
+
+  @override
+  void verify(String data) {
+    final String upca = checkLength(data, maxLength);
+    if (!fallback) {
+      _upcaToUpce(upca);
+    }
+    super.verify(data);
+  }
+
   String _upcaToUpce(String data) {
     final RegExp exp = RegExp(r'^[01](\d\d+)([0-2]000[05-9])(\d*)\d$');
     final RegExpMatch match = exp.firstMatch(data);
@@ -85,13 +100,13 @@ class BarcodeUpcE extends BarcodeEan {
 
   @override
   Iterable<bool> convert(String data) sync* {
-    data = checkLength(data, 12);
+    data = checkLength(data, maxLength);
     final int first = data.codeUnitAt(0);
     final int last = data.codeUnitAt(11);
 
     try {
       data = _upcaToUpce(data);
-    } catch (BarcodeException) {
+    } on BarcodeException {
       if (fallback) {
         yield* const BarcodeUpcA().convert(data);
         return;
@@ -129,13 +144,13 @@ class BarcodeUpcE extends BarcodeEan {
     double height,
     double fontHeight,
   ) {
-    data = checkLength(data, 12);
+    data = checkLength(data, maxLength);
     final String first = data.substring(0, 1);
     final String last = data.substring(11, 12);
 
     try {
       data = _upcaToUpce(data);
-    } catch (BarcodeException) {
+    } on BarcodeException {
       if (fallback) {
         return const BarcodeUpcA().makeText(data, width, height, fontHeight);
       }
