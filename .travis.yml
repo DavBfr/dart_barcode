@@ -6,4 +6,4 @@ dart:
 script:
   - make analyze
   - make test
-  - make barcodes
+  - test -z "$(git status --porcelain)"

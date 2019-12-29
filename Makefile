@@ -29,11 +29,14 @@ format-dart: $(DART_SRC)
 node_modules:
 	npm install lcov-summary
 
-test: .coverage node_modules
+test-barcode: .coverage
 	cd barcode; pub get
 	cd barcode; pub global run coverage:collect_coverage --port=$(COV_PORT) -o coverage.json --resume-isolates --wait-paused &\
 	cd barcode; dart --enable-asserts --disable-service-auth-codes --enable-vm-service=$(COV_PORT) --pause-isolates-on-exit test/all_tests.dart
-	cd barcode; pub global run coverage:format_coverage --packages=.packages -i coverage.json --report-on lib --lcov --out ../lcov.info
+	cd barcode; pub global run coverage:format_coverage --packages=.packages -i coverage.json --report-on lib --lcov --out ../lcov-tests.info
+
+test: node_modules test-barcode barcodes
+	lcov --add-tracefile lcov-tests.info -t test1 -a lcov-example.info -t test2 -o lcov.info
 	cat lcov.info | node_modules/.bin/lcov-summary
 
 clean:
@@ -57,10 +60,12 @@ fix: .dartfix
 	cd barcode; pub get
 	cd barcode; pub global run dartfix --overwrite .
 
-barcodes:
+barcodes: .coverage
 	cd barcode/example; pub get
-	cd barcode/example; dart lib/main.dart
-	mv -f barcode/example/*.png img/
+	cd barcode; pub global run coverage:collect_coverage --port=$(COV_PORT) -o coverage.json --resume-isolates --wait-paused &\
+	dart --enable-asserts --disable-service-auth-codes --enable-vm-service=$(COV_PORT) --pause-isolates-on-exit example/lib/main.dart
+	cd barcode; pub global run coverage:format_coverage --packages=.packages -i coverage.json --report-on lib --lcov --out ../lcov-example.info
+	mv -f barcode/*.png img/
 
 maps: build_maps.py
 	python3 build_maps.py > barcode/lib/src/barcode_maps.dart
