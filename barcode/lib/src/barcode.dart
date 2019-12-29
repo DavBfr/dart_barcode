@@ -22,7 +22,9 @@ import 'barcode_operations.dart';
 import 'code128.dart';
 import 'code39.dart';
 import 'code93.dart';
-import 'ean.dart';
+import 'ean13.dart';
+import 'ean8.dart';
+import 'isbn.dart';
 
 /// Supported barcode types
 enum BarcodeType {

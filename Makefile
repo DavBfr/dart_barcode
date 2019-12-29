@@ -62,4 +62,8 @@ barcodes:
 	cd barcode/example; dart lib/main.dart
 	mv -f barcode/example/*.png img/
 
+maps: build_maps.py
+	python3 build_maps.py > barcode/lib/src/barcode_maps.dart
+	dartfmt -w --fix barcode/lib/src/barcode_maps.dart
+
 .PHONY: test format format-dart clean publish analyze

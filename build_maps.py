@@ -1,3 +1,18 @@
+#!/bin/env python3
+# Copyright (C) 2020, David PHAM-VAN <dev.nfet.net@gmail.com>
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
 
 def code39():
     C39 = {
@@ -15,7 +30,7 @@ def code39():
     }
 
     print('/// Code 39 conversion bits')
-    print('static const Map<int, int> _matrix = <int, int>{')
+    print('static const Map<int, int> code39 = <int, int>{')
     for k, v in C39.items():
         print(f'{hex(ord(k))}: {hex(int(v[::-1], 2))}, // {k}')
     print('};\n')
@@ -36,7 +51,7 @@ def code93():
     }
 
     print('/// Code 93 conversion bits')
-    print('static const Map<int, int> _matrix = <int, int>{')
+    print('static const Map<int, int> code93 = <int, int>{')
     for k, v in C93.items():
         print(f'{hex(ord(k))}: {hex(int(v[::-1], 2))}, // {k}')
     print('};\n')
@@ -103,12 +118,12 @@ def code128():
     )
 
     misc = {
-        'startCodeA': '11010000100',
-        'startCodeB': '11010010000',
-        'startCodeC': '11010011100',
-        'stop': '11000111010',
-        'reverseStop': '11010111000',
-        'stopPattern': '1100011101011',
+        'StartCodeA': '11010000100',
+        'StartCodeB': '11010010000',
+        'StartCodeC': '11010011100',
+        'Stop': '11000111010',
+        'ReverseStop': '11010111000',
+        'StopPattern': '1100011101011',
     }
 
     names = {
@@ -157,65 +172,65 @@ def code128():
     }
 
     print('/// Code 128 A')
-    print('static const Map<int, int> _code128A = <int, int>{')
+    print('static const Map<int, int> code128A = <int, int>{')
     i = 0
     for a, b, c, v in C128:
         r = ord(a) if len(a) == 1 else names[a]
         if r >= 0:
             print(f'{hex(r)}: {hex(i)}, // {a}')
         else:
-            print(f'_{a}: {hex(i)}, // {a}')
+            print(f'code128{a}: {hex(i)}, // {a}')
         i += 1
     print('};\n')
 
     print('/// Code 128 B')
-    print('static const Map<int, int> _code128B = <int, int>{')
+    print('static const Map<int, int> code128B = <int, int>{')
     i = 0
     for a, b, c, v in C128:
         r = ord(b) if len(b) == 1 else names[b]
         if r >= 0:
             print(f'{hex(r)}: {hex(i)}, // {b}')
         else:
-            print(f'_{b}: {hex(i)}, // {b}')
+            print(f'code128{b}: {hex(i)}, // {b}')
         i += 1
     print('};\n')
 
     print('/// Code 128 C')
-    print('static const Map<int, int> _code128C = <int, int>{')
+    print('static const Map<int, int> code128C = <int, int>{')
     i = 0
     for a, b, c, v in C128:
         r = int(c) if len(c) == 2 else names[c]
         if r >= 0:
             print(f'{hex(r)}: {hex(i)}, // {c}')
         else:
-            print(f'_{c}: {hex(i)}, // {c}')
+            print(f'code128{c}: {hex(i)}, // {c}')
         i += 1
     print('};\n')
 
     print('/// Code 128 conversion bits')
-    print('static const Map<int, int> _matrix = <int, int>{')
+    print('static const Map<int, int> code128 = <int, int>{')
     i = 0
     for a, b, c, v in C128:
         print(f'{hex(i)}: {hex(int(v[::-1], 2))}, // {a} | {b} | {c}')
         i += 1
     for name in misc:
-        print(f'_{name}: {hex(int(misc[name][::-1], 2))},')
+        print(f'code128{name}: {hex(int(misc[name][::-1], 2))},')
     print('};\n')
 
     print('/// Code 128 misc bits')
     for name in misc:
-        print(f'static const int _{name} = {hex(i)};')
+        print(f'static const int code128{name} = {hex(i)};')
         i += 1
     for name in names:
         if names[name] < 0:
-            print(f'static const int _{name} = {names[name]};')
-    print(f'static const int _codeLen = 11;')
+            print(f'static const int code128{name} = {names[name]};')
+    print(f'static const int code128Len = 11;')
 
 
 def ean13():
     misc = {
-        'startEnd': '101',
-        'center': '01010',
+        'StartEnd': '101',
+        'Center': '01010',
     }
 
     digits = (
@@ -247,14 +262,14 @@ def ean13():
     )
 
     print('/// EAN 13 conversion bits')
-    print('static const Map<int, List<int>> _matrix = <int, List<int>>{')
+    print('static const Map<int, List<int>> ean = <int, List<int>>{')
     for d, l, g, r in digits:
         print(
             f'{hex(ord(d))}: <int>[{hex(int(l[::-1], 2))}, {hex(int(g[::-1], 2))}, {hex(int(r[::-1], 2))}],')
     print('};\n')
 
     print('/// EAN 13 first digit')
-    print('static const Map<int, int> _first = <int, int>{')
+    print('static const Map<int, int> eanFirst = <int, int>{')
     for d, f, s in first:
         v = 0
         i = 0
@@ -264,9 +279,35 @@ def ean13():
         print(f'{hex(ord(d))}: {hex(v)}, // {f}')
     print('};\n')
 
+    print('/// EAN misc bits')
     for name in misc:
-        print(f'static const int _{name} = {hex(int(misc[name][::-1], 2))};')
+        print(f'static const int ean{name} = {hex(int(misc[name][::-1], 2))};')
 
 
 if __name__ == '__main__':
+    print('/*')
+    print(' * Copyright (C) 2020, David PHAM-VAN <dev.nfet.net@gmail.com>')
+    print(' *')
+    print(' * Licensed under the Apache License, Version 2.0 (the "License");')
+    print(' * you may not use this file except in compliance with the License.')
+    print(' * You may obtain a copy of the License at')
+    print(' *')
+    print(' *     http://www.apache.org/licenses/LICENSE-2.0')
+    print(' *')
+    print(' * Unless required by applicable law or agreed to in writing, software')
+    print(' * distributed under the License is distributed on an "AS IS" BASIS,')
+    print(' * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.')
+    print(' * See the License for the specific language governing permissions and')
+    print(' * limitations under the License.')
+    print(' */')
+    print('')
+    print('// ignore_for_file: omit_local_variable_types')
+    print('')
+    print('class BarcodeMaps {')
+
+    code39()
+    code93()
+    code128()
     ean13()
+
+    print('}')
