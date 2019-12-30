@@ -272,9 +272,14 @@ abstract class Barcode {
   /// Returns the name of this `Barcode`
   String get name;
 
+  static const int infiniteMaxLength = 1000;
+
   /// Returns maximum length of this `Barcode`
-  int get maxLength => 1000;
+  int get maxLength => infiniteMaxLength;
 
   /// Returns minimum length of this `Barcode`
   int get minLength => 1;
+
+  @override
+  String toString() => 'Barcode $name';
 }

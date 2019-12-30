@@ -5,6 +5,7 @@
 - Add a method to check Barcode validity
 - Add CODE 128 A
 - Add CODE 128 C
+- Add misc functions to Barcode
 
 ## 1.1.2
 
