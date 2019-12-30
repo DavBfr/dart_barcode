@@ -52,6 +52,24 @@ class BarcodePainter extends LeafRenderObjectWidget {
       style,
     );
   }
+
+  @override
+  void updateRenderObject(
+      BuildContext context, covariant RenderBarcode renderObject) {
+    if (renderObject.data != data ||
+        renderObject.barcode != barcode ||
+        renderObject.barStyle.color != color ||
+        renderObject.drawText != drawText ||
+        renderObject.style != style) {
+      renderObject
+        ..data = data
+        ..barcode = barcode
+        ..barStyle = (Paint()..color = color)
+        ..drawText = drawText
+        ..style = style;
+      renderObject.markNeedsPaint();
+    }
+  }
 }
 
 class RenderBarcode extends RenderBox {
@@ -63,15 +81,15 @@ class RenderBarcode extends RenderBox {
     this.style,
   );
 
-  final String data;
+  String data;
 
-  final Barcode barcode;
+  Barcode barcode;
 
-  final Paint barStyle;
+  Paint barStyle;
 
-  final bool drawText;
+  bool drawText;
 
-  final TextStyle style;
+  TextStyle style;
 
   @override
   bool get sizedByParent => true;
