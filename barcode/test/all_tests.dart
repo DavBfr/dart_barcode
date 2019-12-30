@@ -16,6 +16,7 @@
 
 // ignore_for_file: omit_local_variable_types
 
+import 'code128_test.dart' as code128;
 import 'code39_test.dart' as code39;
 import 'code93_test.dart' as code93;
 import 'generic_test.dart' as generic;
@@ -24,4 +25,5 @@ void main() {
   generic.main();
   code39.main();
   code93.main();
+  code128.main();
 }

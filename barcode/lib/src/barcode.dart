@@ -89,7 +89,11 @@ abstract class Barcode {
 
   /// Create a CODE 128 `Barcode` instance
   /// ![CODE 128 B](https://raw.githubusercontent.com/DavBfr/dart_barcode/master/img/code-128b.png)
-  static Barcode code128() => const BarcodeCode128();
+  static Barcode code128(
+          {bool useCode128A = true,
+          bool useCode128B = true,
+          bool useCode128C = true}) =>
+      BarcodeCode128(useCode128A, useCode128B, useCode128C);
 
   /// Create an EAN 13 `Barcode` instance
   /// ![EAN 13](https://raw.githubusercontent.com/DavBfr/dart_barcode/master/img/ean-13.png)

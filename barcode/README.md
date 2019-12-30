@@ -29,9 +29,17 @@ See the example for how to use it.
 
 <img alt="CODE 93" src="https://raw.githubusercontent.com/DavBfr/dart_barcode/master/img/code-93.png">
 
+## Code 128 A
+
+<img alt="CODE 128 A" src="https://raw.githubusercontent.com/DavBfr/dart_barcode/master/img/code-128a.png">
+
 ## Code 128 B
 
 <img alt="CODE 128 B" src="https://raw.githubusercontent.com/DavBfr/dart_barcode/master/img/code-128b.png">
+
+## Code 128 C
+
+<img alt="CODE 128 C" src="https://raw.githubusercontent.com/DavBfr/dart_barcode/master/img/code-128c.png">
 
 ## EAN 13
 

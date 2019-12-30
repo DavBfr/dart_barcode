@@ -2,7 +2,9 @@
 
 ## 1.2.0
 
-- Add a method to check barcode validity
+- Add a method to check Barcode validity
+- Add CODE 128 A
+- Add CODE 128 C
 
 ## 1.1.2
 
