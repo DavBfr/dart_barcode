@@ -12,3 +12,5 @@ pubspec.lock
 build
 flutter/example/.flutter-plugins
 flutter/example/.flutter-plugins-dependencies
+main.dart.js.deps
+main.dart.js.map

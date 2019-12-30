@@ -87,8 +87,9 @@ maps: build_maps.py
 	dartfmt -w --fix barcode/lib/src/barcode_maps.dart
 
 gh-pages:
+	test -z "$(shell git status --porcelain)"
 	cd flutter/example; flutter build web
 	git checkout gh-pages
-	mv -f flutter/example/build/web/* .
+	cp -rf flutter/example/build/web/* .
 
 .PHONY: test format format-dart clean publish analyze

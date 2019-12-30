@@ -3,52 +3,227 @@ import 'package:flutter/material.dart';
 
 import 'package:google_fonts/google_fonts.dart';
 
+import 'settings.dart';
+
 void main() => runApp(MyApp());
 
-Widget barcode(Barcode barcode, String data) {
-  return Center(
-      child: BarcodeWidget(
-    barcode: barcode,
-    data: data,
-    width: 200,
-    height: 80,
-    style: GoogleFonts.sourceCodePro(
-      textStyle: TextStyle(
-        fontSize: 13,
+Widget barcodeError(String message) {
+  return Container(
+    margin: EdgeInsets.symmetric(vertical: 20),
+    alignment: Alignment.center,
+    constraints: BoxConstraints(maxWidth: 500),
+    child: Card(
+      child: Padding(
+        padding: const EdgeInsets.all(20),
+        child: Text(
+          message,
+          style: TextStyle(color: Colors.red),
+        ),
       ),
     ),
-    margin: EdgeInsets.all(20),
-    padding: EdgeInsets.symmetric(horizontal: 20, vertical: 5),
-    decoration: BoxDecoration(
-        border: Border.all(
-      color: Colors.blue,
-    )),
-  ));
+  );
+}
+
+Widget barcodeInfo(BarcodeConf conf) {
+  final bc = Barcode.fromType(conf.type);
+
+  final charset = StringBuffer();
+  for (var c in bc.charSet) {
+    if (c > 0x20) {
+      charset.write(String.fromCharCode(c) + ' ');
+    } else {
+      charset.write('0x' + c.toRadixString(16) + ' ');
+    }
+  }
+
+  String desc = '';
+  switch (conf.type) {
+    case BarcodeType.CodeEAN13:
+      desc =
+          'The International Article Number is a standard describing a barcode symbology and numbering system used in global trade to identify a specific retail product type, in a specific packaging configuration, from a specific manufacturer.';
+      break;
+    case BarcodeType.CodeEAN8:
+      desc =
+          'An EAN-8 is an EAN/UPC symbology barcode and is derived from the longer International Article Number code. It was introduced for use on small packages where an EAN-13 barcode would be too large; for example on cigarettes, pencils, and chewing gum packets. It is encoded identically to the 12 digits of the UPC-A barcode, except that it has 4 digits in each of the left and right halves.';
+      break;
+    case BarcodeType.CodeISBN:
+      desc =
+          'The International Standard Book Number is a numeric commercial book identifier which is intended to be unique. Publishers purchase ISBNs from an affiliate of the International ISBN Agency.';
+      break;
+    case BarcodeType.Code39:
+      desc =
+          'The Code 39 specification defines 43 characters, consisting of uppercase letters (A through Z), numeric digits (0 through 9) and a number of special characters (-, ., \$, /, +, %, and space). An additional character (denoted \'*\') is used for both start and stop delimiters.';
+      break;
+    case BarcodeType.Code93:
+      desc =
+          'Code 93 is a barcode symbology designed in 1982 by Intermec to provide a higher density and data security enhancement to Code 39. It is an alphanumeric, variable length symbology. Code 93 is used primarily by Canada Post to encode supplementary delivery information.';
+      break;
+    case BarcodeType.CodeUPCA:
+      desc =
+          'The Universal Product Code is a barcode symbology that is widely used in the United States, Canada, Europe, Australia, New Zealand, and other countries for tracking trade items in stores. UPC consists of 12 numeric digits that are uniquely assigned to each trade item.';
+      break;
+    case BarcodeType.CodeUPCE:
+      desc =
+          'The Universal Product Code is a barcode symbology that is widely used in the United States, Canada, Europe, Australia, New Zealand, and other countries for tracking trade items in stores. To allow the use of UPC barcodes on smaller packages, where a full 12-digit barcode may not fit, a zero-suppressed version of UPC was developed, called UPC-E, in which the number system digit, all trailing zeros in the manufacturer code, and all leading zeros in the product code, are suppressed';
+      break;
+    case BarcodeType.Code128:
+      desc =
+          'Code 128 is a high-density linear barcode symbology defined in ISO/IEC 15417:2007. It is used for alphanumeric or numeric-only barcodes. It can encode all 128 characters of ASCII and, by use of an extension symbol, the Latin-1 characters defined in ISO/IEC 8859-1.';
+      break;
+  }
+
+  return Center(
+    child: ConstrainedBox(
+      constraints: BoxConstraints(maxWidth: 500),
+      child: Card(
+        child: Padding(
+          padding: const EdgeInsets.all(20),
+          child: Text.rich(
+            TextSpan(
+              children: [
+                TextSpan(
+                  text: '${bc.name}\n',
+                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 30),
+                ),
+                TextSpan(
+                  text: '\nDescription:\n',
+                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+                ),
+                TextSpan(
+                  text: '$desc\n',
+                ),
+                TextSpan(
+                  text: '\nAccepted data:\n',
+                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+                ),
+                TextSpan(
+                  text: '$charset\n\n',
+                ),
+                TextSpan(
+                  text: 'Minimum length: ${bc.minLength}\n',
+                  style: TextStyle(fontWeight: FontWeight.bold),
+                ),
+                // if (bc.maxLength < Barcode.infiniteMaxLength)
+                TextSpan(
+                  text: 'Maximum length: ${bc.maxLength}\n',
+                  style: TextStyle(fontWeight: FontWeight.bold),
+                ),
+              ],
+            ),
+            // textAlign: TextAlign.center,
+          ),
+        ),
+      ),
+    ),
+  );
+}
+
+Widget barcode(BarcodeConf conf) {
+  try {
+    Barcode.fromType(conf.type).verify(conf.data);
+  } on BarcodeException catch (error) {
+    return barcodeError(error.message);
+  }
+
+  return Padding(
+    padding: const EdgeInsets.symmetric(vertical: 20),
+    child: Center(
+      child: Card(
+        child: BarcodeWidget(
+          barcode: Barcode.fromType(conf.type),
+          data: conf.data,
+          width: conf.width,
+          height: conf.height,
+          style: GoogleFonts.sourceCodePro(
+            textStyle: TextStyle(
+              fontSize: conf.fontSize,
+            ),
+          ),
+          margin: EdgeInsets.all(20),
+          padding: EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+          decoration: BoxDecoration(
+            border: Border.all(
+              color: Colors.blue,
+            ),
+          ),
+        ),
+      ),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {
+  final BarcodeConf conf = BarcodeConf();
+
   @override
   Widget build(BuildContext context) {
+    final title = 'Barcode Demo';
+
     return MaterialApp(
-      title: 'Barcode Demo',
-      home: Scaffold(
-        appBar: AppBar(
-          title: Text('Barcode Demo'),
-        ),
-        body: Scrollbar(
-          child: ListView(
-            children: <Widget>[
-              barcode(Barcode.code128(), 'Flutter'),
-              barcode(Barcode.code39(), 'CODE 39'),
-              barcode(Barcode.code93(), 'CODE 93'),
-              barcode(Barcode.ean13(), '590123412345'),
-              barcode(Barcode.ean8(), '9638507'),
-              barcode(Barcode.isbn(), '978316148410'),
-              barcode(Barcode.upcA(), '98765432109'),
-              barcode(Barcode.upcE(), '06510000432'),
-            ],
-          ),
-        ),
+      title: title,
+      home: Home(title),
+    );
+  }
+}
+
+class Home extends StatefulWidget {
+  Home(this.title);
+
+  final String title;
+
+  @override
+  _HomeState createState() => _HomeState();
+}
+
+class _HomeState extends State<Home> {
+  final BarcodeConf conf = BarcodeConf();
+
+  @override
+  initState() {
+    conf.addListener(confListener);
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    conf.removeListener(confListener);
+    super.dispose();
+  }
+
+  void confListener() {
+    setState(() {});
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final width = MediaQuery.of(context).size.width;
+
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(widget.title),
+      ),
+      body: Scrollbar(
+        child: width < 800
+            ? ListView(
+                children: <Widget>[
+                  Settings(conf),
+                  barcode(conf),
+                  barcodeInfo(conf),
+                ],
+              )
+            : Row(
+                children: [
+                  SizedBox(width: 400, child: Settings(conf)),
+                  Flexible(
+                    child: ListView(
+                      children: <Widget>[
+                        barcode(conf),
+                        barcodeInfo(conf),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
       ),
     );
   }
