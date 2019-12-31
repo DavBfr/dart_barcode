@@ -6,7 +6,7 @@ author: David PHAM-VAN <dev.nfet.net@gmail.com
 homepage: https://github.com/DavBfr/dart_barcode/tree/master/image
 repository: https://github.com/DavBfr/dart_barcode
 issue_tracker: https://github.com/DavBfr/dart_barcode/issues
-version: 1.0.0
+version: 1.0.1
 
 environment:
   sdk: ">=2.7.0 <3.0.0"
@@ -15,6 +15,7 @@ dependencies:
   barcode: ^1.3.0
   meta: ^1.1.5
   image: ^2.1.0
+  args: ^1.5.0
 
 dependency_overrides:
   barcode:
@@ -22,7 +23,6 @@ dependency_overrides:
 
 dev_dependencies:
   pedantic: 1.9.0
-
 
 executables:
   barcode:
