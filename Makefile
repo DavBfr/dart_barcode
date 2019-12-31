@@ -76,11 +76,10 @@ fix: .dartfix
 	cd barcode; pub global run dartfix --overwrite .
 
 barcodes: .coverage
-	cd barcode/example; pub get
 	cd barcode; pub global run coverage:collect_coverage --port=$(COV_PORT) -o coverage.json --resume-isolates --wait-paused &\
-	dart --enable-asserts --disable-service-auth-codes --enable-vm-service=$(COV_PORT) --pause-isolates-on-exit example/lib/main.dart
+	dart --enable-asserts --disable-service-auth-codes --enable-vm-service=$(COV_PORT) --pause-isolates-on-exit example/main.dart
 	cd barcode; pub global run coverage:format_coverage --packages=.packages -i coverage.json --report-on lib --lcov --out ../lcov-example.info
-	mv -f barcode/*.png img/
+	mv -f barcode/*.svg img/
 
 maps: build_maps.py
 	python3 build_maps.py > barcode/lib/src/barcode_maps.dart

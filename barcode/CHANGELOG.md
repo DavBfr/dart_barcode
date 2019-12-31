@@ -3,6 +3,7 @@
 ## 1.3.0
 
 - Add text align property
+- Add a SVG drawing function
 
 ## 1.2.0
 

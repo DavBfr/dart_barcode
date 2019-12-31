@@ -17,7 +17,6 @@
 // ignore_for_file: omit_local_variable_types
 
 import 'package:barcode/barcode.dart';
-
 import 'package:test/test.dart';
 
 void main() {
@@ -71,5 +70,10 @@ void main() {
 
     expect(be.right, equals(4.0));
     expect(be.bottom, equals(6.0));
+  });
+
+  test('BarcodeSvg', () {
+    final Barcode bc = Barcode.code128();
+    bc.toSvg('12345');
   });
 }

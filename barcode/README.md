@@ -4,7 +4,7 @@ Barcode generation library for Dart that can generate generic drawing operations
 
 * If you are looking to print barcodes, use [pub:pdf](https://pub.dev/packages/pdf).
 * If you want to display barcodes in a Flutter application, use [pub:barcode_widget](https://pub.dev/packages/barcode_widget).
-* To generate barcode images see the example tab.
+* To generate SVG barcodes see the example tab.
 
 They all use this library to generate the drawing operations.
 
@@ -23,40 +23,40 @@ See the example for how to use it.
 
 ## Code 39
 
-<img alt="CODE 39" src="https://raw.githubusercontent.com/DavBfr/dart_barcode/master/img/code-39.png">
+<img alt="CODE 39" src="https://raw.githubusercontent.com/DavBfr/dart_barcode/master/img/code-39.svg">
 
 ## Code 93
 
-<img alt="CODE 93" src="https://raw.githubusercontent.com/DavBfr/dart_barcode/master/img/code-93.png">
+<img alt="CODE 93" src="https://raw.githubusercontent.com/DavBfr/dart_barcode/master/img/code-93.svg">
 
 ## Code 128 A
 
-<img alt="CODE 128 A" src="https://raw.githubusercontent.com/DavBfr/dart_barcode/master/img/code-128a.png">
+<img alt="CODE 128 A" src="https://raw.githubusercontent.com/DavBfr/dart_barcode/master/img/code-128a.svg">
 
 ## Code 128 B
 
-<img alt="CODE 128 B" src="https://raw.githubusercontent.com/DavBfr/dart_barcode/master/img/code-128b.png">
+<img alt="CODE 128 B" src="https://raw.githubusercontent.com/DavBfr/dart_barcode/master/img/code-128b.svg">
 
 ## Code 128 C
 
-<img alt="CODE 128 C" src="https://raw.githubusercontent.com/DavBfr/dart_barcode/master/img/code-128c.png">
+<img alt="CODE 128 C" src="https://raw.githubusercontent.com/DavBfr/dart_barcode/master/img/code-128c.svg">
 
 ## EAN 13
 
-<img alt="EAN 13" src="https://raw.githubusercontent.com/DavBfr/dart_barcode/master/img/ean-13.png">
+<img alt="EAN 13" src="https://raw.githubusercontent.com/DavBfr/dart_barcode/master/img/ean-13.svg">
 
 ## EAN 8
 
-<img alt="EAN 8" src="https://raw.githubusercontent.com/DavBfr/dart_barcode/master/img/ean-8.png">
+<img alt="EAN 8" src="https://raw.githubusercontent.com/DavBfr/dart_barcode/master/img/ean-8.svg">
 
 ## ISBN
 
-<img alt="ISBN" src="https://raw.githubusercontent.com/DavBfr/dart_barcode/master/img/isbn.png">
+<img alt="ISBN" src="https://raw.githubusercontent.com/DavBfr/dart_barcode/master/img/isbn.svg">
 
 ## UPC-A
 
-<img alt="UPC A" src="https://raw.githubusercontent.com/DavBfr/dart_barcode/master/img/upc-a.png">
+<img alt="UPC A" src="https://raw.githubusercontent.com/DavBfr/dart_barcode/master/img/upc-a.svg">
 
 ## UPC-E
 
-<img alt="UPC E" src="https://raw.githubusercontent.com/DavBfr/dart_barcode/master/img/upc-e.png">
+<img alt="UPC E" src="https://raw.githubusercontent.com/DavBfr/dart_barcode/master/img/upc-e.svg">
