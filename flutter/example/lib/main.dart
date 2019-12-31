@@ -7,6 +7,8 @@ import 'settings.dart';
 
 void main() => runApp(MyApp());
 
+const constraintWidth = 500;
+
 Widget barcodeError(String message) {
   return Container(
     margin: EdgeInsets.symmetric(vertical: 20),
@@ -74,7 +76,7 @@ Widget barcodeInfo(BarcodeConf conf) {
 
   return Center(
     child: ConstrainedBox(
-      constraints: BoxConstraints(maxWidth: 500),
+      constraints: BoxConstraints(maxWidth: constraintWidth),
       child: Card(
         child: Padding(
           padding: const EdgeInsets.all(20),
@@ -139,7 +141,8 @@ Widget barcode(BarcodeConf conf) {
               fontSize: conf.fontSize,
             ),
           ),
-          margin: EdgeInsets.all(20),
+          margin: EdgeInsets.symmetric(
+              horizontal: (constraintWidth - conf.width) / 2, vertical: 20),
           padding: EdgeInsets.symmetric(horizontal: 20, vertical: 5),
           decoration: BoxDecoration(
             border: Border.all(

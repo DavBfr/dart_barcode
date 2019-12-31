@@ -18,11 +18,11 @@ class BarcodeConf extends ChangeNotifier {
     notifyListeners();
   }
 
-  double fontSize = 13;
+  double fontSize = 36;
 
-  double height = 80;
+  double height = 160;
 
-  double width = 200;
+  double width = 400;
 }
 
 class Settings extends StatelessWidget {
