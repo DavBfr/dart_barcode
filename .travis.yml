@@ -11,5 +11,6 @@ addons:
 
 script:
   - make analyze-barcode
+  - make analyze-image
   - make test
   - test -z "$(git status --porcelain)"
