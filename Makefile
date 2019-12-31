@@ -52,6 +52,11 @@ publish-flutter: format clean
 	cd flutter; pub publish -f
 	@find flutter -name pubspec.yaml -exec sed -i -e 's/^_dependency_overrides:/dependency_overrides:/g' '{}' ';'
 
+publish-image: format clean
+	@find image -name pubspec.yaml -exec sed -i -e 's/^dependency_overrides:/_dependency_overrides:/g' '{}' ';'
+	cd image; pub publish -f
+	@find image -name pubspec.yaml -exec sed -i -e 's/^_dependency_overrides:/dependency_overrides:/g' '{}' ';'
+
 .pana:
 	pub global activate pana
 	touch $@
@@ -66,6 +71,11 @@ analyze-flutter: .pana
 	rm -f flutter/pubspec.lock
 	@flutter pub global run pana --no-warning --source path flutter
 	@find flutter -name pubspec.yaml -exec sed -i -e 's/^_dependency_overrides:/dependency_overrides:/g' '{}' ';'
+
+analyze-image: .pana
+	@find image -name pubspec.yaml -exec sed -i -e 's/^dependency_overrides:/_dependency_overrides:/g' '{}' ';'
+	@pub global run pana --no-warning --source path image
+	@find image -name pubspec.yaml -exec sed -i -e 's/^_dependency_overrides:/dependency_overrides:/g' '{}' ';'
 
 .dartfix:
 	pub global activate dartfix
