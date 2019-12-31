@@ -80,15 +80,15 @@ abstract class Barcode {
   }
 
   /// Create a CODE 39 `Barcode` instance:
-  /// ![CODE 39](https://raw.githubusercontent.com/DavBfr/dart_barcode/master/img/code-39.svg)
+  /// ![CODE 39](https://raw.githubusercontent.com/DavBfr/dart_barcode/master/img/code-39.svg?sanitize=true)
   static Barcode code39() => const BarcodeCode39();
 
   /// Create a CODE 93 `Barcode` instance:
-  /// ![CODE 93](https://raw.githubusercontent.com/DavBfr/dart_barcode/master/img/code-93.svg)
+  /// ![CODE 93](https://raw.githubusercontent.com/DavBfr/dart_barcode/master/img/code-93.svg?sanitize=true)
   static Barcode code93() => const BarcodeCode93();
 
   /// Create a CODE 128 `Barcode` instance
-  /// ![CODE 128 B](https://raw.githubusercontent.com/DavBfr/dart_barcode/master/img/code-128b.svg)
+  /// ![CODE 128 B](https://raw.githubusercontent.com/DavBfr/dart_barcode/master/img/code-128b.svg?sanitize=true)
   static Barcode code128(
           {bool useCode128A = true,
           bool useCode128B = true,
@@ -96,24 +96,24 @@ abstract class Barcode {
       BarcodeCode128(useCode128A, useCode128B, useCode128C);
 
   /// Create an EAN 13 `Barcode` instance
-  /// ![EAN 13](https://raw.githubusercontent.com/DavBfr/dart_barcode/master/img/ean-13.svg)
+  /// ![EAN 13](https://raw.githubusercontent.com/DavBfr/dart_barcode/master/img/ean-13.svg?sanitize=true)
   static Barcode ean13() => const BarcodeEan13();
 
   /// Create an EAN 8 `Barcode` instance
-  /// ![EAN 8](https://raw.githubusercontent.com/DavBfr/dart_barcode/master/img/ean-8.svg)
+  /// ![EAN 8](https://raw.githubusercontent.com/DavBfr/dart_barcode/master/img/ean-8.svg?sanitize=true)
   static Barcode ean8() => const BarcodeEan8();
 
   /// Create an ISBN `Barcode` instance
-  /// ![EAN 8](https://raw.githubusercontent.com/DavBfr/dart_barcode/master/img/isbn.svg)
+  /// ![EAN 8](https://raw.githubusercontent.com/DavBfr/dart_barcode/master/img/isbn.svg?sanitize=true)
   static Barcode isbn() => const BarcodeIsbn();
 
   /// Create an UPC A `Barcode` instance
-  /// ![UPC A](https://raw.githubusercontent.com/DavBfr/dart_barcode/master/img/upc-a.svg)
+  /// ![UPC A](https://raw.githubusercontent.com/DavBfr/dart_barcode/master/img/upc-a.svg?sanitize=true)
   static Barcode upcA() => const BarcodeUpcA();
 
   /// Create an UPC E `Barcode` instance
   /// * set fallback to true to silently try UPC-A if the code is not compatible with UPC-E
-  /// ![UPC E](https://raw.githubusercontent.com/DavBfr/dart_barcode/master/img/upc-e.svg)
+  /// ![UPC E](https://raw.githubusercontent.com/DavBfr/dart_barcode/master/img/upc-e.svg?sanitize=true)
   static Barcode upcE({bool fallback = false}) => BarcodeUpcE(fallback);
 
   /// Main method to produce the barcode graphic desctiotion.
