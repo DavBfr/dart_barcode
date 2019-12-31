@@ -101,7 +101,7 @@ abstract class Barcode {
 
   /// Create an EAN 8 `Barcode` instance
   /// ![EAN 8](https://raw.githubusercontent.com/DavBfr/dart_barcode/master/img/ean-8.svg?sanitize=true)
-  static Barcode ean8() => const BarcodeEan8();
+  static Barcode ean8({bool drawSpacers = false}) => BarcodeEan8(drawSpacers);
 
   /// Create an ISBN `Barcode` instance
   /// ![EAN 8](https://raw.githubusercontent.com/DavBfr/dart_barcode/master/img/isbn.svg?sanitize=true)

@@ -26,6 +26,8 @@ class BarcodeEan13 extends BarcodeEan {
 
   final bool drawEndChar;
 
+  static const String finalSpacer = '>';
+
   @override
   String get name => 'EAN 13';
 
@@ -165,7 +167,7 @@ class BarcodeEan13 extends BarcodeEan {
         top: height - fontHeight,
         width: right - lineWidth,
         height: fontHeight,
-        text: '>',
+        text: finalSpacer,
         align: BarcodeTextAlign.left,
       );
     }

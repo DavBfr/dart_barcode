@@ -30,6 +30,18 @@
       "cwd": "${workspaceFolder}"
     },
     {
+      "name": "EAN8",
+      "program": "image/bin/barcode.dart",
+      "args": [
+        "-t",
+        "CodeEAN8",
+        "96385074"
+      ],
+      "request": "launch",
+      "type": "dart",
+      "cwd": "${workspaceFolder}"
+    },
+    {
       "name": "UPC-A",
       "program": "image/bin/barcode.dart",
       "args": [
