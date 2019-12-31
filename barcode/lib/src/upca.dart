@@ -147,7 +147,7 @@ class BarcodeUpcA extends BarcodeEan {
     }
 
     yield BarcodeText(
-      left: offset + lineWidth * 11,
+      left: width - right + lineWidth,
       top: height - fontHeight,
       width: right - lineWidth,
       height: fontHeight,

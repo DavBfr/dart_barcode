@@ -161,7 +161,7 @@ class BarcodeEan13 extends BarcodeEan {
 
     if (drawEndChar) {
       yield BarcodeText(
-        left: offset + lineWidth * 4,
+        left: width - right + lineWidth,
         top: height - fontHeight,
         width: right - lineWidth,
         height: fontHeight,

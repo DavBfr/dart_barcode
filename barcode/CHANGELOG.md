@@ -4,6 +4,7 @@
 
 - Implement proper EAN-13/ISBN rendering
 - Implement proper UPC-A rendering
+- Implement proper UPC-E rendering
 
 ## 1.3.0
 

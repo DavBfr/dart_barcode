@@ -138,13 +138,52 @@ class BarcodeUpcE extends BarcodeEan {
   }
 
   @override
+  double marginLeft(bool drawText, double width, double fontHeight) {
+    if (!drawText) {
+      return 0;
+    }
+
+    return fontHeight;
+  }
+
+  @override
+  double marginRight(bool drawText, double width, double fontHeight) {
+    if (!drawText) {
+      return 0;
+    }
+
+    return fontHeight;
+  }
+
+  @override
+  double getHeight(
+    int index,
+    int count,
+    double height,
+    double fontHeight,
+    bool drawText,
+  ) {
+    if (!drawText) {
+      return super.getHeight(index, count, height, fontHeight, drawText);
+    }
+
+    final double h = height - fontHeight;
+
+    if (index + count < 4 || index > 44) {
+      return h + fontHeight / 2;
+    }
+
+    return h;
+  }
+
+  @override
   Iterable<BarcodeText> makeText(
     String data,
     double width,
     double height,
     double fontHeight,
     double lineWidth,
-  ) {
+  ) sync* {
     data = checkLength(data, maxLength);
     final String first = data.substring(0, 1);
     final String last = data.substring(11, 12);
@@ -153,13 +192,48 @@ class BarcodeUpcE extends BarcodeEan {
       data = _upcaToUpce(data);
     } on BarcodeException {
       if (fallback) {
-        return const BarcodeUpcA()
+        yield* const BarcodeUpcA()
             .makeText(data, width, height, fontHeight, lineWidth);
+        return;
       }
       rethrow;
     }
 
-    return super
-        .makeText(first + data + last, width, height, fontHeight, lineWidth);
+    final double w = lineWidth * 7;
+    final double left = marginLeft(true, width, fontHeight);
+    final double right = marginRight(true, width, fontHeight);
+
+    yield BarcodeText(
+      left: 0,
+      top: height - fontHeight,
+      width: left - lineWidth,
+      height: fontHeight,
+      text: first,
+      align: BarcodeTextAlign.right,
+    );
+
+    double offset = left + lineWidth * 3;
+
+    for (int i = 0; i < data.length; i++) {
+      yield BarcodeText(
+        left: offset,
+        top: height - fontHeight,
+        width: w,
+        height: fontHeight,
+        text: data[i],
+        align: BarcodeTextAlign.center,
+      );
+
+      offset += w;
+    }
+
+    yield BarcodeText(
+      left: width - right + lineWidth,
+      top: height - fontHeight,
+      width: right - lineWidth,
+      height: fontHeight,
+      text: last,
+      align: BarcodeTextAlign.left,
+    );
   }
 }
