@@ -16,10 +16,52 @@
 
 // ignore_for_file: omit_local_variable_types
 
+import 'barcode_operations.dart';
 import 'ean13.dart';
 
 class BarcodeIsbn extends BarcodeEan13 {
-  const BarcodeIsbn(bool drawEndChar) : super(drawEndChar);
+  const BarcodeIsbn(bool drawEndChar, this.drawIsbn) : super(drawEndChar);
+
+  final bool drawIsbn;
+
+  @override
+  double marginTop(bool drawText, double height, double fontHeight) {
+    if (!drawText || !drawIsbn) {
+      return super.marginTop(drawText, height, fontHeight);
+    }
+
+    return fontHeight;
+  }
+
+  @override
+  Iterable<BarcodeText> makeText(
+    String data,
+    double width,
+    double height,
+    double fontHeight,
+    double lineWidth,
+  ) sync* {
+    data = checkLength(data, maxLength);
+    yield* super.makeText(data, width, height, fontHeight, lineWidth);
+
+    if (drawIsbn) {
+      final double top = marginTop(true, height, fontHeight);
+      final String isbn = data.substring(0, 3) +
+          '-' +
+          data.substring(3, 12) +
+          '-' +
+          data.substring(12, 13);
+
+      yield BarcodeText(
+        left: 0,
+        top: 0,
+        width: width,
+        height: top,
+        text: 'ISBN $isbn',
+        align: BarcodeTextAlign.center,
+      );
+    }
+  }
 
   @override
   String get name => 'ISBN';

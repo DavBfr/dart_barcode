@@ -30,6 +30,18 @@
       "cwd": "${workspaceFolder}"
     },
     {
+      "name": "ISBN",
+      "program": "image/bin/barcode.dart",
+      "args": [
+        "-t",
+        "CodeISBN",
+        "9782021304527"
+      ],
+      "request": "launch",
+      "type": "dart",
+      "cwd": "${workspaceFolder}"
+    },
+    {
       "name": "EAN8",
       "program": "image/bin/barcode.dart",
       "args": [

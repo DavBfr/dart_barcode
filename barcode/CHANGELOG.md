@@ -2,10 +2,11 @@
 
 ## 1.3.1
 
-- Implement proper EAN-13/ISBN rendering
+- Implement proper EAN-13 rendering
 - Implement proper UPC-A rendering
 - Implement proper UPC-E rendering
 - Implement proper EAN-8 rendering
+- Implement proper ISBN rendering
 
 ## 1.3.0
 

@@ -105,7 +105,8 @@ abstract class Barcode {
 
   /// Create an ISBN `Barcode` instance
   /// ![EAN 8](https://raw.githubusercontent.com/DavBfr/dart_barcode/master/img/isbn.svg?sanitize=true)
-  static Barcode isbn({bool drawEndChar = false}) => BarcodeIsbn(drawEndChar);
+  static Barcode isbn({bool drawEndChar = false, bool drawIsbn = true}) =>
+      BarcodeIsbn(drawEndChar, drawIsbn);
 
   /// Create an UPC A `Barcode` instance
   /// ![UPC A](https://raw.githubusercontent.com/DavBfr/dart_barcode/master/img/upc-a.svg?sanitize=true)
@@ -144,6 +145,7 @@ abstract class Barcode {
       return;
     }
 
+    final double top = marginTop(drawText, height, fontHeight);
     final double left = marginLeft(drawText, width, fontHeight);
     final double right = marginRight(drawText, width, fontHeight);
     final double lineWidth = (width - left - right) / bits.length;
@@ -159,9 +161,9 @@ abstract class Barcode {
 
       yield BarcodeBar(
         left: left + (i - count) * lineWidth,
-        top: 0,
+        top: top,
         width: count * lineWidth,
-        height: getHeight(i - count, count, height, fontHeight, drawText),
+        height: getHeight(i - count, count, height - top, fontHeight, drawText),
         black: color,
       );
 
@@ -172,9 +174,9 @@ abstract class Barcode {
     final int l = bits.length;
     yield BarcodeBar(
       left: left + (l - count) * lineWidth,
-      top: 0,
+      top: top,
       width: count * lineWidth,
-      height: getHeight(l - count, count, height, fontHeight, drawText),
+      height: getHeight(l - count, count, height - top, fontHeight, drawText),
       black: color,
     );
 
@@ -194,6 +196,10 @@ abstract class Barcode {
   ) {
     return height - (drawText ? fontHeight : 0);
   }
+
+  /// Margin at the top of the barcode
+  @protected
+  double marginTop(bool drawText, double height, double fontHeight) => 0;
 
   /// Margin before the first bar
   @protected
