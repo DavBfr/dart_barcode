@@ -75,6 +75,8 @@ class BarcodeBar extends BarcodeElement {
       '$runtimeType [${black ? 'X' : ' '}] $left $top $width $height';
 }
 
+enum BarcodeTextAlign { left, center, right }
+
 /// Text drawing operation
 class BarcodeText extends BarcodeElement {
   const BarcodeText({
@@ -83,6 +85,7 @@ class BarcodeText extends BarcodeElement {
     @required double width,
     @required double height,
     @required this.text,
+    @required this.align,
   }) : super(
           left: left,
           top: top,
@@ -93,6 +96,9 @@ class BarcodeText extends BarcodeElement {
   /// Text to display in this rectangle
   final String text;
 
+  /// Text alignement
+  final BarcodeTextAlign align;
+
   @override
-  String toString() => '$runtimeType "$text" $left $top $width $height';
+  String toString() => '$runtimeType "$text" $left $top $width $height $align';
 }

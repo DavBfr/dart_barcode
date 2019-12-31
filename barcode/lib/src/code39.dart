@@ -64,6 +64,7 @@ class BarcodeCode39 extends Barcode {
         width: lineWidth * BarcodeMaps.code39Len,
         height: fontHeight,
         text: text[i],
+        align: BarcodeTextAlign.center,
       );
     }
   }

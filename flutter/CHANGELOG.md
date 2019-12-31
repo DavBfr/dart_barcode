@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.2.0
+
+- Implement text alignment
+- Update dependency to barcode ^1.3.0
+
 ## 1.1.0
 
 - Add error messages

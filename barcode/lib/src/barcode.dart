@@ -195,6 +195,7 @@ abstract class Barcode {
       width: width,
       height: fontHeight,
       text: data,
+      align: BarcodeTextAlign.center,
     );
   }
 

@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.3.0
+
+- Add text align property
+
 ## 1.2.0
 
 - Add a method to check Barcode validity

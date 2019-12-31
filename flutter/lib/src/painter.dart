@@ -129,9 +129,22 @@ class RenderBarcode extends RenderBox {
   }
 
   void paintText(PaintingContext context, Offset offset, BarcodeText element) {
+    TextAlign align;
+    switch (element.align) {
+      case BarcodeTextAlign.left:
+        align = TextAlign.left;
+        break;
+      case BarcodeTextAlign.center:
+        align = TextAlign.center;
+        break;
+      case BarcodeTextAlign.right:
+        align = TextAlign.right;
+        break;
+    }
+
     final builder = ui.ParagraphBuilder(
       style.getParagraphStyle(
-          textAlign: TextAlign.center,
+          textAlign: align,
           fontSize: element.height,
           maxLines: 1,
           ellipsis: '...'),
