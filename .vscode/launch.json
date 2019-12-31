@@ -28,6 +28,17 @@
       "request": "launch",
       "type": "dart",
       "cwd": "${workspaceFolder}"
+    },{
+      "name": "UPC-A",
+      "program": "image/bin/barcode.dart",
+      "args": [
+        "-t",
+        "CodeUPCA",
+        "12345678901"
+      ],
+      "request": "launch",
+      "type": "dart",
+      "cwd": "${workspaceFolder}"
     }
   ]
 }

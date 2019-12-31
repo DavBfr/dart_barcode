@@ -42,24 +42,6 @@ class BarcodeEan13 extends BarcodeEan {
   }
 
   @override
-  double marginLeft(bool drawText, double width, double fontHeight) {
-    if (!drawText) {
-      return 0;
-    }
-
-    return fontHeight;
-  }
-
-  @override
-  double marginRight(bool drawText, double width, double fontHeight) {
-    if (!drawText || !drawEndChar) {
-      return 0;
-    }
-
-    return fontHeight;
-  }
-
-  @override
   Iterable<bool> convert(String data) sync* {
     data = checkLength(data, maxLength);
 
@@ -96,6 +78,24 @@ class BarcodeEan13 extends BarcodeEan {
 
     // Stop
     yield* add(BarcodeMaps.eanStartEnd, 3);
+  }
+
+  @override
+  double marginLeft(bool drawText, double width, double fontHeight) {
+    if (!drawText) {
+      return 0;
+    }
+
+    return fontHeight;
+  }
+
+  @override
+  double marginRight(bool drawText, double width, double fontHeight) {
+    if (!drawText || !drawEndChar) {
+      return 0;
+    }
+
+    return fontHeight;
   }
 
   @override
@@ -163,7 +163,7 @@ class BarcodeEan13 extends BarcodeEan {
       yield BarcodeText(
         left: offset + lineWidth * 4,
         top: height - fontHeight,
-        width: right,
+        width: right - lineWidth,
         height: fontHeight,
         text: '>',
         align: BarcodeTextAlign.left,

@@ -68,14 +68,91 @@ class BarcodeUpcA extends BarcodeEan {
   }
 
   @override
+  double marginLeft(bool drawText, double width, double fontHeight) {
+    if (!drawText) {
+      return 0;
+    }
+
+    return fontHeight;
+  }
+
+  @override
+  double marginRight(bool drawText, double width, double fontHeight) {
+    if (!drawText) {
+      return 0;
+    }
+
+    return fontHeight;
+  }
+
+  @override
+  double getHeight(
+    int index,
+    int count,
+    double height,
+    double fontHeight,
+    bool drawText,
+  ) {
+    if (!drawText) {
+      return super.getHeight(index, count, height, fontHeight, drawText);
+    }
+
+    final double h = height - fontHeight;
+
+    if (index + count < 11 || (index > 45 && index < 49) || index > 82) {
+      return h + fontHeight / 2;
+    }
+
+    return h;
+  }
+
+  @override
   Iterable<BarcodeText> makeText(
     String data,
     double width,
     double height,
     double fontHeight,
     double lineWidth,
-  ) {
-    data = checkLength(data, maxLength);
-    return super.makeText(data, width, height, fontHeight, lineWidth);
+  ) sync* {
+    final String text = checkLength(data, maxLength);
+    final double w = lineWidth * 7;
+    final double left = marginLeft(true, width, fontHeight);
+    final double right = marginRight(true, width, fontHeight);
+
+    yield BarcodeText(
+      left: 0,
+      top: height - fontHeight,
+      width: left - lineWidth,
+      height: fontHeight,
+      text: text[0],
+      align: BarcodeTextAlign.right,
+    );
+
+    double offset = left + lineWidth * 10;
+
+    for (int i = 1; i < text.length - 1; i++) {
+      yield BarcodeText(
+        left: offset,
+        top: height - fontHeight,
+        width: w,
+        height: fontHeight,
+        text: text[i],
+        align: BarcodeTextAlign.center,
+      );
+
+      offset += w;
+      if (i == 5) {
+        offset += lineWidth * 5;
+      }
+    }
+
+    yield BarcodeText(
+      left: offset + lineWidth * 11,
+      top: height - fontHeight,
+      width: right - lineWidth,
+      height: fontHeight,
+      text: text[text.length - 1],
+      align: BarcodeTextAlign.left,
+    );
   }
 }
