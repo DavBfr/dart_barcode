@@ -97,7 +97,7 @@ abstract class Barcode {
 
   /// Create an EAN 13 `Barcode` instance
   /// ![EAN 13](https://raw.githubusercontent.com/DavBfr/dart_barcode/master/img/ean-13.svg?sanitize=true)
-  static Barcode ean13() => const BarcodeEan13();
+  static Barcode ean13({bool drawEndChar = false}) => BarcodeEan13(drawEndChar);
 
   /// Create an EAN 8 `Barcode` instance
   /// ![EAN 8](https://raw.githubusercontent.com/DavBfr/dart_barcode/master/img/ean-8.svg?sanitize=true)
@@ -105,7 +105,7 @@ abstract class Barcode {
 
   /// Create an ISBN `Barcode` instance
   /// ![EAN 8](https://raw.githubusercontent.com/DavBfr/dart_barcode/master/img/isbn.svg?sanitize=true)
-  static Barcode isbn() => const BarcodeIsbn();
+  static Barcode isbn({bool drawEndChar = false}) => BarcodeIsbn(drawEndChar);
 
   /// Create an UPC A `Barcode` instance
   /// ![UPC A](https://raw.githubusercontent.com/DavBfr/dart_barcode/master/img/upc-a.svg?sanitize=true)
@@ -144,7 +144,9 @@ abstract class Barcode {
       return;
     }
 
-    final double lineWidth = width / bits.length;
+    final double left = marginLeft(drawText, width, fontHeight);
+    final double right = marginRight(drawText, width, fontHeight);
+    final double lineWidth = (width - left - right) / bits.length;
 
     bool color = bits.first;
     int count = 1;
@@ -156,10 +158,10 @@ abstract class Barcode {
       }
 
       yield BarcodeBar(
-        left: (i - count) * lineWidth,
+        left: left + (i - count) * lineWidth,
         top: 0,
         width: count * lineWidth,
-        height: height - (drawText ? fontHeight : 0),
+        height: getHeight(i - count, count, height, fontHeight, drawText),
         black: color,
       );
 
@@ -167,18 +169,39 @@ abstract class Barcode {
       count = 1;
     }
 
+    final int l = bits.length;
     yield BarcodeBar(
-      left: (bits.length - count) * lineWidth,
+      left: left + (l - count) * lineWidth,
       top: 0,
       width: count * lineWidth,
-      height: height - (drawText ? fontHeight : 0),
+      height: getHeight(l - count, count, height, fontHeight, drawText),
       black: color,
     );
 
     if (drawText) {
-      yield* makeText(data, width, height, fontHeight);
+      yield* makeText(data, width, height, fontHeight, lineWidth);
     }
   }
+
+  /// Get the bar height for a specific index
+  @protected
+  double getHeight(
+    int index,
+    int count,
+    double height,
+    double fontHeight,
+    bool drawText,
+  ) {
+    return height - (drawText ? fontHeight : 0);
+  }
+
+  /// Margin before the first bar
+  @protected
+  double marginLeft(bool drawText, double width, double fontHeight) => 0;
+
+  /// Margin after the last bar
+  @protected
+  double marginRight(bool drawText, double width, double fontHeight) => 0;
 
   /// Stream the text operations required to draw the
   /// barcode texts. This is automatically called by `make`
@@ -188,6 +211,7 @@ abstract class Barcode {
     double width,
     double height,
     double fontHeight,
+    double lineWidth,
   ) sync* {
     yield BarcodeText(
       left: 0,

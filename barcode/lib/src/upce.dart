@@ -143,6 +143,7 @@ class BarcodeUpcE extends BarcodeEan {
     double width,
     double height,
     double fontHeight,
+    double lineWidth,
   ) {
     data = checkLength(data, maxLength);
     final String first = data.substring(0, 1);
@@ -152,11 +153,13 @@ class BarcodeUpcE extends BarcodeEan {
       data = _upcaToUpce(data);
     } on BarcodeException {
       if (fallback) {
-        return const BarcodeUpcA().makeText(data, width, height, fontHeight);
+        return const BarcodeUpcA()
+            .makeText(data, width, height, fontHeight, lineWidth);
       }
       rethrow;
     }
 
-    return super.makeText(first + data + last, width, height, fontHeight);
+    return super
+        .makeText(first + data + last, width, height, fontHeight, lineWidth);
   }
 }

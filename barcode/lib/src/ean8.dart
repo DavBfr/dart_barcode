@@ -68,13 +68,9 @@ class BarcodeEan8 extends BarcodeEan {
   }
 
   @override
-  Iterable<BarcodeText> makeText(
-    String data,
-    double width,
-    double height,
-    double fontHeight,
-  ) {
+  Iterable<BarcodeText> makeText(String data, double width, double height,
+      double fontHeight, double lineWidth) {
     data = checkLength(data, maxLength);
-    return super.makeText(data, width, height, fontHeight);
+    return super.makeText(data, width, height, fontHeight, lineWidth);
   }
 }

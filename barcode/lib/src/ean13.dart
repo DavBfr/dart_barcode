@@ -22,7 +22,9 @@ import 'barcode_operations.dart';
 import 'ean.dart';
 
 class BarcodeEan13 extends BarcodeEan {
-  const BarcodeEan13();
+  const BarcodeEan13(this.drawEndChar);
+
+  final bool drawEndChar;
 
   @override
   String get name => 'EAN 13';
@@ -37,6 +39,24 @@ class BarcodeEan13 extends BarcodeEan {
   void verify(String data) {
     checkLength(data, maxLength);
     super.verify(data);
+  }
+
+  @override
+  double marginLeft(bool drawText, double width, double fontHeight) {
+    if (!drawText) {
+      return 0;
+    }
+
+    return fontHeight;
+  }
+
+  @override
+  double marginRight(bool drawText, double width, double fontHeight) {
+    if (!drawText || !drawEndChar) {
+      return 0;
+    }
+
+    return fontHeight;
   }
 
   @override
@@ -79,13 +99,75 @@ class BarcodeEan13 extends BarcodeEan {
   }
 
   @override
+  double getHeight(
+    int index,
+    int count,
+    double height,
+    double fontHeight,
+    bool drawText,
+  ) {
+    if (!drawText) {
+      return super.getHeight(index, count, height, fontHeight, drawText);
+    }
+
+    final double h = height - fontHeight;
+
+    if (index < 3 || (index > 45 && index < 49) || index > 91) {
+      return h + fontHeight / 2;
+    }
+
+    return h;
+  }
+
+  @override
   Iterable<BarcodeText> makeText(
     String data,
     double width,
     double height,
     double fontHeight,
-  ) {
-    data = checkLength(data, maxLength);
-    return super.makeText(data, width, height, fontHeight);
+    double lineWidth,
+  ) sync* {
+    final String text = checkLength(data, maxLength);
+    final double w = lineWidth * 7;
+    final double left = marginLeft(true, width, fontHeight);
+    final double right = marginRight(true, width, fontHeight);
+
+    yield BarcodeText(
+      left: 0,
+      top: height - fontHeight,
+      width: left - lineWidth,
+      height: fontHeight,
+      text: text[0],
+      align: BarcodeTextAlign.right,
+    );
+
+    double offset = left + lineWidth * 3;
+
+    for (int i = 1; i < text.length; i++) {
+      yield BarcodeText(
+        left: offset,
+        top: height - fontHeight,
+        width: w,
+        height: fontHeight,
+        text: text[i],
+        align: BarcodeTextAlign.center,
+      );
+
+      offset += w;
+      if (i == 6) {
+        offset += lineWidth * 5;
+      }
+    }
+
+    if (drawEndChar) {
+      yield BarcodeText(
+        left: offset + lineWidth * 4,
+        top: height - fontHeight,
+        width: right,
+        height: fontHeight,
+        text: '>',
+        align: BarcodeTextAlign.left,
+      );
+    }
   }
 }

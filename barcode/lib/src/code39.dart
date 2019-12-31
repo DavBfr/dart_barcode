@@ -53,9 +53,9 @@ class BarcodeCode39 extends Barcode {
     double width,
     double height,
     double fontHeight,
+    double lineWidth,
   ) sync* {
     final String text = '*$data*';
-    final double lineWidth = width / (text.length * BarcodeMaps.code39Len);
 
     for (int i = 0; i < text.length; i++) {
       yield BarcodeText(

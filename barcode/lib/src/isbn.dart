@@ -19,7 +19,7 @@
 import 'ean13.dart';
 
 class BarcodeIsbn extends BarcodeEan13 {
-  const BarcodeIsbn();
+  const BarcodeIsbn(bool drawEndChar) : super(drawEndChar);
 
   @override
   String get name => 'ISBN';

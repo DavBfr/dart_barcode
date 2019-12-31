@@ -73,8 +73,9 @@ class BarcodeUpcA extends BarcodeEan {
     double width,
     double height,
     double fontHeight,
+    double lineWidth,
   ) {
     data = checkLength(data, maxLength);
-    return super.makeText(data, width, height, fontHeight);
+    return super.makeText(data, width, height, fontHeight, lineWidth);
   }
 }
