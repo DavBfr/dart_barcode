@@ -4,6 +4,7 @@
 
 - Implement text alignment
 - Update dependency to barcode ^1.3.0
+- Fix text position
 
 ## 1.1.0
 

@@ -18,7 +18,7 @@ class BarcodeConf extends ChangeNotifier {
     notifyListeners();
   }
 
-  double fontSize = 36;
+  double fontSize = 30;
 
   double height = 160;
 

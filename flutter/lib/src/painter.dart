@@ -157,7 +157,12 @@ class RenderBarcode extends RenderBox {
 
     context.canvas.drawParagraph(
       paragraph,
-      Offset(offset.dx + element.left, offset.dy + element.top),
+      Offset(
+          offset.dx + element.left,
+          offset.dy +
+              element.top +
+              paragraph.alphabeticBaseline -
+              paragraph.height),
     );
   }
 
