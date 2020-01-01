@@ -79,7 +79,7 @@ int main(List<String> arguments) {
       return 0;
     }
 
-    if (argResults['help']) {
+    if (argResults['help'] || argResults.rest.isEmpty) {
       showHelp(parser);
       return 0;
     }

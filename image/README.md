@@ -2,6 +2,8 @@
 
 Barcode generation library for Dart that can generate barcodes using the [pub:image](https://pub.dev/packages/image) library.
 
+## Dart usage
+
 ```dart
 // Create an image
 final image = Image(300, 120);
@@ -17,3 +19,23 @@ File('test.png').writeAsBytesSync(encodePng(image));
 ```
 
 <img alt="Barcode" src="https://raw.githubusercontent.com/DavBfr/dart_barcode/master/img/test.png">
+
+## Command line usage
+
+Install the `barcode` command
+
+```shell
+pub global activate barcode_image
+```
+
+run it
+
+```shell
+barcode
+```
+
+or
+
+```shell
+pub run barcode_image:barcode
+```
