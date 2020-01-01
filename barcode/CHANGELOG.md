@@ -1,6 +1,6 @@
 # Changelog
 
-## 1.3.1
+## 1.4.0
 
 - Implement proper EAN-13 rendering
 - Implement proper UPC-A rendering
