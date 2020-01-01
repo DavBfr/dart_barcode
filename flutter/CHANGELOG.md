@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.2.1
+
+- Fix README
+
 ## 1.2.0
 
 - Implement text alignment

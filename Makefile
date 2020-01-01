@@ -101,4 +101,9 @@ gh-pages:
 	git checkout gh-pages
 	cp -rf flutter/example/build/web/* .
 
+get:
+	cd barcode; pub get
+	cd flutter; flutter packages get
+	cd image; pub get
+
 .PHONY: test format format-dart clean publish analyze

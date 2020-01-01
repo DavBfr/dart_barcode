@@ -6,11 +6,11 @@ Barcode Widget for flutter.
 
 This widget uses [pub:barcode](https://pub.dev/packages/barcode) to generate any supported Barcodes.
 
+<img alt="Barcode Demo" src="https://raw.githubusercontent.com/DavBfr/dart_barcode/master/img/flutter.png">
+
 ## Live example with Flutter Web
 
 <https://davbfr.github.io/dart_barcode/>
-
-<iframe style="width:100%;height:630px;" src="https://davbfr.github.io/dart_barcode/></iframe>
 
 ## Getting Started
 

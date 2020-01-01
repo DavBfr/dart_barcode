@@ -16,3 +16,9 @@ main.dart.js.deps
 main.dart.js.map
 /*.png
 /*.svg
+flutter/example/.gitignore
+flutter/example/android
+flutter/example/ios
+flutter/example/macos
+flutter/example/test
+.metadata
