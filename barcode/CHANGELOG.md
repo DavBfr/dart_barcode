@@ -6,6 +6,7 @@
 - Add EAN 2
 - Add EAN 5
 - Add GS1-128 support
+- Add ITF-14
 
 ## 1.4.0
 

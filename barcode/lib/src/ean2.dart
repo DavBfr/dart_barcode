@@ -66,12 +66,17 @@ class BarcodeEan2 extends BarcodeEan {
   }
 
   @override
-  double marginTop(bool drawText, double height, double fontHeight) =>
+  double marginTop(
+    bool drawText,
+    double width,
+    double height,
+    double fontHeight,
+  ) =>
       drawText ? fontHeight : 0;
 
   @override
-  double getHeight(int index, int count, double height, double fontHeight,
-          bool drawText) =>
+  double getHeight(int index, int count, double width, double height,
+          double fontHeight, bool drawText) =>
       height;
 
   @override

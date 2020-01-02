@@ -30,11 +30,13 @@ import 'ean2.dart';
 import 'ean5.dart';
 import 'ean8.dart';
 import 'isbn.dart';
+import 'itf14.dart';
 import 'upca.dart';
 import 'upce.dart';
 
 /// Supported barcode types
 enum BarcodeType {
+  CodeITF14,
   CodeEAN13,
   CodeEAN8,
   CodeEAN5,
@@ -73,6 +75,8 @@ abstract class Barcode {
         return Barcode.code128();
       case BarcodeType.GS128:
         return Barcode.gs128();
+      case BarcodeType.CodeITF14:
+        return Barcode.itf14();
       case BarcodeType.CodeEAN13:
         return Barcode.ean13();
       case BarcodeType.CodeEAN8:
@@ -110,7 +114,16 @@ abstract class Barcode {
 
   /// Create a GS1-128 `Barcode` instance
   /// ![GS1-128](https://raw.githubusercontent.com/DavBfr/dart_barcode/master/img/gs1-128.svg?sanitize=true)
-  static Barcode gs128() => BarcodeCode128(true, true, true, true);
+  static Barcode gs128() => const BarcodeCode128(true, true, true, true);
+
+  /// Create an ITF 14 `Barcode` instance
+  /// ![ITF 14](https://raw.githubusercontent.com/DavBfr/dart_barcode/master/img/itf-14.svg?sanitize=true)
+  static Barcode itf14({
+    bool drawBorder = true,
+    double borderWidth,
+    double quietWidth,
+  }) =>
+      BarcodeItf14(drawBorder, borderWidth, quietWidth);
 
   /// Create an EAN 13 `Barcode` instance
   /// ![EAN 13](https://raw.githubusercontent.com/DavBfr/dart_barcode/master/img/ean-13.svg?sanitize=true)

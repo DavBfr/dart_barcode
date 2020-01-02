@@ -48,6 +48,11 @@ void main() {
   );
 
   buildBarcode(
+    Barcode.itf14(),
+    '1540014128876',
+  );
+
+  buildBarcode(
     Barcode.ean13(),
     '590123412345',
   );

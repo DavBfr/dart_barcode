@@ -74,7 +74,8 @@ class BarcodeEan8 extends BarcodeEan {
   }
 
   @override
-  double marginLeft(bool drawText, double width, double fontHeight) {
+  double marginLeft(
+      bool drawText, double width, double height, double fontHeight) {
     if (!drawText || !drawSpacers) {
       return 0;
     }
@@ -83,7 +84,8 @@ class BarcodeEan8 extends BarcodeEan {
   }
 
   @override
-  double marginRight(bool drawText, double width, double fontHeight) {
+  double marginRight(
+      bool drawText, double width, double height, double fontHeight) {
     if (!drawText || !drawSpacers) {
       return 0;
     }
@@ -95,12 +97,13 @@ class BarcodeEan8 extends BarcodeEan {
   double getHeight(
     int index,
     int count,
+    double width,
     double height,
     double fontHeight,
     bool drawText,
   ) {
     if (!drawText) {
-      return super.getHeight(index, count, height, fontHeight, drawText);
+      return super.getHeight(index, count, width, height, fontHeight, drawText);
     }
 
     final double h = height - fontHeight;
@@ -117,8 +120,8 @@ class BarcodeEan8 extends BarcodeEan {
       double fontHeight, double lineWidth) sync* {
     data = checkLength(data, maxLength);
     final double w = lineWidth * 7;
-    final double left = marginLeft(true, width, fontHeight);
-    final double right = marginRight(true, width, fontHeight);
+    final double left = marginLeft(true, width, height, fontHeight);
+    final double right = marginRight(true, width, height, fontHeight);
     double offset = left + lineWidth * 3;
 
     for (int i = 0; i < data.length; i++) {

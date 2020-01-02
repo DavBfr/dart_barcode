@@ -83,7 +83,12 @@ class BarcodeEan13 extends BarcodeEan {
   }
 
   @override
-  double marginLeft(bool drawText, double width, double fontHeight) {
+  double marginLeft(
+    bool drawText,
+    double width,
+    double height,
+    double fontHeight,
+  ) {
     if (!drawText) {
       return 0;
     }
@@ -92,7 +97,12 @@ class BarcodeEan13 extends BarcodeEan {
   }
 
   @override
-  double marginRight(bool drawText, double width, double fontHeight) {
+  double marginRight(
+    bool drawText,
+    double width,
+    double height,
+    double fontHeight,
+  ) {
     if (!drawText || !drawEndChar) {
       return 0;
     }
@@ -104,12 +114,13 @@ class BarcodeEan13 extends BarcodeEan {
   double getHeight(
     int index,
     int count,
+    double width,
     double height,
     double fontHeight,
     bool drawText,
   ) {
     if (!drawText) {
-      return super.getHeight(index, count, height, fontHeight, drawText);
+      return super.getHeight(index, count, width, height, fontHeight, drawText);
     }
 
     final double h = height - fontHeight;
@@ -131,8 +142,8 @@ class BarcodeEan13 extends BarcodeEan {
   ) sync* {
     final String text = checkLength(data, maxLength);
     final double w = lineWidth * 7;
-    final double left = marginLeft(true, width, fontHeight);
-    final double right = marginRight(true, width, fontHeight);
+    final double left = marginLeft(true, width, height, fontHeight);
+    final double right = marginRight(true, width, height, fontHeight);
 
     yield BarcodeText(
       left: 0,

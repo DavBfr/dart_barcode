@@ -350,6 +350,37 @@ def ean13():
         print(f'static const int ean{name} = {hex(int(misc[name][::-1], 2))};')
 
 
+def itf14():
+    data = {
+        '0': '00110',
+        '1': '10001',
+        '2': '01001',
+        '3': '11000',
+        '4': '00101',
+        '5': '10100',
+        '6': '01100',
+        '7': '00011',
+        '8': '10010',
+        '9': '01010',
+    }
+
+    misc = {
+        'Start': '1010',
+        'End': '11101',
+    }
+
+    print('/// ITF 14 conversion bits')
+    print('static const Map<int, int> itf14 = <int, int>{')
+    for k, v in data.items():
+        print(
+            f'{hex(ord(k))}: {hex(int(v[::-1], 2))},')
+    print('};\n')
+
+    print('/// ITF misc bits')
+    for name in misc:
+        print(f'static const int itf{name} = {hex(int(misc[name][::-1], 2))};')
+
+
 if __name__ == '__main__':
     print('/*')
     print(' * Copyright (C) 2020, David PHAM-VAN <dev.nfet.net@gmail.com>')
@@ -375,5 +406,6 @@ if __name__ == '__main__':
     code93()
     code128()
     ean13()
+    itf14()
 
     print('}')

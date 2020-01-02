@@ -55,9 +55,9 @@ abstract class Barcode1D extends Barcode {
       return;
     }
 
-    final double top = marginTop(drawText, height, fontHeight);
-    final double left = marginLeft(drawText, width, fontHeight);
-    final double right = marginRight(drawText, width, fontHeight);
+    final double top = marginTop(drawText, width, height, fontHeight);
+    final double left = marginLeft(drawText, width, height, fontHeight);
+    final double right = marginRight(drawText, width, height, fontHeight);
     final double lineWidth = (width - left - right) / bits.length;
 
     bool color = bits.first;
@@ -73,7 +73,14 @@ abstract class Barcode1D extends Barcode {
         left: left + (i - count) * lineWidth,
         top: top,
         width: count * lineWidth,
-        height: getHeight(i - count, count, height - top, fontHeight, drawText),
+        height: getHeight(
+          i - count,
+          count,
+          width,
+          height - top,
+          fontHeight,
+          drawText,
+        ),
         black: color,
       );
 
@@ -86,7 +93,14 @@ abstract class Barcode1D extends Barcode {
       left: left + (l - count) * lineWidth,
       top: top,
       width: count * lineWidth,
-      height: getHeight(l - count, count, height - top, fontHeight, drawText),
+      height: getHeight(
+        l - count,
+        count,
+        width,
+        height - top,
+        fontHeight,
+        drawText,
+      ),
       black: color,
     );
 
@@ -100,6 +114,7 @@ abstract class Barcode1D extends Barcode {
   double getHeight(
     int index,
     int count,
+    double width,
     double height,
     double fontHeight,
     bool drawText,
@@ -109,15 +124,33 @@ abstract class Barcode1D extends Barcode {
 
   /// Margin at the top of the barcode
   @protected
-  double marginTop(bool drawText, double height, double fontHeight) => 0;
+  double marginTop(
+    bool drawText,
+    double width,
+    double height,
+    double fontHeight,
+  ) =>
+      0;
 
   /// Margin before the first bar
   @protected
-  double marginLeft(bool drawText, double width, double fontHeight) => 0;
+  double marginLeft(
+    bool drawText,
+    double width,
+    double height,
+    double fontHeight,
+  ) =>
+      0;
 
   /// Margin after the last bar
   @protected
-  double marginRight(bool drawText, double width, double fontHeight) => 0;
+  double marginRight(
+    bool drawText,
+    double width,
+    double height,
+    double fontHeight,
+  ) =>
+      0;
 
   /// Stream the text operations required to draw the
   /// barcode texts. This is automatically called by `make`

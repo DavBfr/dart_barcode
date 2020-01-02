@@ -644,4 +644,22 @@ class BarcodeMaps {
   static const int eanEndUpcE = 0x2a;
   static const int eanStartEan2 = 0x1a;
   static const int eanCenterEan2 = 0x2;
+
+  /// ITF 14 conversion bits
+  static const Map<int, int> itf14 = <int, int>{
+    0x30: 0xc,
+    0x31: 0x11,
+    0x32: 0x12,
+    0x33: 0x3,
+    0x34: 0x14,
+    0x35: 0x5,
+    0x36: 0x6,
+    0x37: 0x18,
+    0x38: 0x9,
+    0x39: 0xa,
+  };
+
+  /// ITF misc bits
+  static const int itfStart = 0x5;
+  static const int itfEnd = 0x17;
 }

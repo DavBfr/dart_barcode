@@ -40,6 +40,10 @@ Widget barcodeInfo(BarcodeConf conf) {
 
   String desc = '';
   switch (conf.type) {
+    case BarcodeType.CodeITF14:
+      desc =
+          'ITF-14 is the GS1 implementation of an Interleaved 2 of 5 (ITF) bar code to encode a Global Trade Item Number. ITF-14 symbols are generally used on packaging levels of a product, such as a case box of 24 cans of soup. The ITF-14 will always encode 14 digits.';
+      break;
     case BarcodeType.CodeEAN13:
       desc =
           'The International Article Number is a standard describing a barcode symbology and numbering system used in global trade to identify a specific retail product type, in a specific packaging configuration, from a specific manufacturer.';

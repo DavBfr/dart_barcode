@@ -25,9 +25,10 @@ class BarcodeIsbn extends BarcodeEan13 {
   final bool drawIsbn;
 
   @override
-  double marginTop(bool drawText, double height, double fontHeight) {
+  double marginTop(
+      bool drawText, double width, double height, double fontHeight) {
     if (!drawText || !drawIsbn) {
-      return super.marginTop(drawText, height, fontHeight);
+      return super.marginTop(drawText, width, height, fontHeight);
     }
 
     return fontHeight;
@@ -45,7 +46,7 @@ class BarcodeIsbn extends BarcodeEan13 {
     yield* super.makeText(data, width, height, fontHeight, lineWidth);
 
     if (drawIsbn) {
-      final double top = marginTop(true, height, fontHeight);
+      final double top = marginTop(true, width, height, fontHeight);
       final String isbn = data.substring(0, 3) +
           '-' +
           data.substring(3, 12) +
