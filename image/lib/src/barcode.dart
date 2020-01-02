@@ -89,10 +89,10 @@ void drawBarcode(
         // Draw one black bar
         fillRect(
           image,
-          x + elem.left.toInt(),
-          elem.top.toInt(),
-          y + elem.right.toInt(),
-          elem.bottom.toInt(),
+          (x + elem.left).round(),
+          elem.top.round(),
+          (y + elem.right - 1).round(),
+          (elem.bottom - 1).round(),
           color,
         );
       }
@@ -119,8 +119,8 @@ void drawBarcode(
       drawString(
         image,
         font,
-        left.toInt(),
-        top.toInt(),
+        left.round(),
+        top.round(),
         elem.text,
         color: color,
       );

@@ -3,6 +3,7 @@
 ## 1.0.2
 
 - Fix text placement
+- Fix bar dimensions
 
 ## 1.0.1
 
