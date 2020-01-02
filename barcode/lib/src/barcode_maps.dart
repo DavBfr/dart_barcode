@@ -610,6 +610,20 @@ class BarcodeMaps {
     0x39: 0x16, // LGGLGL
   };
 
+  /// EAN 5 checksum
+  static const Map<int, int> ean5Checksum = <int, int>{
+    0x30: 0x3, // GGLLL
+    0x31: 0x5, // GLGLL
+    0x32: 0x9, // GLLGL
+    0x33: 0x11, // GLLLG
+    0x34: 0x6, // LGGLL
+    0x35: 0xc, // LLGGL
+    0x36: 0x18, // LLLGG
+    0x37: 0xa, // LGLGL
+    0x38: 0x12, // LGLLG
+    0x39: 0x14, // LLGLG
+  };
+
   /// UPC-A to UPC-E conversion
   static const Map<int, int> upce = <int, int>{
     0x30: 0x38, // EEEOOO | OOOEEE

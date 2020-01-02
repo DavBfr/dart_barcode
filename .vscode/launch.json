@@ -54,12 +54,27 @@
       "cwd": "${workspaceFolder}"
     },
     {
+      "name": "EAN5",
+      "program": "image/bin/barcode.dart",
+      "args": [
+        "-t",
+        "CodeEAN5",
+        "-w",
+        "140",
+        "52495"
+      ],
+      "request": "launch",
+      "type": "dart",
+      "cwd": "${workspaceFolder}"
+    },
+    {
       "name": "EAN2",
       "program": "image/bin/barcode.dart",
       "args": [
         "-t",
         "CodeEAN2",
-        "-w", "100",
+        "-w",
+        "100",
         "53"
       ],
       "request": "launch",

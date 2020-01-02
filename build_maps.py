@@ -279,17 +279,17 @@ def ean13():
     )
 
     first = (
-        # First digit, First group of 6 digits, Last group of 6 digits
-        ('0', 'LLLLLL', 'RRRRRR'),
-        ('1', 'LLGLGG', 'RRRRRR'),
-        ('2', 'LLGGLG', 'RRRRRR'),
-        ('3', 'LLGGGL', 'RRRRRR'),
-        ('4', 'LGLLGG', 'RRRRRR'),
-        ('5', 'LGGLLG', 'RRRRRR'),
-        ('6', 'LGGGLL', 'RRRRRR'),
-        ('7', 'LGLGLG', 'RRRRRR'),
-        ('8', 'LGLGGL', 'RRRRRR'),
-        ('9', 'LGGLGL', 'RRRRRR'),
+        # First digit, First group of 6 digits, ean-5
+        ('0', 'LLLLLL', 'GGLLL'),
+        ('1', 'LLGLGG', 'GLGLL'),
+        ('2', 'LLGGLG', 'GLLGL'),
+        ('3', 'LLGGGL', 'GLLLG'),
+        ('4', 'LGLLGG', 'LGGLL'),
+        ('5', 'LGGLLG', 'LLGGL'),
+        ('6', 'LGGGLL', 'LLLGG'),
+        ('7', 'LGLGLG', 'LGLGL'),
+        ('8', 'LGLGGL', 'LGLLG'),
+        ('9', 'LGGLGL', 'LLGLG'),
     )
 
     upce = (
@@ -321,6 +321,17 @@ def ean13():
             v += 1 << i if k == 'G' else 0
             i += 1
         print(f'{hex(ord(d))}: {hex(v)}, // {f}')
+    print('};\n')
+
+    print('/// EAN 5 checksum')
+    print('static const Map<int, int> ean5Checksum = <int, int>{')
+    for d, f, s in first:
+        v = 0
+        i = 0
+        for k in s:
+            v += 1 << i if k == 'G' else 0
+            i += 1
+        print(f'{hex(ord(d))}: {hex(v)}, // {s}')
     print('};\n')
 
     print('/// UPC-A to UPC-E conversion')

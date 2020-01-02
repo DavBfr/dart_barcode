@@ -27,6 +27,7 @@ import 'code39.dart';
 import 'code93.dart';
 import 'ean13.dart';
 import 'ean2.dart';
+import 'ean5.dart';
 import 'ean8.dart';
 import 'isbn.dart';
 import 'upca.dart';
@@ -36,6 +37,7 @@ import 'upce.dart';
 enum BarcodeType {
   CodeEAN13,
   CodeEAN8,
+  CodeEAN5,
   CodeEAN2,
   CodeISBN,
   Code39,
@@ -72,6 +74,8 @@ abstract class Barcode {
         return Barcode.ean13();
       case BarcodeType.CodeEAN8:
         return Barcode.ean8();
+      case BarcodeType.CodeEAN5:
+        return Barcode.ean5();
       case BarcodeType.CodeEAN2:
         return Barcode.ean2();
       case BarcodeType.CodeISBN:
@@ -108,6 +112,10 @@ abstract class Barcode {
   /// Create an EAN 8 `Barcode` instance
   /// ![EAN 8](https://raw.githubusercontent.com/DavBfr/dart_barcode/master/img/ean-8.svg?sanitize=true)
   static Barcode ean8({bool drawSpacers = false}) => BarcodeEan8(drawSpacers);
+
+  /// Create an EAN 5 `Barcode` instance
+  /// ![EAN 5](https://raw.githubusercontent.com/DavBfr/dart_barcode/master/img/ean-5.svg?sanitize=true)
+  static Barcode ean5() => const BarcodeEan5();
 
   /// Create an EAN 2 `Barcode` instance
   /// ![EAN 2](https://raw.githubusercontent.com/DavBfr/dart_barcode/master/img/ean-2.svg?sanitize=true)

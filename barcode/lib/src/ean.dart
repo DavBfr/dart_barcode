@@ -55,11 +55,11 @@ abstract class BarcodeEan extends Barcode1D {
     int fak = data.length;
     for (int c in data.codeUnits) {
       if (fak % 2 == 0) {
-        sum = sum + (c - 0x30);
+        sum += c - 0x30;
       } else {
-        sum = sum + ((c - 0x30) * 3);
+        sum += (c - 0x30) * 3;
       }
-      fak = fak - 1;
+      fak--;
     }
     if (sum % 10 == 0) {
       return '0';

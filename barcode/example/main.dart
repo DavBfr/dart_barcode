@@ -60,6 +60,12 @@ void main() {
   );
 
   buildBarcode(
+    Barcode.ean5(),
+    '52495',
+    width: 60,
+  );
+
+  buildBarcode(
     Barcode.isbn(),
     '978316148410',
   );

@@ -48,6 +48,14 @@ Widget barcodeInfo(BarcodeConf conf) {
       desc =
           'An EAN-8 is an EAN/UPC symbology barcode and is derived from the longer International Article Number code. It was introduced for use on small packages where an EAN-13 barcode would be too large; for example on cigarettes, pencils, and chewing gum packets. It is encoded identically to the 12 digits of the UPC-A barcode, except that it has 4 digits in each of the left and right halves.';
       break;
+    case BarcodeType.CodeEAN5:
+      desc =
+          'The EAN-5 is a 5-digit European Article Number code, and is a supplement to the EAN-13 barcode used on books. It is used to give a suggestion for the price of the book.';
+      break;
+    case BarcodeType.CodeEAN2:
+      desc =
+          'The EAN-2 is a supplement to the EAN-13 and UPC-A barcodes. It is often used on magazines and periodicals to indicate an issue number.';
+      break;
     case BarcodeType.CodeISBN:
       desc =
           'The International Standard Book Number is a numeric commercial book identifier which is intended to be unique. Publishers purchase ISBNs from an affiliate of the International ISBN Agency.';

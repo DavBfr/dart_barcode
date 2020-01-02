@@ -4,6 +4,7 @@
 
 - Reorganize the library
 - Add EAN 2
+- Add EAN 5
 
 ## 1.4.0
 
