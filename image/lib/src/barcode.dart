@@ -28,16 +28,30 @@ class BitmapFontMetrics {
 
 extension BitmapFontMetricsFunctions on BitmapFont {
   BitmapFontMetrics getMetrics(String string) {
+    if (string.isEmpty) {
+      return const BitmapFontMetrics(0, 0);
+    }
+
     int width = 0;
     int height = 0;
+    final List<int> cu = string.codeUnits;
 
-    for (int c in string.codeUnits) {
+    for (int c in cu.sublist(0, cu.length - 1)) {
       if (!characters.containsKey(c)) {
         continue;
       }
 
       final BitmapFontCharacter ch = characters[c];
       width += ch.xadvance;
+      if (height < ch.height + ch.yoffset) {
+        height = ch.height + ch.yoffset;
+      }
+    }
+
+    final int c = cu.last;
+    if (characters.containsKey(c)) {
+      final BitmapFontCharacter ch = characters[c];
+      width += ch.width;
       if (height < ch.height + ch.yoffset) {
         height = ch.height + ch.yoffset;
       }

@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.0.2
+
+- Fix text placement
+
 ## 1.0.1
 
 - Add missing dependency
