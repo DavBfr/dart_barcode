@@ -43,6 +43,11 @@ void main() {
   );
 
   buildBarcode(
+    Barcode.gs128(),
+    '00123456780000000001',
+  );
+
+  buildBarcode(
     Barcode.ean13(),
     '590123412345',
   );

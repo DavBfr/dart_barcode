@@ -80,6 +80,10 @@ Widget barcodeInfo(BarcodeConf conf) {
       desc =
           'Code 128 is a high-density linear barcode symbology defined in ISO/IEC 15417:2007. It is used for alphanumeric or numeric-only barcodes. It can encode all 128 characters of ASCII and, by use of an extension symbol, the Latin-1 characters defined in ISO/IEC 8859-1.';
       break;
+    case BarcodeType.GS128:
+      desc =
+          'The GS1-128 is an application standard of the GS1. It uses a series of Application Identifiers to include additional data such as best before dates, batch numbers, quantities, weights and many other attributes needed by the user.';
+      break;
   }
 
   return Center(

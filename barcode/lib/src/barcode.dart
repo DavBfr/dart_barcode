@@ -45,6 +45,7 @@ enum BarcodeType {
   CodeUPCA,
   CodeUPCE,
   Code128,
+  GS128,
 }
 
 /// Barcode generation class
@@ -70,6 +71,8 @@ abstract class Barcode {
         return Barcode.code93();
       case BarcodeType.Code128:
         return Barcode.code128();
+      case BarcodeType.GS128:
+        return Barcode.gs128();
       case BarcodeType.CodeEAN13:
         return Barcode.ean13();
       case BarcodeType.CodeEAN8:
@@ -103,7 +106,11 @@ abstract class Barcode {
           {bool useCode128A = true,
           bool useCode128B = true,
           bool useCode128C = true}) =>
-      BarcodeCode128(useCode128A, useCode128B, useCode128C);
+      BarcodeCode128(useCode128A, useCode128B, useCode128C, false);
+
+  /// Create a GS1-128 `Barcode` instance
+  /// ![GS1-128](https://raw.githubusercontent.com/DavBfr/dart_barcode/master/img/gs1-128.svg?sanitize=true)
+  static Barcode gs128() => BarcodeCode128(true, true, true, true);
 
   /// Create an EAN 13 `Barcode` instance
   /// ![EAN 13](https://raw.githubusercontent.com/DavBfr/dart_barcode/master/img/ean-13.svg?sanitize=true)

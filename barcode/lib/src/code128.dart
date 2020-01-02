@@ -21,8 +21,12 @@ import 'barcode_exception.dart';
 import 'barcode_maps.dart';
 
 class BarcodeCode128 extends Barcode1D {
-  const BarcodeCode128(this.useCode128A, this.useCode128B, this.useCode128C)
-      : assert(useCode128A || useCode128B || useCode128C,
+  const BarcodeCode128(
+    this.useCode128A,
+    this.useCode128B,
+    this.useCode128C,
+    this.isGS1,
+  ) : assert(useCode128A || useCode128B || useCode128C,
             'Enable at least one of the CODE 128 tables');
 
   final bool useCode128A;
@@ -31,13 +35,15 @@ class BarcodeCode128 extends Barcode1D {
 
   final bool useCode128C;
 
+  final bool isGS1;
+
   @override
   Iterable<int> get charSet =>
       BarcodeMaps.code128B.keys.where((int x) => x >= 0).followedBy(
           BarcodeMaps.code128A.keys.where((int x) => x >= 0 && x < 0x20));
 
   @override
-  String get name => 'CODE 128';
+  String get name => isGS1 ? 'GS1 128' : 'CODE 128';
 
   Iterable<int> shortestCode(List<int> data) {
     /// table is defined as:
@@ -188,6 +194,18 @@ class BarcodeCode128 extends Barcode1D {
       table = 4;
     }
     addFrom(data, 0);
+
+    if (isGS1) {
+      // Add FNC1 as the second code
+      if (lastTable == 1) {
+        result.add(BarcodeMaps.code128A[BarcodeMaps.code128FNC1]);
+      } else if (lastTable == 2) {
+        result.add(BarcodeMaps.code128B[BarcodeMaps.code128FNC1]);
+      } else if (lastTable == 3) {
+        result.add(BarcodeMaps.code128C[BarcodeMaps.code128FNC1]);
+      }
+    }
+
     // Add the start code
     if (lastTable == 1) {
       result.add(BarcodeMaps.code128StartCodeA);
