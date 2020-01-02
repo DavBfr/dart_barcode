@@ -1,8 +1,9 @@
 # Changelog
 
-## 1.4.1
+## 1.5.0
 
 - Reorganize the library
+- Add EAN 2
 
 ## 1.4.0
 

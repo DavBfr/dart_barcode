@@ -54,6 +54,19 @@
       "cwd": "${workspaceFolder}"
     },
     {
+      "name": "EAN2",
+      "program": "image/bin/barcode.dart",
+      "args": [
+        "-t",
+        "CodeEAN2",
+        "-w", "100",
+        "53"
+      ],
+      "request": "launch",
+      "type": "dart",
+      "cwd": "${workspaceFolder}"
+    },
+    {
       "name": "UPC-A",
       "program": "image/bin/barcode.dart",
       "args": [

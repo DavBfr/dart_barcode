@@ -628,4 +628,6 @@ class BarcodeMaps {
   static const int eanStartEnd = 0x5;
   static const int eanCenter = 0xa;
   static const int eanEndUpcE = 0x2a;
+  static const int eanStartEan2 = 0x1a;
+  static const int eanCenterEan2 = 0x2;
 }

@@ -260,6 +260,8 @@ def ean13():
         'StartEnd': '101',
         'Center': '01010',
         'EndUpcE': '010101',
+        'StartEan2': '01011',
+        'CenterEan2': '01',
     }
 
     digits = (

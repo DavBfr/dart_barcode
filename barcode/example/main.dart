@@ -4,9 +4,9 @@ import 'dart:io';
 
 import 'package:barcode/barcode.dart';
 
-void buildBarcode(Barcode bc, String data, [String filename]) {
+void buildBarcode(Barcode bc, String data, {String filename, double width}) {
   /// Create the Barcode
-  final svg = bc.toSvg(data);
+  final svg = bc.toSvg(data, width: width ?? 200);
 
   // Save the image
   filename ??= bc.name.replaceAll(RegExp(r'\s'), '-').toLowerCase();
@@ -27,19 +27,19 @@ void main() {
   buildBarcode(
     Barcode.code128(useCode128B: false, useCode128C: false),
     'BARCODE\t128',
-    'code-128a',
+    filename: 'code-128a',
   );
 
   buildBarcode(
     Barcode.code128(useCode128A: false, useCode128C: false),
     'Barcode 128',
-    'code-128b',
+    filename: 'code-128b',
   );
 
   buildBarcode(
     Barcode.code128(useCode128A: false, useCode128B: false),
     '0123456789',
-    'code-128c',
+    filename: 'code-128c',
   );
 
   buildBarcode(
@@ -50,6 +50,13 @@ void main() {
   buildBarcode(
     Barcode.ean8(),
     '9638507',
+    width: 100,
+  );
+
+  buildBarcode(
+    Barcode.ean2(),
+    '05',
+    width: 40,
   );
 
   buildBarcode(
@@ -65,5 +72,6 @@ void main() {
   buildBarcode(
     Barcode.upcE(),
     '06510000432',
+    width: 100,
   );
 }
