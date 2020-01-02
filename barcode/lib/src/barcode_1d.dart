@@ -36,6 +36,7 @@ abstract class Barcode1D extends Barcode {
   ///   print(op);
   /// }
   /// ```
+  @override
   Iterable<BarcodeElement> make(
     String data, {
     @required double width,
