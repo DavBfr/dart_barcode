@@ -17,12 +17,13 @@
 // ignore_for_file: omit_local_variable_types
 
 import 'package:barcode/barcode.dart';
+import 'package:barcode/src/barcode_1d.dart';
 import 'package:barcode/src/code39.dart';
 import 'package:test/test.dart';
 
 void main() {
   test('Barcode CODE 39 full alphabet', () {
-    final Barcode bc = Barcode.code39();
+    final Barcode1D bc = Barcode.code39();
     expect(bc.toHex(r'0'), equals('da529b6a4b'));
     expect(bc.toHex(r'1'), equals('dad24a6b4b'));
     expect(bc.toHex(r'2'), equals('dad2ca6a4b'));

@@ -19,4 +19,3 @@
 export 'src/barcode.dart';
 export 'src/barcode_exception.dart';
 export 'src/barcode_operations.dart';
-export 'src/barcode_svg.dart';

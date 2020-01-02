@@ -16,11 +16,11 @@
 
 // ignore_for_file: omit_local_variable_types
 
-import 'barcode.dart';
+import 'barcode_1d.dart';
 import 'barcode_exception.dart';
 import 'barcode_maps.dart';
 
-class BarcodeCode128 extends Barcode {
+class BarcodeCode128 extends Barcode1D {
   const BarcodeCode128(this.useCode128A, this.useCode128B, this.useCode128C)
       : assert(useCode128A || useCode128B || useCode128C,
             'Enable at least one of the CODE 128 tables');

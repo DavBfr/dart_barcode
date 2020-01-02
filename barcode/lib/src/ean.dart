@@ -18,10 +18,10 @@
 
 import 'package:meta/meta.dart';
 
-import 'barcode.dart';
+import 'barcode_1d.dart';
 import 'barcode_exception.dart';
 
-abstract class BarcodeEan extends Barcode {
+abstract class BarcodeEan extends Barcode1D {
   const BarcodeEan();
 
   @override

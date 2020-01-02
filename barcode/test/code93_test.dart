@@ -17,12 +17,13 @@
 // ignore_for_file: omit_local_variable_types
 
 import 'package:barcode/barcode.dart';
+import 'package:barcode/src/barcode_1d.dart';
 import 'package:barcode/src/code93.dart';
 import 'package:test/test.dart';
 
 void main() {
   test('Barcode CODE 93 full alphabet', () {
-    final Barcode bc = Barcode.code93();
+    final Barcode1D bc = Barcode.code93();
     expect(bc.toHex(r'0'), equals('bd52a448d12b'));
     expect(bc.toHex(r'1'), equals('bda458ad42b'));
     expect(bc.toHex(r'2'), equals('bd8a244ad42b'));
@@ -92,7 +93,7 @@ void main() {
   });
 
   test('Barcode CODE 93 > 15 chars', () {
-    final Barcode bc = Barcode.code93();
+    final Barcode1D bc = Barcode.code93();
     expect(
       bc.toHex('EXACTLY 14 CHR'),
       equals('bd32852a9bac68e928914ab789d5b468d466257b5'),

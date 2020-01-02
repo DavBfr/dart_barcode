@@ -16,9 +16,11 @@
 
 // ignore_for_file: omit_local_variable_types
 
+import 'dart:convert';
+
 import 'package:meta/meta.dart';
 
-import '../barcode.dart';
+import 'barcode_exception.dart';
 import 'barcode_operations.dart';
 import 'code128.dart';
 import 'code39.dart';
@@ -117,7 +119,7 @@ abstract class Barcode {
   /// ![UPC E](https://raw.githubusercontent.com/DavBfr/dart_barcode/master/img/upc-e.svg?sanitize=true)
   static Barcode upcE({bool fallback = false}) => BarcodeUpcE(fallback);
 
-  /// Main method to produce the barcode graphic desctiotion.
+  /// Main method to produce the barcode graphic description.
   /// Returns a stream of drawing operations required to properly
   /// display the barcode.
   ///
@@ -133,134 +135,7 @@ abstract class Barcode {
     @required double height,
     bool drawText = false,
     double fontHeight,
-  }) sync* {
-    assert(data != null);
-    assert(width != null && width > 0);
-    assert(height != null && height > 0);
-    assert(!drawText || fontHeight != null);
-
-    final List<bool> bits = convert(data).toList();
-
-    if (bits.isEmpty) {
-      return;
-    }
-
-    final double top = marginTop(drawText, height, fontHeight);
-    final double left = marginLeft(drawText, width, fontHeight);
-    final double right = marginRight(drawText, width, fontHeight);
-    final double lineWidth = (width - left - right) / bits.length;
-
-    bool color = bits.first;
-    int count = 1;
-
-    for (int i = 1; i < bits.length; i++) {
-      if (color == bits[i]) {
-        count++;
-        continue;
-      }
-
-      yield BarcodeBar(
-        left: left + (i - count) * lineWidth,
-        top: top,
-        width: count * lineWidth,
-        height: getHeight(i - count, count, height - top, fontHeight, drawText),
-        black: color,
-      );
-
-      color = bits[i];
-      count = 1;
-    }
-
-    final int l = bits.length;
-    yield BarcodeBar(
-      left: left + (l - count) * lineWidth,
-      top: top,
-      width: count * lineWidth,
-      height: getHeight(l - count, count, height - top, fontHeight, drawText),
-      black: color,
-    );
-
-    if (drawText) {
-      yield* makeText(data, width, height, fontHeight, lineWidth);
-    }
-  }
-
-  /// Get the bar height for a specific index
-  @protected
-  double getHeight(
-    int index,
-    int count,
-    double height,
-    double fontHeight,
-    bool drawText,
-  ) {
-    return height - (drawText ? fontHeight : 0);
-  }
-
-  /// Margin at the top of the barcode
-  @protected
-  double marginTop(bool drawText, double height, double fontHeight) => 0;
-
-  /// Margin before the first bar
-  @protected
-  double marginLeft(bool drawText, double width, double fontHeight) => 0;
-
-  /// Margin after the last bar
-  @protected
-  double marginRight(bool drawText, double width, double fontHeight) => 0;
-
-  /// Stream the text operations required to draw the
-  /// barcode texts. This is automatically called by `make`
-  @protected
-  Iterable<BarcodeText> makeText(
-    String data,
-    double width,
-    double height,
-    double fontHeight,
-    double lineWidth,
-  ) sync* {
-    yield BarcodeText(
-      left: 0,
-      top: height - fontHeight,
-      width: width,
-      height: fontHeight,
-      text: data,
-      align: BarcodeTextAlign.center,
-    );
-  }
-
-  /// Build a stream of `bool` that represents a white or black bar
-  /// from a bit encoded `int` with count as the number of bars to draw
-  @protected
-  Iterable<bool> add(int data, int count) sync* {
-    for (int i = 0; i < count; i++) {
-      yield (1 & (data >> i)) == 1;
-    }
-  }
-
-  /// Computes a hexadecimal representation of the barcode, mostly for
-  /// testing purposes
-  String toHex(String data) {
-    String intermediate = '';
-    for (bool bit in convert(data)) {
-      intermediate += bit ? '1' : '0';
-    }
-
-    String result = '';
-    while (intermediate.length > 8) {
-      final String sub = intermediate.substring(intermediate.length - 8);
-      result += int.parse(sub, radix: 2).toRadixString(16);
-      intermediate = intermediate.substring(0, intermediate.length - 8);
-    }
-    result += int.parse(intermediate, radix: 2).toRadixString(16);
-
-    return result;
-  }
-
-  /// Actual barcode computation method, returns a stream of `bool`
-  /// which represents the presence or absence of a bar
-  @protected
-  Iterable<bool> convert(String data);
+  });
 
   /// Check if the Barcode is valid
   bool isValid(String data) {
@@ -295,6 +170,106 @@ abstract class Barcode {
             'Unable to encode "${String.fromCharCode(code)}" to $name Barcode');
       }
     }
+  }
+
+  String _d(double d) {
+    assert(d != double.infinity);
+    return d.toStringAsFixed(5);
+  }
+
+  String _s(String s) {
+    const HtmlEscape esc = HtmlEscape();
+    return esc.convert(s);
+  }
+
+  String _c(int c) {
+    return '#' + (c & 0xffffff).toRadixString(16).padLeft(6, '0');
+  }
+
+  /// Create a SVG file with this Barcode
+  String toSvg(
+    String data, {
+    double x = 0,
+    double y = 0,
+    double width = 200,
+    double height = 80,
+    bool drawText = true,
+    String fontFamily = 'monospace',
+    double fontHeight,
+    int color = 0x000000,
+    bool fullSvg = true,
+    double baseline = .75,
+  }) {
+    assert(data != null);
+    assert(x != null);
+    assert(y != null);
+    assert(width != null);
+    assert(height != null);
+    assert(fontFamily != null);
+    assert(color != null);
+    assert(baseline != null);
+
+    fontHeight ??= height * 0.2;
+
+    final StringBuffer path = StringBuffer();
+    final StringBuffer tspan = StringBuffer();
+
+    // Draw the barcode
+    for (BarcodeElement elem in make(
+      data,
+      width: width.toDouble(),
+      height: height.toDouble(),
+      drawText: drawText,
+      fontHeight: fontHeight,
+    )) {
+      if (elem is BarcodeBar) {
+        if (elem.black) {
+          path.write('M ${_d(x + elem.left)} ${_d(y + elem.top)} ');
+          path.write('h ${_d(elem.width)} ');
+          path.write('v ${_d(elem.height)} ');
+          path.write('h ${_d(-elem.width)} ');
+          path.write('z ');
+        }
+      } else if (elem is BarcodeText) {
+        final double _y = y + elem.top + elem.height * baseline;
+
+        double _x;
+        String anchor;
+        switch (elem.align) {
+          case BarcodeTextAlign.left:
+            _x = x + elem.left;
+            anchor = 'start';
+            break;
+          case BarcodeTextAlign.center:
+            _x = x + elem.left + elem.width / 2;
+            anchor = 'middle';
+            break;
+          case BarcodeTextAlign.right:
+            _x = x + elem.left + elem.width;
+            anchor = 'end';
+            break;
+        }
+
+        tspan.write(
+            '<tspan style="text-anchor: $anchor" x="${_d(_x)}" y="${_d(_y)}">${_s(elem.text)}</tspan>');
+      }
+    }
+
+    final StringBuffer output = StringBuffer();
+    if (fullSvg) {
+      output.write(
+          '<svg viewBox="${_d(x)} ${_d(y)} ${_d(width)} ${_d(height)}" xmlns="http://www.w3.org/2000/svg">');
+    }
+
+    output.write('<path d="$path" style="fill: ${_c(color)}"/>');
+    output.write(
+        '<text style="fill: ${_c(color)}; font-family: &quot;${_s(fontFamily)}&quot;; font-size: ${_d(fontHeight)}px" x="${_d(x)}" y="${_d(y)}">$tspan</text>');
+
+    if (fullSvg) {
+      output.write('</svg>');
+    }
+
+    return output.toString();
   }
 
   /// Returns the list of accepted codePoints for this `Barcode`

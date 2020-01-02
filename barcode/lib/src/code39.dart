@@ -18,11 +18,11 @@
 
 import 'package:barcode/src/barcode_operations.dart';
 
-import 'barcode.dart';
+import 'barcode_1d.dart';
 import 'barcode_exception.dart';
 import 'barcode_maps.dart';
 
-class BarcodeCode39 extends Barcode {
+class BarcodeCode39 extends Barcode1D {
   const BarcodeCode39();
 
   @override

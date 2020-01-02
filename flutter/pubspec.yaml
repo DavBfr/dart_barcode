@@ -1,5 +1,5 @@
 name: barcode_widget
-description: |
+description: >-
   Barcode generation widget for Flutter with support for standard barcodes.
 author: David PHAM-VAN <dev.nfet.net@gmail.com
 homepage: https://github.com/DavBfr/dart_barcode/tree/master/flutter

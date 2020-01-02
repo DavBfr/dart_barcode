@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.4.1
+
+- Reorganize the library
+
 ## 1.4.0
 
 - Implement proper EAN-13 rendering

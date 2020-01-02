@@ -1,12 +1,12 @@
 name: barcode
-description: |
+description: >-
   Barcode generation library for Dart that can generate
   generic drawing operations for any backend.
 author: David PHAM-VAN <dev.nfet.net@gmail.com
 homepage: https://github.com/DavBfr/dart_barcode/tree/master/barcode
 repository: https://github.com/DavBfr/dart_barcode
 issue_tracker: https://github.com/DavBfr/dart_barcode/issues
-version: 1.4.0
+version: 1.4.1
 
 environment:
   sdk: ">=2.7.0 <3.0.0"

@@ -16,11 +16,11 @@
 
 // ignore_for_file: omit_local_variable_types
 
-import 'barcode.dart';
+import 'barcode_1d.dart';
 import 'barcode_exception.dart';
 import 'barcode_maps.dart';
 
-class BarcodeCode93 extends Barcode {
+class BarcodeCode93 extends Barcode1D {
   const BarcodeCode93();
 
   @override
