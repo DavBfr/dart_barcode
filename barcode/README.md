@@ -5,6 +5,7 @@ Barcode generation library for Dart that can generate generic drawing operations
 * If you are looking to print barcodes, use [pub:pdf](https://pub.dev/packages/pdf).
 * If you want to display barcodes in a Flutter application, use [pub:barcode_widget](https://pub.dev/packages/barcode_widget).
 * To generate SVG barcodes see the example tab.
+* To generate barcodes in images, use [pub:barcode_image](https://pub.dev/packages/barcode_image).
 
 They all use this library to generate the drawing operations.
 
@@ -20,6 +21,8 @@ Only two basic drawing primitives are required:
 * Text drawing to display the code in full-text
 
 See the example for how to use it.
+
+The following barcode images are SVG. The proper rendering, especially text, depends on the browser implementation and availability of the fonts.
 
 ## Code 39
 
