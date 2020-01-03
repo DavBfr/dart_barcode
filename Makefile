@@ -17,13 +17,13 @@
 
 all: format
 
-format: format-dart
+format: image/lib/src/pubspec.dart format-dart
 
 format-dart: $(DART_SRC)
 	dartfmt -w --fix $^
 
 .coverage:
-	pub global activate coverage
+	which coverage || pub global activate coverage
 	touch $@
 
 node_modules:
@@ -43,22 +43,28 @@ clean:
 	git clean -fdx -e .vscode
 
 publish-barcode: format clean
+	test -z "$(shell git status --porcelain)"
 	@find barcode -name pubspec.yaml -exec sed -i -e 's/^dependency_overrides:/_dependency_overrides:/g' '{}' ';'
 	cd barcode; pub publish -f
 	@find barcode -name pubspec.yaml -exec sed -i -e 's/^_dependency_overrides:/dependency_overrides:/g' '{}' ';'
+	git tag $(shell grep version image/pubspec.yaml | sed 's/version\s*:\s*/barcode-/g')
 
 publish-flutter: format clean
+	test -z "$(shell git status --porcelain)"
 	@find flutter -name pubspec.yaml -exec sed -i -e 's/^dependency_overrides:/_dependency_overrides:/g' '{}' ';'
 	cd flutter; pub publish -f
 	@find flutter -name pubspec.yaml -exec sed -i -e 's/^_dependency_overrides:/dependency_overrides:/g' '{}' ';'
+	git tag $(shell grep version flutter/pubspec.yaml | sed 's/version\s*:\s*/barcode_widget-/g')
 
 publish-image: format clean
+	test -z "$(shell git status --porcelain)"
 	@find image -name pubspec.yaml -exec sed -i -e 's/^dependency_overrides:/_dependency_overrides:/g' '{}' ';'
 	cd image; pub publish -f
 	@find image -name pubspec.yaml -exec sed -i -e 's/^_dependency_overrides:/dependency_overrides:/g' '{}' ';'
+	git tag $(shell grep version image/pubspec.yaml | sed 's/version\s*:\s*/barcode_image-/g')
 
 .pana:
-	pub global activate pana
+	which pana || pub global activate pana
 	touch $@
 
 analyze-barcode: .pana
@@ -77,8 +83,15 @@ analyze-image: .pana
 	@pub global run pana --no-warning --source path image
 	@find image -name pubspec.yaml -exec sed -i -e 's/^_dependency_overrides:/dependency_overrides:/g' '{}' ';'
 
+.pubspec_extract:
+	which pubspec_extract || pub global activate pubspec_extract
+	touch $@
+
+image/lib/src/pubspec.dart: image/pubspec.yaml .pubspec_extract
+	pubspec_extract -s "$<" -d "$@"
+
 .dartfix:
-	pub global activate dartfix
+	which dartfix || pub global activate dartfix
 	touch $@
 
 fix: .dartfix

@@ -14,9 +14,9 @@ class Pubspec {
   static const String issue_tracker =
       'https://github.com/DavBfr/dart_barcode/issues';
 
-  static const String versionFull = '1.0.0';
+  static const String versionFull = '1.0.2';
 
-  static const String version = '1.0.0';
+  static const String version = '1.0.2';
 
   static const String versionSmall = '1.0';
 
@@ -24,7 +24,7 @@ class Pubspec {
 
   static const int versionMinor = 0;
 
-  static const int versionPatch = 0;
+  static const int versionPatch = 2;
 
   static const int versionBuild = 0;
 
@@ -40,6 +40,7 @@ class Pubspec {
     'barcode': '^1.3.0',
     'meta': '^1.1.5',
     'image': '^2.1.0',
+    'args': '^1.5.0',
   };
 
   static const Map<dynamic, dynamic> dependency_overrides = <dynamic, dynamic>{
@@ -57,12 +58,14 @@ class Pubspec {
   };
 
   static const List<String> authors = <String>[
-    'David PHAM-VAN <dev.nfet.net@gmail.com',
+    'David PHAM-VAN <dev.nfet.net@gmail.com>',
   ];
 
   static const List<String> authorsName = <String>[
     'David PHAM-VAN',
   ];
 
-  static const List<String> authorsEmail = <String>[];
+  static const List<String> authorsEmail = <String>[
+    '<dev.nfet.net@gmail.com>',
+  ];
 }
