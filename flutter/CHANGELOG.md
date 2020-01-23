@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.2.2
+
+- Fix GestureDetector doesn't work
+
 ## 1.2.1
 
 - Fix README

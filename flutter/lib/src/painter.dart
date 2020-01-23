@@ -200,4 +200,7 @@ class RenderBarcode extends RenderBox {
       }());
     }
   }
+
+  @override
+  bool hitTestSelf(Offset position) => true;
 }
