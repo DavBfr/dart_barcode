@@ -66,6 +66,6 @@ class Pubspec {
   ];
 
   static const List<String> authorsEmail = <String>[
-    '<dev.nfet.net@gmail.com>',
+    'dev.nfet.net@gmail.com',
   ];
 }

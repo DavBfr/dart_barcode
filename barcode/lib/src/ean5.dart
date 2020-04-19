@@ -20,7 +20,9 @@ import 'barcode_exception.dart';
 import 'barcode_maps.dart';
 import 'ean2.dart';
 
+/// EAN 5 Barcode Generator
 class BarcodeEan5 extends BarcodeEan2 {
+  /// EAN 5 Barcode Generator
   const BarcodeEan5();
 
   @override

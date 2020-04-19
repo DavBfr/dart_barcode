@@ -21,7 +21,9 @@ import 'barcode_maps.dart';
 import 'barcode_operations.dart';
 import 'ean.dart';
 
+/// EAN 2 Barcode Generator
 class BarcodeEan2 extends BarcodeEan {
+  /// EAN 2 Barcode Generator
   const BarcodeEan2();
 
   @override
