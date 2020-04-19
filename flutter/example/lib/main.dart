@@ -92,6 +92,10 @@ Widget _barcodeInfo(BarcodeConf conf) {
       desc =
           'Telepen is a barcode designed in 1972 in the UK to express all 128 ASCII characters without using shift characters for code switching, and using only two different widths for bars and spaces.';
       break;
+    case BarcodeType.QrCode:
+      desc =
+          'QR code (abbreviated from Quick Response code) is the trademark for a type of matrix barcode (or two-dimensional barcode) first designed in 1994 for the automotive industry in Japan.';
+      break;
   }
 
   return Center(

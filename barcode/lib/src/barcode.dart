@@ -29,9 +29,12 @@ import 'ean5.dart';
 import 'ean8.dart';
 import 'isbn.dart';
 import 'itf14.dart';
+import 'qrcode.dart';
 import 'telepen.dart';
 import 'upca.dart';
 import 'upce.dart';
+
+export 'qrcode.dart' show BarcodeQRCorrectionLevel;
 
 /// Supported barcode types
 enum BarcodeType {
@@ -73,6 +76,9 @@ enum BarcodeType {
 
   /// Telepen Barcode
   Telepen,
+
+  /// QR Code
+  QrCode,
 }
 
 /// Barcode generation class
@@ -118,6 +124,8 @@ abstract class Barcode {
         return Barcode.upcE();
       case BarcodeType.Telepen:
         return Barcode.telepen();
+      case BarcodeType.QrCode:
+        return Barcode.qrCode();
       default:
         throw UnimplementedError('Barcode $type not supported');
     }
@@ -185,6 +193,14 @@ abstract class Barcode {
   /// Create a Telepen [Barcode] instance
   /// ![Telepen](https://raw.githubusercontent.com/DavBfr/dart_barcode/master/img/telepen.svg?sanitize=true)
   static Barcode telepen() => const BarcodeTelepen();
+
+  /// Create a QR-Code [Barcode] instance
+  /// ![QR-Code](https://raw.githubusercontent.com/DavBfr/dart_barcode/master/img/qr-code.svg?sanitize=true)
+  static Barcode qrCode(
+          {int typeNumber,
+          BarcodeQRCorrectionLevel errorCorrectLevel =
+              BarcodeQRCorrectionLevel.low}) =>
+      BarcodeQR(typeNumber: typeNumber, errorCorrectLevel: errorCorrectLevel);
 
   /// Main method to produce the barcode graphic description.
   /// Returns a stream of drawing operations required to properly

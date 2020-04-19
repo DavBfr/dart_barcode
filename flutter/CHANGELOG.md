@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.2.3
+
+- Fix 2D Codes pixel gap
+
 ## 1.2.2
 
 - Fix GestureDetector doesn't work

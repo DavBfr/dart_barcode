@@ -95,4 +95,9 @@ void main() {
     Barcode.telepen(),
     'Telepen',
   );
+
+  buildBarcode(
+    Barcode.qrCode(),
+    'QR-Code',
+  );
 }

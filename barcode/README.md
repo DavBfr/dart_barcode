@@ -80,7 +80,10 @@ The following barcode images are SVG. The proper rendering, especially text, dep
 
 <img alt="UPC E" src="https://raw.githubusercontent.com/DavBfr/dart_barcode/master/img/upc-e.svg?sanitize=true">
 
-
 ## Telepen
 
 <img alt="Telepen" src="https://raw.githubusercontent.com/DavBfr/dart_barcode/master/img/telepen.svg?sanitize=true">
+
+## QR-Code
+
+<img alt="QR-Code" src="https://raw.githubusercontent.com/DavBfr/dart_barcode/master/img/qr-code.svg?sanitize=true">

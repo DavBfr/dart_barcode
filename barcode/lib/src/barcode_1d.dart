@@ -20,7 +20,6 @@ import 'barcode.dart';
 import 'barcode_operations.dart';
 
 /// One Dimension Barcode generation class
-@immutable
 abstract class Barcode1D extends Barcode {
   /// Create a [Barcode1D] object
   const Barcode1D();

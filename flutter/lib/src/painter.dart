@@ -69,7 +69,9 @@ class BarcodePainter extends LeafRenderObjectWidget {
       renderObject
         ..data = data
         ..barcode = barcode
-        ..barStyle = (Paint()..color = color)
+        ..barStyle = (Paint()
+          ..color = color
+          ..isAntiAlias = false)
         ..drawText = drawText
         ..style = style;
       renderObject.markNeedsPaint();

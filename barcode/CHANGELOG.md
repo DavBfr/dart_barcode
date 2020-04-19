@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.7.0
+
+- Add QR-Code
+
 ## 1.6.0
 
 - Add Telepen
