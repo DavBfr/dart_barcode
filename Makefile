@@ -47,7 +47,7 @@ publish-barcode: format clean
 	@find barcode -name pubspec.yaml -exec sed -i -e 's/^dependency_overrides:/_dependency_overrides:/g' '{}' ';'
 	cd barcode; pub publish -f
 	@find barcode -name pubspec.yaml -exec sed -i -e 's/^_dependency_overrides:/dependency_overrides:/g' '{}' ';'
-	git tag $(shell grep version image/pubspec.yaml | sed 's/version\s*:\s*/barcode-/g')
+	git tag $(shell grep version barcode/pubspec.yaml | sed 's/version\s*:\s*/barcode-/g')
 
 publish-flutter: format clean
 	test -z "$(shell git status --porcelain)"
