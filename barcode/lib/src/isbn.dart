@@ -14,14 +14,19 @@
  * limitations under the License.
  */
 
-// ignore_for_file: omit_local_variable_types
-
 import 'barcode_operations.dart';
 import 'ean13.dart';
 
+/// ISBN Barcode
+///
+/// The International Standard Book Number is a numeric commercial book
+/// identifier which is intended to be unique. Publishers purchase ISBNs
+/// from an affiliate of the International ISBN Agency.
 class BarcodeIsbn extends BarcodeEan13 {
+  /// Create an ISBN Barcode
   const BarcodeIsbn(bool drawEndChar, this.drawIsbn) : super(drawEndChar);
 
+  /// Draw the ISBN number as text on the top of the barcode
   final bool drawIsbn;
 
   @override
@@ -46,8 +51,8 @@ class BarcodeIsbn extends BarcodeEan13 {
     yield* super.makeText(data, width, height, fontHeight, lineWidth);
 
     if (drawIsbn) {
-      final double top = marginTop(true, width, height, fontHeight);
-      final String isbn = data.substring(0, 3) +
+      final top = marginTop(true, width, height, fontHeight);
+      final isbn = data.substring(0, 3) +
           '-' +
           data.substring(3, 12) +
           '-' +

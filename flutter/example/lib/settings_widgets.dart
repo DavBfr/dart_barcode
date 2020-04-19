@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
+/// A dropdown
 class DropdownPreference<T> extends StatefulWidget {
+  /// Create a dropdown
   const DropdownPreference({
     @required this.title,
     this.desc,
@@ -9,12 +11,19 @@ class DropdownPreference<T> extends StatefulWidget {
     @required this.onRead,
   });
 
+  /// The title to display
   final String title;
+
+  /// The description
   final String desc;
 
+  /// The values the user can choose
   final Map<T, String> values;
 
+  /// Called when the value changes
   final Function(BuildContext context, dynamic value) onWrite;
+
+  /// Called to get the current value
   final T Function(BuildContext context) onRead;
 
   @override
@@ -24,13 +33,13 @@ class DropdownPreference<T> extends StatefulWidget {
 class _DropdownPreferenceState<T> extends State<DropdownPreference> {
   @override
   Widget build(BuildContext context) {
-    final value = widget.onRead(context);
+    final T value = widget.onRead(context);
 
     return ListTile(
       title: Text(widget.title),
       subtitle: widget.desc == null ? null : Text(widget.desc),
       trailing: DropdownButton<T>(
-        items: widget.values.keys.map((val) {
+        items: widget.values.keys.map<DropdownMenuItem<T>>((dynamic val) {
           return DropdownMenuItem<T>(
             value: val,
             child: Text(
@@ -48,7 +57,9 @@ class _DropdownPreferenceState<T> extends State<DropdownPreference> {
   }
 }
 
+/// A text entry setting
 class TextPreference extends StatefulWidget {
+  /// Create a text entry setting
   const TextPreference({
     this.title,
     this.desc,
@@ -58,11 +69,22 @@ class TextPreference extends StatefulWidget {
     this.enabled = true,
   });
 
+  /// The title
   final String title;
+
+  /// The description
   final String desc;
+
+  /// Ignore user interactions on the title
   final bool ignoreTileTap;
+
+  /// Enable user interactions
   final bool enabled;
+
+  /// Called when the value changes
   final Function(BuildContext context, String value) onWrite;
+
+  /// Called to get the current value
   final String Function(BuildContext context) onRead;
 
   @override

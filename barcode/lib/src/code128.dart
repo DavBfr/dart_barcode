@@ -14,13 +14,23 @@
  * limitations under the License.
  */
 
-// ignore_for_file: omit_local_variable_types
-
 import 'barcode_1d.dart';
 import 'barcode_exception.dart';
 import 'barcode_maps.dart';
 
+/// Code128 Barcode
+///
+/// Code 128 is a high-density linear barcode symbology defined in
+/// ISO/IEC 15417:2007. It is used for alphanumeric or numeric-only barcodes.
+/// It can encode all 128 characters of ASCII and, by use of an extension
+/// symbol, the Latin-1 characters defined in ISO/IEC 8859-1.
+///
+/// The GS1-128 is an application standard of the GS1.
+/// It uses a series of Application Identifiers to include additional data
+/// such as best before dates, batch numbers, quantities, weights and many
+/// other attributes needed by the user.
 class BarcodeCode128 extends Barcode1D {
+  /// Create a Code128 Barcode
   const BarcodeCode128(
     this.useCode128A,
     this.useCode128B,
@@ -29,12 +39,16 @@ class BarcodeCode128 extends Barcode1D {
   ) : assert(useCode128A || useCode128B || useCode128C,
             'Enable at least one of the CODE 128 tables');
 
+  /// Use Code 128 A table
   final bool useCode128A;
 
+  /// Use Code 128 B table
   final bool useCode128B;
 
+  /// Use Code 128 C table
   final bool useCode128C;
 
+  /// Generate a GS1-128 Barcode
   final bool isGS1;
 
   @override
@@ -45,26 +59,27 @@ class BarcodeCode128 extends Barcode1D {
   @override
   String get name => isGS1 ? 'GS1 128' : 'CODE 128';
 
+  /// Find the shortest code using a mix of tables A B or C
   Iterable<int> shortestCode(List<int> data) {
-    /// table is defined as:
-    ///   0 = 000 no table set
-    ///   1 = 001 table A
-    ///   2 = 010 table B
-    ///   4 = 100 table C
-    int table = 0;
+    // table is defined as:
+    //   0 = 000 no table set
+    //   1 = 001 table A
+    //   2 = 010 table B
+    //   4 = 100 table C
+    var table = 0;
 
-    /// the last table seen
-    ///   0 = none
-    ///   1 = table A
-    ///   2 = table B
-    ///   3 = table C
-    int lastTable = 0;
+    // the last table seen
+    //   0 = none
+    //   1 = table A
+    //   2 = table B
+    //   3 = table C
+    var lastTable = 0;
 
-    /// the number of chars for the current table
-    int length = 0;
-    int digitCount = 0;
+    // the number of chars for the current table
+    var length = 0;
+    var digitCount = 0;
 
-    final List<int> result = <int>[];
+    final result = <int>[];
 
     void addFrom(List<int> data, int start) {
       Map<int, int> t;
@@ -100,27 +115,27 @@ class BarcodeCode128 extends Barcode1D {
       // Add sublist(start, length + start)
       if (lastTable == 3) {
         // Encode Code 128C $digitCount
-        for (int i = digitCount ~/ 2 - 1; i >= 0; i--) {
-          final int digit = data[start + i * 2 + 1] -
+        for (var i = digitCount ~/ 2 - 1; i >= 0; i--) {
+          final digit = data[start + i * 2 + 1] -
               0x30 +
               (data[start + i * 2] - 0x30) * 10;
           result.add(t[digit]);
         }
       } else {
-        for (int c in data.sublist(start, length + start).reversed) {
+        for (var c in data.sublist(start, length + start).reversed) {
           result.add(t[c]);
         }
       }
     }
 
-    for (int index = data.length - 1; index >= 0; index--) {
-      final int code = data[index];
+    for (var index = data.length - 1; index >= 0; index--) {
+      final code = data[index];
 
-      final bool codeA = useCode128A && BarcodeMaps.code128A.containsKey(code);
-      final bool codeB = useCode128B && BarcodeMaps.code128B.containsKey(code);
-      final bool codeC = useCode128C && (code >= 0x30 && code <= 0x39);
+      final codeA = useCode128A && BarcodeMaps.code128A.containsKey(code);
+      final codeB = useCode128B && BarcodeMaps.code128B.containsKey(code);
+      final codeC = useCode128C && (code >= 0x30 && code <= 0x39);
 
-      int available = 0;
+      var available = 0;
       if (codeA) {
         available = 1;
       }
@@ -173,7 +188,7 @@ class BarcodeCode128 extends Barcode1D {
         table = available;
         length++;
       } else {
-        final int newTable = table & available;
+        final newTable = table & available;
         if (newTable == 0) {
           // Change table to any of $table
           addFrom(data, index + 1);
@@ -220,19 +235,19 @@ class BarcodeCode128 extends Barcode1D {
 
   @override
   Iterable<bool> convert(String data) sync* {
-    final List<int> checksum = <int>[];
+    final checksum = <int>[];
 
-    for (int codeIndex in shortestCode(data.codeUnits)) {
-      final int codeValue = BarcodeMaps.code128[codeIndex];
+    for (var codeIndex in shortestCode(data.codeUnits)) {
+      final codeValue = BarcodeMaps.code128[codeIndex];
       yield* add(codeValue, BarcodeMaps.code128Len);
       checksum.add(codeIndex);
     }
 
     // Checksum
-    int sum = 0;
-    for (int index = 0; index < checksum.length; index++) {
-      final int code = checksum[index];
-      final int mul = index == 0 ? 1 : index;
+    var sum = 0;
+    for (var index = 0; index < checksum.length; index++) {
+      final code = checksum[index];
+      final mul = index == 0 ? 1 : index;
       sum += code * mul;
     }
     sum = sum % 103;

@@ -14,8 +14,6 @@
  * limitations under the License.
  */
 
-// ignore_for_file: omit_local_variable_types
-
 export 'src/barcode.dart';
 export 'src/barcode_exception.dart';
 export 'src/barcode_operations.dart';

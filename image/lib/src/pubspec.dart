@@ -1,5 +1,7 @@
 // This file is generated automatically, do not modify
 
+// ignore_for_file: public_member_api_docs
+
 class Pubspec {
   static const String name = 'barcode_image';
 

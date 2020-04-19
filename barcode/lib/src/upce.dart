@@ -14,15 +14,23 @@
  * limitations under the License.
  */
 
-// ignore_for_file: omit_local_variable_types
-
 import 'barcode_exception.dart';
 import 'barcode_maps.dart';
 import 'barcode_operations.dart';
 import 'ean.dart';
 import 'upca.dart';
 
+/// UPC-E Barcode
+///
+/// The Universal Product Code is a barcode symbology that is widely used in
+/// the United States, Canada, Europe, Australia, New Zealand, and other
+/// countries for tracking trade items in stores. To allow the use of UPC
+/// barcodes on smaller packages, where a full 12-digit barcode may not fit,
+/// a zero-suppressed version of UPC was developed, called UPC-E, in which
+/// the number system digit, all trailing zeros in the manufacturer code,
+/// and all leading zeros in the product code, are suppressed.
 class BarcodeUpcE extends BarcodeEan {
+  /// Create an UPC-E Barcode
   const BarcodeUpcE(this.fallback);
 
   /// Fallback to UPC-A if the code cannot be converted to UPC-E
@@ -39,7 +47,7 @@ class BarcodeUpcE extends BarcodeEan {
 
   @override
   void verify(String data) {
-    final String upca = checkLength(data, maxLength);
+    final upca = checkLength(data, maxLength);
     if (!fallback) {
       _upcaToUpce(upca);
     }
@@ -47,15 +55,15 @@ class BarcodeUpcE extends BarcodeEan {
   }
 
   String _upcaToUpce(String data) {
-    final RegExp exp = RegExp(r'^[01](\d\d+)([0-2]000[05-9])(\d*)\d$');
-    final RegExpMatch match = exp.firstMatch(data);
+    final exp = RegExp(r'^[01](\d\d+)([0-2]000[05-9])(\d*)\d$');
+    final match = exp.firstMatch(data);
 
     if (match == null) {
       throw BarcodeException('Unable to convert "$data" to $name Barcode');
     }
 
-    final String left = match.group(1);
-    final String right = match.group(3);
+    final left = match.group(1);
+    final right = match.group(3);
     String last;
 
     switch (match.group(2)) {
@@ -101,8 +109,8 @@ class BarcodeUpcE extends BarcodeEan {
   @override
   Iterable<bool> convert(String data) sync* {
     data = checkLength(data, maxLength);
-    final int first = data.codeUnitAt(0);
-    final int last = data.codeUnitAt(11);
+    final first = data.codeUnitAt(0);
+    final last = data.codeUnitAt(11);
 
     try {
       data = _upcaToUpce(data);
@@ -117,12 +125,12 @@ class BarcodeUpcE extends BarcodeEan {
     // Start
     yield* add(BarcodeMaps.eanStartEnd, 3);
 
-    final int parityRow = BarcodeMaps.upce[last];
-    final int parity = first == 0x30 ? parityRow : parityRow ^ 0x3f;
+    final parityRow = BarcodeMaps.upce[last];
+    final parity = first == 0x30 ? parityRow : parityRow ^ 0x3f;
 
-    int index = 0;
-    for (int code in data.codeUnits) {
-      final List<int> codes = BarcodeMaps.ean[code];
+    var index = 0;
+    for (var code in data.codeUnits) {
+      final codes = BarcodeMaps.ean[code];
 
       if (codes == null) {
         throw BarcodeException(
@@ -170,7 +178,7 @@ class BarcodeUpcE extends BarcodeEan {
       return super.getHeight(index, count, width, height, fontHeight, drawText);
     }
 
-    final double h = height - fontHeight;
+    final h = height - fontHeight;
 
     if (index + count < 4 || index > 44) {
       return h + fontHeight / 2;
@@ -188,8 +196,8 @@ class BarcodeUpcE extends BarcodeEan {
     double lineWidth,
   ) sync* {
     data = checkLength(data, maxLength);
-    final String first = data.substring(0, 1);
-    final String last = data.substring(11, 12);
+    final first = data.substring(0, 1);
+    final last = data.substring(11, 12);
 
     try {
       data = _upcaToUpce(data);
@@ -202,9 +210,9 @@ class BarcodeUpcE extends BarcodeEan {
       rethrow;
     }
 
-    final double w = lineWidth * 7;
-    final double left = marginLeft(true, width, height, fontHeight);
-    final double right = marginRight(true, width, height, fontHeight);
+    final w = lineWidth * 7;
+    final left = marginLeft(true, width, height, fontHeight);
+    final right = marginRight(true, width, height, fontHeight);
 
     yield BarcodeText(
       left: 0,
@@ -215,9 +223,9 @@ class BarcodeUpcE extends BarcodeEan {
       align: BarcodeTextAlign.right,
     );
 
-    double offset = left + lineWidth * 3;
+    var offset = left + lineWidth * 3;
 
-    for (int i = 0; i < data.length; i++) {
+    for (var i = 0; i < data.length; i++) {
       yield BarcodeText(
         left: offset,
         top: height - fontHeight,

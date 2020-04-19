@@ -14,14 +14,19 @@
  * limitations under the License.
  */
 
-// ignore_for_file: omit_local_variable_types
-
 import 'barcode_exception.dart';
 import 'barcode_maps.dart';
 import 'barcode_operations.dart';
 import 'ean.dart';
 
+/// UPC-A Barcode
+///
+/// The Universal Product Code is a barcode symbology that is widely used in
+/// the United States, Canada, Europe, Australia, New Zealand, and other
+/// countries for tracking trade items in stores. UPC consists of 12 numeric
+/// digits that are uniquely assigned to each trade item.
 class BarcodeUpcA extends BarcodeEan {
+  /// Create an UPC-A Barcode
   const BarcodeUpcA();
 
   @override
@@ -46,9 +51,9 @@ class BarcodeUpcA extends BarcodeEan {
     // Start
     yield* add(BarcodeMaps.eanStartEnd, 3);
 
-    int index = 0;
-    for (int code in data.codeUnits) {
-      final List<int> codes = BarcodeMaps.ean[code];
+    var index = 0;
+    for (var code in data.codeUnits) {
+      final codes = BarcodeMaps.ean[code];
 
       if (codes == null) {
         throw BarcodeException(
@@ -108,7 +113,7 @@ class BarcodeUpcA extends BarcodeEan {
       return super.getHeight(index, count, width, height, fontHeight, drawText);
     }
 
-    final double h = height - fontHeight;
+    final h = height - fontHeight;
 
     if (index + count < 11 || (index > 45 && index < 49) || index > 82) {
       return h + fontHeight / 2;
@@ -125,10 +130,10 @@ class BarcodeUpcA extends BarcodeEan {
     double fontHeight,
     double lineWidth,
   ) sync* {
-    final String text = checkLength(data, maxLength);
-    final double w = lineWidth * 7;
-    final double left = marginLeft(true, width, height, fontHeight);
-    final double right = marginRight(true, width, height, fontHeight);
+    final text = checkLength(data, maxLength);
+    final w = lineWidth * 7;
+    final left = marginLeft(true, width, height, fontHeight);
+    final right = marginRight(true, width, height, fontHeight);
 
     yield BarcodeText(
       left: 0,
@@ -139,9 +144,9 @@ class BarcodeUpcA extends BarcodeEan {
       align: BarcodeTextAlign.right,
     );
 
-    double offset = left + lineWidth * 10;
+    var offset = left + lineWidth * 10;
 
-    for (int i = 1; i < text.length - 1; i++) {
+    for (var i = 1; i < text.length - 1; i++) {
       yield BarcodeText(
         left: offset,
         top: height - fontHeight,

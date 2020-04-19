@@ -369,14 +369,14 @@ def itf14():
         'End': '11101',
     }
 
-    print('/// ITF 14 conversion bits')
+    print('/// ITF-14 conversion bits')
     print('static const Map<int, int> itf14 = <int, int>{')
     for k, v in data.items():
         print(
             f'{hex(ord(k))}: {hex(int(v[::-1], 2))},')
     print('};\n')
 
-    print('/// ITF misc bits')
+    print('/// ITF-14 misc bits')
     for name in misc:
         print(f'static const int itf{name} = {hex(int(misc[name][::-1], 2))};')
 
@@ -552,6 +552,7 @@ if __name__ == '__main__':
     print(' */')
     print('')
     print('// ignore_for_file: omit_local_variable_types')
+    print('// ignore_for_file: public_member_api_docs')
     print('')
     print('class BarcodeMaps {')
 

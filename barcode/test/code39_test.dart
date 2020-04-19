@@ -14,8 +14,6 @@
  * limitations under the License.
  */
 
-// ignore_for_file: omit_local_variable_types
-
 import 'package:barcode/barcode.dart';
 import 'package:barcode/src/barcode_1d.dart';
 import 'package:barcode/src/code39.dart';
@@ -50,12 +48,12 @@ void main() {
   });
 
   test('Barcode CODE 39 operations', () {
-    final Barcode bc = Barcode.code39();
+    final bc = Barcode.code39();
     expect(bc.make('A', width: 1, height: 1).toList().length, equals(30));
   });
 
   test('Barcode CODE 39 error', () {
-    final Barcode bc = Barcode.code39();
+    final bc = Barcode.code39();
     expect(() => bc.make('Léo', width: 1, height: 1),
         throwsA(const TypeMatcher<BarcodeException>()));
   });

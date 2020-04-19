@@ -14,8 +14,6 @@
  * limitations under the License.
  */
 
-// ignore_for_file: omit_local_variable_types
-
 import 'dart:ui' as ui;
 
 import 'package:barcode/barcode.dart';
@@ -23,8 +21,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
 
+/// Barcode renderer
 class BarcodePainter extends LeafRenderObjectWidget {
-  BarcodePainter(
+  /// Create a Barcode renderer
+  const BarcodePainter(
     this.data,
     this.barcode,
     this.color,
@@ -32,19 +32,24 @@ class BarcodePainter extends LeafRenderObjectWidget {
     this.style,
   ) : super();
 
+  /// The Data to include in the barcode
   final String data;
 
+  /// The barcode rendering object
   final Barcode barcode;
 
+  /// The color of the barcode elements, usually black
   final Color color;
 
+  /// Draw the text if any
   final bool drawText;
 
+  /// Text style to use
   final TextStyle style;
 
   @override
   RenderObject createRenderObject(BuildContext context) {
-    return RenderBarcode(
+    return _RenderBarcode(
       data,
       barcode,
       Paint()..color = color,
@@ -55,7 +60,7 @@ class BarcodePainter extends LeafRenderObjectWidget {
 
   @override
   void updateRenderObject(
-      BuildContext context, covariant RenderBarcode renderObject) {
+      BuildContext context, covariant _RenderBarcode renderObject) {
     if (renderObject.data != data ||
         renderObject.barcode != barcode ||
         renderObject.barStyle.color != color ||
@@ -72,8 +77,8 @@ class BarcodePainter extends LeafRenderObjectWidget {
   }
 }
 
-class RenderBarcode extends RenderBox {
-  RenderBarcode(
+class _RenderBarcode extends RenderBox {
+  _RenderBarcode(
     this.data,
     this.barcode,
     this.barStyle,
@@ -96,11 +101,11 @@ class RenderBarcode extends RenderBox {
 
   @override
   void performResize() {
-    Size _size = constraints.biggest;
+    var _size = constraints.biggest;
 
     if (_size.width >= double.infinity) {
       if (_size.height >= double.infinity) {
-        _size = Size(200, 100);
+        _size = const Size(200, 100);
       } else {
         _size = Size(_size.height * 2, _size.height);
       }
@@ -167,7 +172,7 @@ class RenderBarcode extends RenderBox {
   }
 
   void drawError(PaintingContext context, ui.Offset offset, String message) {
-    final RenderErrorBox errorBox = RenderErrorBox(message);
+    final errorBox = RenderErrorBox(message);
     errorBox.layout(constraints);
     errorBox.paint(context, offset);
   }
@@ -175,7 +180,7 @@ class RenderBarcode extends RenderBox {
   @override
   void paint(PaintingContext context, Offset offset) {
     try {
-      for (BarcodeElement element in barcode.make(
+      for (var element in barcode.make(
         data,
         width: size.width,
         height: size.height,

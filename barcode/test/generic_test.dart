@@ -14,8 +14,6 @@
  * limitations under the License.
  */
 
-// ignore_for_file: omit_local_variable_types
-
 import 'package:barcode/barcode.dart';
 import 'package:test/test.dart';
 
@@ -31,11 +29,11 @@ void main() {
   });
 
   test('Barcode operations', () {
-    final Barcode bc = Barcode.code39();
-    final Iterable<BarcodeElement> operations =
+    final bc = Barcode.code39();
+    final operations =
         bc.make('ABC', width: 200, height: 50, drawText: true, fontHeight: 10);
 
-    for (BarcodeElement op in operations) {
+    for (var op in operations) {
       expect(op.toString(), const TypeMatcher<String>());
     }
   });
@@ -63,8 +61,7 @@ void main() {
   });
 
   test('BarcodeElement', () {
-    const BarcodeElement be =
-        BarcodeElement(width: 1, height: 2, left: 3, top: 4);
+    const be = BarcodeElement(width: 1, height: 2, left: 3, top: 4);
 
     expect(be.toString(), const TypeMatcher<String>());
 
@@ -73,7 +70,7 @@ void main() {
   });
 
   test('BarcodeSvg', () {
-    final Barcode bc = Barcode.code128();
+    final bc = Barcode.code128();
     bc.toSvg('12345');
   });
 }

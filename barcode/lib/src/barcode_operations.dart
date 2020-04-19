@@ -14,12 +14,11 @@
  * limitations under the License.
  */
 
-// ignore_for_file: omit_local_variable_types
-
 import 'package:meta/meta.dart';
 
-/// `Barcode` drawing operation
+/// [Barcode] drawing operation
 class BarcodeElement {
+  /// Create a [Barcode] drawing operation
   const BarcodeElement({
     @required this.left,
     @required this.top,
@@ -54,6 +53,7 @@ class BarcodeElement {
 
 /// Rectangle drawing operation
 class BarcodeBar extends BarcodeElement {
+  /// Create a rectangle drawing operation to draw a white or black unit
   const BarcodeBar({
     @required double left,
     @required double top,
@@ -75,10 +75,21 @@ class BarcodeBar extends BarcodeElement {
       '$runtimeType [${black ? 'X' : ' '}] $left $top $width $height';
 }
 
-enum BarcodeTextAlign { left, center, right }
+/// Text alignement inside the [BarcodeText] zone
+enum BarcodeTextAlign {
+  /// Align on the middle left
+  left,
+
+  /// Align on the middle center
+  center,
+
+  /// Align on the middle right
+  right
+}
 
 /// Text drawing operation
 class BarcodeText extends BarcodeElement {
+  /// Create a ext drawing operation
   const BarcodeText({
     @required double left,
     @required double top,

@@ -14,43 +14,48 @@
  * limitations under the License.
  */
 
-// ignore_for_file: omit_local_variable_types
-
 import 'package:barcode/barcode.dart';
 import 'package:image/image.dart';
 
+/// Store the width and height of a rendered text
 class BitmapFontMetrics {
+  /// Create a BitmapFontMetrics structure
   const BitmapFontMetrics(this.width, this.height);
 
+  /// The width of the text in pixels
   final int width;
+
+  /// The height of the text in pixels
   final int height;
 }
 
+/// Extension on BitmapFont to add metrics calculation
 extension BitmapFontMetricsFunctions on BitmapFont {
+  /// Calculate the width and height in pixels of a text string
   BitmapFontMetrics getMetrics(String string) {
     if (string.isEmpty) {
       return const BitmapFontMetrics(0, 0);
     }
 
-    int width = 0;
-    int height = 0;
-    final List<int> cu = string.codeUnits;
+    var width = 0;
+    var height = 0;
+    final cu = string.codeUnits;
 
-    for (int c in cu.sublist(0, cu.length - 1)) {
+    for (var c in cu.sublist(0, cu.length - 1)) {
       if (!characters.containsKey(c)) {
         continue;
       }
 
-      final BitmapFontCharacter ch = characters[c];
+      final ch = characters[c];
       width += ch.xadvance;
       if (height < ch.height + ch.yoffset) {
         height = ch.height + ch.yoffset;
       }
     }
 
-    final int c = cu.last;
+    final c = cu.last;
     if (characters.containsKey(c)) {
-      final BitmapFontCharacter ch = characters[c];
+      final ch = characters[c];
       width += ch.width;
       if (height < ch.height + ch.yoffset) {
         height = ch.height + ch.yoffset;
@@ -77,7 +82,7 @@ void drawBarcode(
   height ??= image.height;
 
   // Draw the barcode
-  for (BarcodeElement elem in barcode.make(
+  for (var elem in barcode.make(
     data,
     width: width.toDouble(),
     height: height.toDouble(),
@@ -98,8 +103,8 @@ void drawBarcode(
       }
     } else if (elem is BarcodeText) {
       // Get string dimensions
-      final BitmapFontMetrics metrics = font.getMetrics(elem.text);
-      final double top = y + elem.top + elem.height - font.size;
+      final metrics = font.getMetrics(elem.text);
+      final top = y + elem.top + elem.height - font.size;
       double left;
 
       // Center the text

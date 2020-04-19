@@ -14,8 +14,6 @@
  * limitations under the License.
  */
 
-// ignore_for_file: omit_local_variable_types
-
 import 'dart:convert';
 
 import 'package:meta/meta.dart';
@@ -37,18 +35,43 @@ import 'upce.dart';
 
 /// Supported barcode types
 enum BarcodeType {
+  /// ITF14 Barcode
   CodeITF14,
+
+  /// EAN 13 barcode
   CodeEAN13,
+
+  /// EAN 8 barcode
   CodeEAN8,
+
+  /// EAN 5 barcode
   CodeEAN5,
+
+  /// EAN 2 barcode
   CodeEAN2,
+
+  /// ISBN barcode
   CodeISBN,
+
+  /// Code 39 barcode
   Code39,
+
+  /// Code 93 barcode
   Code93,
+
+  /// UPC-A barcode
   CodeUPCA,
+
+  /// UPC-E barcode
   CodeUPCE,
+
+  /// Code 128 barcode
   Code128,
+
+  /// GS1-128 barcode
   GS128,
+
+  /// Telepen Barcode
   Telepen,
 }
 
@@ -58,7 +81,7 @@ abstract class Barcode {
   /// Abstract constructor
   const Barcode();
 
-  /// Create a specific `Barcode` instance based on the `BarcodeType`
+  /// Create a specific [Barcode] instance based on the [BarcodeType]
   /// this uses only the default barcode settings.
   /// For finer-grained usage, use the static methods:
   /// * Barcode.code39()
@@ -100,15 +123,15 @@ abstract class Barcode {
     }
   }
 
-  /// Create a CODE 39 `Barcode` instance:
+  /// Create a CODE 39 [Barcode] instance:
   /// ![CODE 39](https://raw.githubusercontent.com/DavBfr/dart_barcode/master/img/code-39.svg?sanitize=true)
   static Barcode code39() => const BarcodeCode39();
 
-  /// Create a CODE 93 `Barcode` instance:
+  /// Create a CODE 93 [Barcode] instance:
   /// ![CODE 93](https://raw.githubusercontent.com/DavBfr/dart_barcode/master/img/code-93.svg?sanitize=true)
   static Barcode code93() => const BarcodeCode93();
 
-  /// Create a CODE 128 `Barcode` instance
+  /// Create a CODE 128 [Barcode] instance
   /// ![CODE 128 B](https://raw.githubusercontent.com/DavBfr/dart_barcode/master/img/code-128b.svg?sanitize=true)
   static Barcode code128(
           {bool useCode128A = true,
@@ -116,11 +139,11 @@ abstract class Barcode {
           bool useCode128C = true}) =>
       BarcodeCode128(useCode128A, useCode128B, useCode128C, false);
 
-  /// Create a GS1-128 `Barcode` instance
+  /// Create a GS1-128 [Barcode] instance
   /// ![GS1-128](https://raw.githubusercontent.com/DavBfr/dart_barcode/master/img/gs1-128.svg?sanitize=true)
   static Barcode gs128() => const BarcodeCode128(true, true, true, true);
 
-  /// Create an ITF 14 `Barcode` instance
+  /// Create an ITF 14 [Barcode] instance
   /// ![ITF 14](https://raw.githubusercontent.com/DavBfr/dart_barcode/master/img/itf-14.svg?sanitize=true)
   static Barcode itf14({
     bool drawBorder = true,
@@ -129,37 +152,37 @@ abstract class Barcode {
   }) =>
       BarcodeItf14(drawBorder, borderWidth, quietWidth);
 
-  /// Create an EAN 13 `Barcode` instance
+  /// Create an EAN 13 [Barcode] instance
   /// ![EAN 13](https://raw.githubusercontent.com/DavBfr/dart_barcode/master/img/ean-13.svg?sanitize=true)
   static Barcode ean13({bool drawEndChar = false}) => BarcodeEan13(drawEndChar);
 
-  /// Create an EAN 8 `Barcode` instance
+  /// Create an EAN 8 [Barcode] instance
   /// ![EAN 8](https://raw.githubusercontent.com/DavBfr/dart_barcode/master/img/ean-8.svg?sanitize=true)
   static Barcode ean8({bool drawSpacers = false}) => BarcodeEan8(drawSpacers);
 
-  /// Create an EAN 5 `Barcode` instance
+  /// Create an EAN 5 [Barcode] instance
   /// ![EAN 5](https://raw.githubusercontent.com/DavBfr/dart_barcode/master/img/ean-5.svg?sanitize=true)
   static Barcode ean5() => const BarcodeEan5();
 
-  /// Create an EAN 2 `Barcode` instance
+  /// Create an EAN 2 [Barcode] instance
   /// ![EAN 2](https://raw.githubusercontent.com/DavBfr/dart_barcode/master/img/ean-2.svg?sanitize=true)
   static Barcode ean2() => const BarcodeEan2();
 
-  /// Create an ISBN `Barcode` instance
+  /// Create an ISBN [Barcode] instance
   /// ![EAN 8](https://raw.githubusercontent.com/DavBfr/dart_barcode/master/img/isbn.svg?sanitize=true)
   static Barcode isbn({bool drawEndChar = false, bool drawIsbn = true}) =>
       BarcodeIsbn(drawEndChar, drawIsbn);
 
-  /// Create an UPC A `Barcode` instance
+  /// Create an UPC A [Barcode] instance
   /// ![UPC A](https://raw.githubusercontent.com/DavBfr/dart_barcode/master/img/upc-a.svg?sanitize=true)
   static Barcode upcA() => const BarcodeUpcA();
 
-  /// Create an UPC E `Barcode` instance
+  /// Create an UPC E [Barcode] instance
   /// * set fallback to true to silently try UPC-A if the code is not compatible with UPC-E
   /// ![UPC E](https://raw.githubusercontent.com/DavBfr/dart_barcode/master/img/upc-e.svg?sanitize=true)
   static Barcode upcE({bool fallback = false}) => BarcodeUpcE(fallback);
 
-  /// Create a Telepen `Barcode` instance
+  /// Create a Telepen [Barcode] instance
   /// ![Telepen](https://raw.githubusercontent.com/DavBfr/dart_barcode/master/img/telepen.svg?sanitize=true)
   static Barcode telepen() => const BarcodeTelepen();
 
@@ -192,7 +215,7 @@ abstract class Barcode {
     return true;
   }
 
-  /// Check if the Barcode is valid. Throws `BarcodeException` with a proper
+  /// Check if the Barcode is valid. Throws [BarcodeException] with a proper
   /// message in case of error
   @mustCallSuper
   void verify(String data) {
@@ -206,9 +229,9 @@ abstract class Barcode {
           'Unable to encode "$data", minimum length is $minLength for $name Barcode');
     }
 
-    final Set<int> chr = charSet.toSet();
+    final chr = charSet.toSet();
 
-    for (int code in data.codeUnits) {
+    for (var code in data.codeUnits) {
       if (!chr.contains(code)) {
         throw BarcodeException(
             'Unable to encode "${String.fromCharCode(code)}" to $name Barcode');
@@ -222,7 +245,7 @@ abstract class Barcode {
   }
 
   String _s(String s) {
-    const HtmlEscape esc = HtmlEscape();
+    const esc = HtmlEscape();
     return esc.convert(s);
   }
 
@@ -255,11 +278,11 @@ abstract class Barcode {
 
     fontHeight ??= height * 0.2;
 
-    final StringBuffer path = StringBuffer();
-    final StringBuffer tspan = StringBuffer();
+    final path = StringBuffer();
+    final tspan = StringBuffer();
 
     // Draw the barcode
-    for (BarcodeElement elem in make(
+    for (var elem in make(
       data,
       width: width.toDouble(),
       height: height.toDouble(),
@@ -275,7 +298,7 @@ abstract class Barcode {
           path.write('z ');
         }
       } else if (elem is BarcodeText) {
-        final double _y = y + elem.top + elem.height * baseline;
+        final _y = y + elem.top + elem.height * baseline;
 
         double _x;
         String anchor;
@@ -299,7 +322,7 @@ abstract class Barcode {
       }
     }
 
-    final StringBuffer output = StringBuffer();
+    final output = StringBuffer();
     if (fullSvg) {
       output.write(
           '<svg viewBox="${_d(x)} ${_d(y)} ${_d(width)} ${_d(height)}" xmlns="http://www.w3.org/2000/svg">');
@@ -316,18 +339,18 @@ abstract class Barcode {
     return output.toString();
   }
 
-  /// Returns the list of accepted codePoints for this `Barcode`
+  /// Returns the list of accepted codePoints for this [Barcode]
   Iterable<int> get charSet;
 
-  /// Returns the name of this `Barcode`
+  /// Returns the name of this [Barcode]
   String get name;
 
-  static const int infiniteMaxLength = 1000;
+  static const int _infiniteMaxLength = 1000;
 
-  /// Returns maximum length of this `Barcode`
-  int get maxLength => infiniteMaxLength;
+  /// Returns maximum number of characters this [Barcode] can encode
+  int get maxLength => _infiniteMaxLength;
 
-  /// Returns minimum length of this `Barcode`
+  /// Returns minimum number of characters this [Barcode] can encode
   int get minLength => 1;
 
   @override

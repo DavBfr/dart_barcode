@@ -14,8 +14,6 @@
  * limitations under the License.
  */
 
-// ignore_for_file: omit_local_variable_types
-
 import 'code128_test.dart' as code128;
 import 'code39_test.dart' as code39;
 import 'code93_test.dart' as code93;

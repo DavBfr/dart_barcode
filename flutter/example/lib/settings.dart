@@ -3,8 +3,11 @@ import 'package:flutter/material.dart';
 
 import 'settings_widgets.dart';
 
+/// Barcode configuration
 class BarcodeConf extends ChangeNotifier {
   BarcodeType _type = BarcodeType.Code128;
+
+  /// Barcode type
   BarcodeType get type => _type;
   set type(BarcodeType value) {
     _type = value;
@@ -12,22 +15,30 @@ class BarcodeConf extends ChangeNotifier {
   }
 
   String _data = 'HELLO';
+
+  /// Data to encode
   String get data => _data;
   set data(String value) {
     _data = value;
     notifyListeners();
   }
 
+  /// Size of the font
   double fontSize = 30;
 
+  /// height of the barcode
   double height = 160;
 
+  /// width of the barcode
   double width = 400;
 }
 
+/// Settings widget
 class Settings extends StatelessWidget {
-  Settings(this.conf);
+  /// Manage the barcode settings
+  const Settings(this.conf);
 
+  /// Barcode configuration
   final BarcodeConf conf;
 
   @override
@@ -42,7 +53,7 @@ class Settings extends StatelessWidget {
         DropdownPreference<BarcodeType>(
           title: 'Barcode Type',
           onRead: (context) => conf.type,
-          onWrite: (context, value) => conf.type = value,
+          onWrite: (context, dynamic value) => conf.type = value,
           values: types,
         ),
         TextPreference(

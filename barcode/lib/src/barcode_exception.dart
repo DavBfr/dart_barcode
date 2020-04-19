@@ -14,8 +14,6 @@
  * limitations under the License.
  */
 
-// ignore_for_file: omit_local_variable_types
-
 /// [Exception] raised if the library cannot generate the [Barcode]
 class BarcodeException implements Exception {
   /// Create a [BarcodeException] object

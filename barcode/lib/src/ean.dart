@@ -14,20 +14,25 @@
  * limitations under the License.
  */
 
-// ignore_for_file: omit_local_variable_types
-
 import 'package:meta/meta.dart';
 
 import 'barcode_1d.dart';
 import 'barcode_exception.dart';
 
+/// Base class to generate EAN Barcodes
+///
+/// International Article Number (also European Article Number or EAN),
+/// a standard describing a barcode symbology and numbering system
 abstract class BarcodeEan extends Barcode1D {
+  /// Create an EAN Barcode
   const BarcodeEan();
 
   @override
   Iterable<int> get charSet =>
       List<int>.generate(10, (int index) => index + 0x30);
 
+  /// Check the EAN Barcode length and verify the checksum.
+  /// if the checksum is omitted, calculate and append it to the data.
   @protected
   String checkLength(String data, int length) {
     if (data.length == length - 1) {
@@ -38,8 +43,8 @@ abstract class BarcodeEan extends Barcode1D {
             'Unable to encode "$data" to $name Barcode, it is not $length digits');
       }
 
-      final String last = data.substring(length - 1);
-      final String checksum = checkSumModulo10(data.substring(0, length - 1));
+      final last = data.substring(length - 1);
+      final checksum = checkSumModulo10(data.substring(0, length - 1));
 
       if (last != checksum) {
         throw BarcodeException(
@@ -50,10 +55,11 @@ abstract class BarcodeEan extends Barcode1D {
     return data;
   }
 
+  /// Calculate the Checksum using a modulo 10
   String checkSumModulo10(String data) {
-    int sum = 0;
-    int fak = data.length;
-    for (int c in data.codeUnits) {
+    var sum = 0;
+    var fak = data.length;
+    for (var c in data.codeUnits) {
       if (fak % 2 == 0) {
         sum += c - 0x30;
       } else {
@@ -68,10 +74,11 @@ abstract class BarcodeEan extends Barcode1D {
     }
   }
 
+  /// Calculate the Checksum using a modulo 11
   String checkSumModulo11(String data) {
-    int sum = 0;
-    int pos = 10;
-    for (int c in data.codeUnits) {
+    var sum = 0;
+    var pos = 10;
+    for (var c in data.codeUnits) {
       sum += (c - 0x30) * pos;
       pos--;
     }

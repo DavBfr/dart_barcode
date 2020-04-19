@@ -14,8 +14,6 @@
  * limitations under the License.
  */
 
-// ignore_for_file: omit_local_variable_types
-
 import 'package:meta/meta.dart';
 
 import 'barcode.dart';
@@ -27,16 +25,6 @@ abstract class Barcode1D extends Barcode {
   /// Create a [Barcode1D] object
   const Barcode1D();
 
-  /// Main method to produce the barcode graphic description.
-  /// Returns a stream of drawing operations required to properly
-  /// display the barcode.
-  ///
-  /// Use it with:
-  /// ```dart
-  /// for (var op in Barcode.code39().make('HELLO', width: 200, height: 300)) {
-  ///   print(op);
-  /// }
-  /// ```
   @override
   Iterable<BarcodeElement> make(
     String data, {
@@ -50,21 +38,21 @@ abstract class Barcode1D extends Barcode {
     assert(height != null && height > 0);
     assert(!drawText || fontHeight != null);
 
-    final List<bool> bits = convert(data).toList();
+    final bits = convert(data).toList();
 
     if (bits.isEmpty) {
       return;
     }
 
-    final double top = marginTop(drawText, width, height, fontHeight);
-    final double left = marginLeft(drawText, width, height, fontHeight);
-    final double right = marginRight(drawText, width, height, fontHeight);
-    final double lineWidth = (width - left - right) / bits.length;
+    final top = marginTop(drawText, width, height, fontHeight);
+    final left = marginLeft(drawText, width, height, fontHeight);
+    final right = marginRight(drawText, width, height, fontHeight);
+    final lineWidth = (width - left - right) / bits.length;
 
-    bool color = bits.first;
-    int count = 1;
+    var color = bits.first;
+    var count = 1;
 
-    for (int i = 1; i < bits.length; i++) {
+    for (var i = 1; i < bits.length; i++) {
       if (color == bits[i]) {
         count++;
         continue;
@@ -89,7 +77,7 @@ abstract class Barcode1D extends Barcode {
       count = 1;
     }
 
-    final int l = bits.length;
+    final l = bits.length;
     yield BarcodeBar(
       left: left + (l - count) * lineWidth,
       top: top,
@@ -154,7 +142,7 @@ abstract class Barcode1D extends Barcode {
       0;
 
   /// Stream the text operations required to draw the
-  /// barcode texts. This is automatically called by `make`
+  /// barcode texts. This is automatically called by [make]
   @protected
   Iterable<BarcodeText> makeText(
     String data,
@@ -173,11 +161,11 @@ abstract class Barcode1D extends Barcode {
     );
   }
 
-  /// Build a stream of `bool` that represents a white or black bar
-  /// from a bit encoded `int` with count as the number of bars to draw
+  /// Build a stream of [bool] that represents a white or black bar
+  /// from a bit encoded [int] with count as the number of bars to draw
   @protected
   Iterable<bool> add(int data, int count) sync* {
-    for (int i = 0; i < count; i++) {
+    for (var i = 0; i < count; i++) {
       yield (1 & (data >> i)) == 1;
     }
   }
@@ -185,14 +173,14 @@ abstract class Barcode1D extends Barcode {
   /// Computes a hexadecimal representation of the barcode, mostly for
   /// testing purposes
   String toHex(String data) {
-    String intermediate = '';
-    for (bool bit in convert(data)) {
+    var intermediate = '';
+    for (var bit in convert(data)) {
       intermediate += bit ? '1' : '0';
     }
 
-    String result = '';
+    var result = '';
     while (intermediate.length > 8) {
-      final String sub = intermediate.substring(intermediate.length - 8);
+      final sub = intermediate.substring(intermediate.length - 8);
       result += int.parse(sub, radix: 2).toRadixString(16);
       intermediate = intermediate.substring(0, intermediate.length - 8);
     }
@@ -201,7 +189,7 @@ abstract class Barcode1D extends Barcode {
     return result;
   }
 
-  /// Actual barcode computation method, returns a stream of `bool`
+  /// Actual barcode computation method, returns a stream of [bool]
   /// which represents the presence or absence of a bar
   @protected
   Iterable<bool> convert(String data);

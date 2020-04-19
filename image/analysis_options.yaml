@@ -1,4 +1,3 @@
-# Specify analysis options.
 include: package:pedantic/analysis_options.yaml
 
 analyzer:
@@ -7,12 +6,12 @@ analyzer:
   errors:
     missing_required_param: warning
     missing_return: warning
+    public_member_api_docs: warning
     todo: ignore
 
 linter:
   rules:
     - always_put_control_body_on_new_line
-    - always_specify_types
     - avoid_as
     - avoid_bool_literals_in_conditional_expressions
     - avoid_classes_with_only_static_members
@@ -36,13 +35,14 @@ linter:
     - list_remove_unrelated_type
     - no_adjacent_strings_in_list
     - non_constant_identifier_names
+    - omit_local_variable_types
     - overridden_fields
     - package_api_docs
     - package_names
     - package_prefixed_library_names
     - prefer_asserts_in_initializer_lists
-    - prefer_const_constructors_in_immutables
     - prefer_const_constructors
+    - prefer_const_constructors_in_immutables
     - prefer_const_declarations
     - prefer_const_literals_to_create_immutables
     - prefer_final_locals
@@ -52,6 +52,7 @@ linter:
     - prefer_inlined_adds
     - prefer_typing_uninitialized_variables
     - prefer_void_to_null
+    - public_member_api_docs
     - sort_constructors_first
     - sort_pub_dependencies
     - sort_unnamed_constructors_first

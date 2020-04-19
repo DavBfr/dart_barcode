@@ -15,6 +15,7 @@
  */
 
 // ignore_for_file: omit_local_variable_types
+// ignore_for_file: public_member_api_docs
 
 class BarcodeMaps {
   /// Code 39 conversion bits
@@ -645,7 +646,7 @@ class BarcodeMaps {
   static const int eanStartEan2 = 0x1a;
   static const int eanCenterEan2 = 0x2;
 
-  /// ITF 14 conversion bits
+  /// ITF-14 conversion bits
   static const Map<int, int> itf14 = <int, int>{
     0x30: 0xc,
     0x31: 0x11,
@@ -659,7 +660,7 @@ class BarcodeMaps {
     0x39: 0xa,
   };
 
-  /// ITF misc bits
+  /// ITF-14 misc bits
   static const int itfStart = 0x5;
   static const int itfEnd = 0x17;
 

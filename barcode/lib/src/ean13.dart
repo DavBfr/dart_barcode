@@ -14,19 +14,25 @@
  * limitations under the License.
  */
 
-// ignore_for_file: omit_local_variable_types
-
 import 'barcode_exception.dart';
 import 'barcode_maps.dart';
 import 'barcode_operations.dart';
 import 'ean.dart';
 
+/// EAN 13 Barcode
+///
+/// The International Article Number is a standard describing a barcode
+/// symbology and numbering system used in global trade to identify a specific
+/// retail product type, in a specific packaging configuration,
+/// from a specific manufacturer.
 class BarcodeEan13 extends BarcodeEan {
+  /// Create an EAN 13 Barcode
   const BarcodeEan13(this.drawEndChar);
 
+  /// Draw the end char '>' in the right margin
   final bool drawEndChar;
 
-  static const String finalSpacer = '>';
+  static const String _finalSpacer = '>';
 
   @override
   String get name => 'EAN 13';
@@ -50,15 +56,15 @@ class BarcodeEan13 extends BarcodeEan {
     // Start
     yield* add(BarcodeMaps.eanStartEnd, 3);
 
-    int index = 0;
-    final int first = BarcodeMaps.eanFirst[data.codeUnits.first];
+    var index = 0;
+    final first = BarcodeMaps.eanFirst[data.codeUnits.first];
     if (first == null) {
       throw BarcodeException(
           'Unable to encode "${String.fromCharCode(data.codeUnits.first)}" to $name Barcode');
     }
 
-    for (int code in data.codeUnits.sublist(1)) {
-      final List<int> codes = BarcodeMaps.ean[code];
+    for (var code in data.codeUnits.sublist(1)) {
+      final codes = BarcodeMaps.ean[code];
 
       if (codes == null) {
         throw BarcodeException(
@@ -123,7 +129,7 @@ class BarcodeEan13 extends BarcodeEan {
       return super.getHeight(index, count, width, height, fontHeight, drawText);
     }
 
-    final double h = height - fontHeight;
+    final h = height - fontHeight;
 
     if (index < 3 || (index > 45 && index < 49) || index > 91) {
       return h + fontHeight / 2;
@@ -140,10 +146,10 @@ class BarcodeEan13 extends BarcodeEan {
     double fontHeight,
     double lineWidth,
   ) sync* {
-    final String text = checkLength(data, maxLength);
-    final double w = lineWidth * 7;
-    final double left = marginLeft(true, width, height, fontHeight);
-    final double right = marginRight(true, width, height, fontHeight);
+    final text = checkLength(data, maxLength);
+    final w = lineWidth * 7;
+    final left = marginLeft(true, width, height, fontHeight);
+    final right = marginRight(true, width, height, fontHeight);
 
     yield BarcodeText(
       left: 0,
@@ -154,9 +160,9 @@ class BarcodeEan13 extends BarcodeEan {
       align: BarcodeTextAlign.right,
     );
 
-    double offset = left + lineWidth * 3;
+    var offset = left + lineWidth * 3;
 
-    for (int i = 1; i < text.length; i++) {
+    for (var i = 1; i < text.length; i++) {
       yield BarcodeText(
         left: offset,
         top: height - fontHeight,
@@ -178,7 +184,7 @@ class BarcodeEan13 extends BarcodeEan {
         top: height - fontHeight,
         width: right - lineWidth,
         height: fontHeight,
-        text: finalSpacer,
+        text: _finalSpacer,
         align: BarcodeTextAlign.left,
       );
     }

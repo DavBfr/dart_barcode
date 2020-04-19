@@ -14,14 +14,15 @@
  * limitations under the License.
  */
 
-// ignore_for_file: omit_local_variable_types
-
 import 'barcode_exception.dart';
 import 'barcode_maps.dart';
 import 'barcode_operations.dart';
 import 'ean.dart';
 
 /// EAN 2 Barcode Generator
+///
+/// The EAN-2 is a supplement to the EAN-13 and UPC-A barcodes.
+/// It is often used on magazines and periodicals to indicate an issue number.
 class BarcodeEan2 extends BarcodeEan {
   /// EAN 2 Barcode Generator
   const BarcodeEan2();
@@ -44,14 +45,14 @@ class BarcodeEan2 extends BarcodeEan {
     } catch (e) {
       throw BarcodeException('Unable to encode "$data" to $name Barcode');
     }
-    final int pattern = idata % 4;
+    final pattern = idata % 4;
 
     // Start
     yield* add(BarcodeMaps.eanStartEan2, 5);
 
-    int index = 0;
-    for (int code in data.codeUnits) {
-      final List<int> codes = BarcodeMaps.ean[code];
+    var index = 0;
+    for (var code in data.codeUnits) {
+      final codes = BarcodeMaps.ean[code];
 
       if (codes == null) {
         throw BarcodeException(

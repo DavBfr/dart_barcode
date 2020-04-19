@@ -14,13 +14,17 @@
  * limitations under the License.
  */
 
-// ignore_for_file: omit_local_variable_types
-
 import 'barcode_1d.dart';
 import 'barcode_exception.dart';
 import 'barcode_maps.dart';
 
+/// Telepen Barcode
+///
+/// Telepen is a barcode designed in 1972 in the UK to express all 128 ASCII
+/// characters without using shift characters for code switching, and using
+/// only two different widths for bars and spaces.
 class BarcodeTelepen extends Barcode1D {
+  /// Create a Telepen Barcode
   const BarcodeTelepen();
 
   @override
@@ -37,10 +41,10 @@ class BarcodeTelepen extends Barcode1D {
       BarcodeMaps.telepenLen,
     );
 
-    int checksum = 0;
+    var checksum = 0;
 
-    for (int code in data.codeUnits) {
-      final int codeValue = BarcodeMaps.telepen[code];
+    for (var code in data.codeUnits) {
+      final codeValue = BarcodeMaps.telepen[code];
       if (codeValue == null) {
         throw BarcodeException(
             'Unable to encode "${String.fromCharCode(code)}" to $name Barcode');

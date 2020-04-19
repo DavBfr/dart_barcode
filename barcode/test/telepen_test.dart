@@ -14,8 +14,6 @@
  * limitations under the License.
  */
 
-// ignore_for_file: omit_local_variable_types
-
 import 'package:barcode/barcode.dart';
 import 'package:barcode/src/barcode_1d.dart';
 import 'package:test/test.dart';

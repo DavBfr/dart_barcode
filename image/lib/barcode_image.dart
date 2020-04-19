@@ -14,8 +14,6 @@
  * limitations under the License.
  */
 
-// ignore_for_file: omit_local_variable_types
-
 library barcode_widget;
 
 export 'package:barcode/barcode.dart';

@@ -14,15 +14,13 @@
  * limitations under the License.
  */
 
-// ignore_for_file: omit_local_variable_types
-
 import 'package:barcode/barcode.dart';
 import 'package:barcode/src/code128.dart';
 import 'package:test/test.dart';
 
 void main() {
   test('Barcode CODE 128 charsets', () {
-    final Barcode bc = Barcode.code128();
+    final bc = Barcode.code128();
     if (bc is BarcodeCode128) {
       expect(bc.shortestCode(<int>[0x04]), equals(<int>[0x67, 0x44]));
 

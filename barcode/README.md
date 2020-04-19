@@ -48,7 +48,7 @@ The following barcode images are SVG. The proper rendering, especially text, dep
 
 <img alt="GS1 128" src="https://raw.githubusercontent.com/DavBfr/dart_barcode/master/img/gs1-128.svg?sanitize=true">
 
-## ITF 14
+## ITF-14
 
 <img alt="ITF 14" src="https://raw.githubusercontent.com/DavBfr/dart_barcode/master/img/itf-14.svg?sanitize=true">
 

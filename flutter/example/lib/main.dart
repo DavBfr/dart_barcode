@@ -5,28 +5,28 @@ import 'package:google_fonts/google_fonts.dart';
 
 import 'settings.dart';
 
-void main() => runApp(MyApp());
+void main() => runApp(_MyApp());
 
-const double constraintWidth = 500;
+const double _constraintWidth = 500;
 
-Widget barcodeError(String message) {
+Widget _barcodeError(String message) {
   return Container(
-    margin: EdgeInsets.symmetric(vertical: 20),
+    margin: const EdgeInsets.symmetric(vertical: 20),
     alignment: Alignment.center,
-    constraints: BoxConstraints(maxWidth: constraintWidth),
+    constraints: const BoxConstraints(maxWidth: _constraintWidth),
     child: Card(
       child: Padding(
         padding: const EdgeInsets.all(20),
         child: Text(
           message,
-          style: TextStyle(color: Colors.red),
+          style: const TextStyle(color: Colors.red),
         ),
       ),
     ),
   );
 }
 
-Widget barcodeInfo(BarcodeConf conf) {
+Widget _barcodeInfo(BarcodeConf conf) {
   final bc = Barcode.fromType(conf.type);
 
   final charset = StringBuffer();
@@ -38,7 +38,7 @@ Widget barcodeInfo(BarcodeConf conf) {
     }
   }
 
-  String desc = '';
+  var desc = '';
   switch (conf.type) {
     case BarcodeType.CodeITF14:
       desc =
@@ -88,11 +88,15 @@ Widget barcodeInfo(BarcodeConf conf) {
       desc =
           'The GS1-128 is an application standard of the GS1. It uses a series of Application Identifiers to include additional data such as best before dates, batch numbers, quantities, weights and many other attributes needed by the user.';
       break;
+    case BarcodeType.Telepen:
+      desc =
+          'Telepen is a barcode designed in 1972 in the UK to express all 128 ASCII characters without using shift characters for code switching, and using only two different widths for bars and spaces.';
+      break;
   }
 
   return Center(
     child: ConstrainedBox(
-      constraints: BoxConstraints(maxWidth: constraintWidth),
+      constraints: const BoxConstraints(maxWidth: _constraintWidth),
       child: Card(
         child: Padding(
           padding: const EdgeInsets.all(20),
@@ -101,16 +105,17 @@ Widget barcodeInfo(BarcodeConf conf) {
               children: [
                 TextSpan(
                   text: '${bc.name}\n',
-                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 30),
+                  style: const TextStyle(
+                      fontWeight: FontWeight.bold, fontSize: 30),
                 ),
-                TextSpan(
+                const TextSpan(
                   text: '\nDescription:\n',
                   style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
                 ),
                 TextSpan(
                   text: '$desc\n',
                 ),
-                TextSpan(
+                const TextSpan(
                   text: '\nAccepted data:\n',
                   style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
                 ),
@@ -119,12 +124,12 @@ Widget barcodeInfo(BarcodeConf conf) {
                 ),
                 TextSpan(
                   text: 'Minimum length: ${bc.minLength}\n',
-                  style: TextStyle(fontWeight: FontWeight.bold),
+                  style: const TextStyle(fontWeight: FontWeight.bold),
                 ),
                 // if (bc.maxLength < Barcode.infiniteMaxLength)
                 TextSpan(
                   text: 'Maximum length: ${bc.maxLength}\n',
-                  style: TextStyle(fontWeight: FontWeight.bold),
+                  style: const TextStyle(fontWeight: FontWeight.bold),
                 ),
               ],
             ),
@@ -136,11 +141,11 @@ Widget barcodeInfo(BarcodeConf conf) {
   );
 }
 
-Widget barcode(BarcodeConf conf) {
+Widget _barcode(BarcodeConf conf) {
   try {
     Barcode.fromType(conf.type).verify(conf.data);
   } on BarcodeException catch (error) {
-    return barcodeError(error.message);
+    return _barcodeError(error.message);
   }
 
   return Padding(
@@ -158,8 +163,8 @@ Widget barcode(BarcodeConf conf) {
             ),
           ),
           margin: EdgeInsets.symmetric(
-              horizontal: (constraintWidth - conf.width) / 2, vertical: 20),
-          padding: EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+              horizontal: (_constraintWidth - conf.width) / 2, vertical: 20),
+          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
           decoration: BoxDecoration(
             border: Border.all(
               color: Colors.blue,
@@ -171,22 +176,22 @@ Widget barcode(BarcodeConf conf) {
   );
 }
 
-class MyApp extends StatelessWidget {
+class _MyApp extends StatelessWidget {
   final BarcodeConf conf = BarcodeConf();
 
   @override
   Widget build(BuildContext context) {
-    final title = 'Barcode Demo';
+    const title = 'Barcode Demo';
 
-    return MaterialApp(
+    return const MaterialApp(
       title: title,
-      home: Home(title),
+      home: _Home(title),
     );
   }
 }
 
-class Home extends StatefulWidget {
-  Home(this.title);
+class _Home extends StatefulWidget {
+  const _Home(this.title);
 
   final String title;
 
@@ -194,11 +199,11 @@ class Home extends StatefulWidget {
   _HomeState createState() => _HomeState();
 }
 
-class _HomeState extends State<Home> {
+class _HomeState extends State<_Home> {
   final BarcodeConf conf = BarcodeConf();
 
   @override
-  initState() {
+  void initState() {
     conf.addListener(confListener);
     super.initState();
   }
@@ -226,8 +231,8 @@ class _HomeState extends State<Home> {
             ? ListView(
                 children: <Widget>[
                   Settings(conf),
-                  barcode(conf),
-                  barcodeInfo(conf),
+                  _barcode(conf),
+                  _barcodeInfo(conf),
                 ],
               )
             : Row(
@@ -236,8 +241,8 @@ class _HomeState extends State<Home> {
                   Flexible(
                     child: ListView(
                       children: <Widget>[
-                        barcode(conf),
-                        barcodeInfo(conf),
+                        _barcode(conf),
+                        _barcodeInfo(conf),
                       ],
                     ),
                   ),

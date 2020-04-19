@@ -14,8 +14,6 @@
  * limitations under the License.
  */
 
-// ignore_for_file: omit_local_variable_types
-
 import 'package:meta/meta.dart';
 
 import 'barcode_exception.dart';
@@ -23,13 +21,23 @@ import 'barcode_maps.dart';
 import 'barcode_operations.dart';
 import 'ean.dart';
 
+/// ITF-14 Barcode
+///
+/// ITF-14 is the GS1 implementation of an Interleaved 2 of 5 (ITF) bar code
+/// to encode a Global Trade Item Number. ITF-14 symbols are generally used
+/// on packaging levels of a product, such as a case box of 24 cans of soup.
+/// The ITF-14 will always encode 14 digits.
 class BarcodeItf14 extends BarcodeEan {
+  /// Create an ITF-14 Barcode
   const BarcodeItf14(this.drawBorder, this.borderWidth, this.quietWidth);
 
+  /// Draw a black border around the barcode
   final bool drawBorder;
 
+  /// Width of the border around the barcode
   final double borderWidth;
 
+  /// width of the quiet zone before and after the barcode, inside the border
   final double quietWidth;
 
   @override
@@ -54,9 +62,9 @@ class BarcodeItf14 extends BarcodeEan {
     // Start
     yield* add(BarcodeMaps.itfStart, 4);
 
-    final List<int> cu = data.codeUnits;
-    for (int i = 0; i < cu.length / 2; i++) {
-      final List<int> tuple = <int>[
+    final cu = data.codeUnits;
+    for (var i = 0; i < cu.length / 2; i++) {
+      final tuple = <int>[
         BarcodeMaps.itf14[cu[i * 2]],
         BarcodeMaps.itf14[cu[i * 2 + 1]]
       ];
@@ -66,9 +74,9 @@ class BarcodeItf14 extends BarcodeEan {
             'Unable to encode "${String.fromCharCode(cu[i * 2])}${String.fromCharCode(cu[i * 2 + 1])}" to $name Barcode');
       }
 
-      for (int n = 0; n < 10; n++) {
-        final int v = (tuple[n % 2] >> (n ~/ 2)) & 1;
-        final bool c = n % 2 == 0;
+      for (var n = 0; n < 10; n++) {
+        final v = (tuple[n % 2] >> (n ~/ 2)) & 1;
+        final c = n % 2 == 0;
         yield c;
         if (v != 0) {
           yield c;
@@ -81,11 +89,11 @@ class BarcodeItf14 extends BarcodeEan {
     yield* add(BarcodeMaps.itfEnd, 5);
   }
 
-  double getBorderWidth(double width) {
+  double _getBorderWidth(double width) {
     return borderWidth ?? width * .015;
   }
 
-  double getQuietWidth(double width) {
+  double _getQuietWidth(double width) {
     return quietWidth ?? width * .07;
   }
 
@@ -96,7 +104,7 @@ class BarcodeItf14 extends BarcodeEan {
     double height,
     double fontHeight,
   ) {
-    return drawBorder ? getBorderWidth(width) : 0;
+    return drawBorder ? _getBorderWidth(width) : 0;
   }
 
   @override
@@ -106,13 +114,13 @@ class BarcodeItf14 extends BarcodeEan {
     double height,
     double fontHeight,
   ) {
-    return drawBorder ? getBorderWidth(width) + getQuietWidth(width) : 0;
+    return drawBorder ? _getBorderWidth(width) + _getQuietWidth(width) : 0;
   }
 
   @override
   double marginRight(
       bool drawText, double width, double height, double fontHeight) {
-    return drawBorder ? getBorderWidth(width) + getQuietWidth(width) : 0;
+    return drawBorder ? _getBorderWidth(width) + _getQuietWidth(width) : 0;
   }
 
   @override
@@ -125,7 +133,7 @@ class BarcodeItf14 extends BarcodeEan {
     bool drawText,
   ) {
     return super.getHeight(index, count, width, height, fontHeight, drawText) -
-        (drawBorder ? getBorderWidth(width) : 0);
+        (drawBorder ? _getBorderWidth(width) : 0);
   }
 
   @override
@@ -142,7 +150,7 @@ class BarcodeItf14 extends BarcodeEan {
         drawText: drawText,
         fontHeight: fontHeight);
 
-    final double bw = getBorderWidth(width);
+    final bw = _getBorderWidth(width);
 
     if (drawBorder) {
       yield BarcodeBar(left: 0, top: 0, width: width, height: bw, black: true);

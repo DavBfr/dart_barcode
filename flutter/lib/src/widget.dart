@@ -14,17 +14,16 @@
  * limitations under the License.
  */
 
-// ignore_for_file: omit_local_variable_types
-
 import 'package:barcode/barcode.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
 import 'painter.dart';
 
-/// Flutter widget to draw a `Barcode` on screen.
+/// Flutter widget to draw a [Barcode] on screen.
 class BarcodeWidget extends StatelessWidget {
-  BarcodeWidget({
+  /// Draw a barcode on screen
+  const BarcodeWidget({
     @required this.data,
     @required this.barcode,
     this.color = Colors.black,
@@ -80,8 +79,8 @@ class BarcodeWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final DefaultTextStyle defaultTextStyle = DefaultTextStyle.of(context);
-    TextStyle effectiveTextStyle = style;
+    final defaultTextStyle = DefaultTextStyle.of(context);
+    var effectiveTextStyle = style;
     if (style == null || style.inherit) {
       effectiveTextStyle = defaultTextStyle.style.merge(style);
     }
