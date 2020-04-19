@@ -100,6 +100,10 @@ Widget _barcodeInfo(BarcodeConf conf) {
       desc =
           'Codabar was designed to be accurately read even when printed on dot-matrix printers for multi-part forms such as FedEx airbills and blood bank forms, where variants are still in use as of 2007.';
       break;
+    case BarcodeType.PDF417:
+      desc =
+          'PDF417 is a stacked linear barcode format used in a variety of applications such as transport, identification cards, and inventory management.';
+      break;
   }
 
   return Center(

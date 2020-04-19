@@ -60,4 +60,7 @@ enum BarcodeType {
 
   /// Codabar
   Codabar,
+
+  /// Pdf417
+  PDF417,
 }

@@ -19,4 +19,5 @@ export 'src/barcode_exception.dart';
 export 'src/barcode_operations.dart';
 export 'src/barcode_types.dart';
 export 'src/codabar.dart' show BarcodeCodabarStartStop;
+export 'src/pdf417.dart' show Pdf417SecurityLevel;
 export 'src/qrcode.dart' show BarcodeQRCorrectionLevel;

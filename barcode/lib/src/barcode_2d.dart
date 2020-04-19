@@ -74,22 +74,22 @@ abstract class Barcode2D extends Barcode {
 
     final matrix = convert(data);
 
-    double pixelW;
-    double pixelH;
-    double offsetX;
-    double offsetY;
-
-    if (width > height) {
-      pixelW = height / matrix.height;
-      pixelH = pixelW * matrix.ratio;
-      offsetX = (width - height) / 2;
-      offsetY = 0;
+    // Center the barcode
+    final mh = matrix.height * matrix.ratio;
+    double w;
+    double h;
+    if (width / height > matrix.width / mh) {
+      w = matrix.width * height / mh;
+      h = height;
     } else {
-      pixelW = width / matrix.width;
-      pixelH = pixelW * matrix.ratio;
-      offsetX = 0;
-      offsetY = (height - width) / 2;
+      w = width;
+      h = mh * width / matrix.width;
     }
+
+    final pixelW = w / matrix.width;
+    final pixelH = h / matrix.height;
+    final offsetX = (width - w) / 2;
+    final offsetY = (height - h) / 2;
 
     var start = 0;
     bool color;

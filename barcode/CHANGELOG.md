@@ -3,6 +3,7 @@
 ## 1.8.0
 
 - Add Codabar
+- Add PDF417
 
 ## 1.7.0
 

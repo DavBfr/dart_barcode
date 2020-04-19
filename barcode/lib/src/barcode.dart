@@ -16,6 +16,7 @@
 
 import 'dart:convert';
 
+import 'package:barcode/src/pdf417.dart';
 import 'package:meta/meta.dart';
 
 import 'barcode_exception.dart';
@@ -83,6 +84,8 @@ abstract class Barcode {
         return Barcode.qrCode();
       case BarcodeType.Codabar:
         return Barcode.codabar();
+      case BarcodeType.PDF417:
+        return Barcode.pdf417();
       default:
         throw UnimplementedError('Barcode $type not supported');
     }
@@ -158,6 +161,15 @@ abstract class Barcode {
           BarcodeQRCorrectionLevel errorCorrectLevel =
               BarcodeQRCorrectionLevel.low}) =>
       BarcodeQR(typeNumber, errorCorrectLevel);
+
+  /// Create a PDF417 [Barcode] instance
+  /// ![PDF417](https://raw.githubusercontent.com/DavBfr/dart_barcode/master/img/pdf417.svg?sanitize=true)
+  static Barcode pdf417({
+    Pdf417SecurityLevel securityLevel = Pdf417SecurityLevel.level2,
+    double moduleHeight = 2.0,
+    double preferredRatio = 3.0,
+  }) =>
+      BarcodePDF417(securityLevel, moduleHeight, preferredRatio);
 
   /// Create a Codabar [Barcode] instance
   /// ![Codabar](https://raw.githubusercontent.com/DavBfr/dart_barcode/master/img/codabar.svg?sanitize=true)

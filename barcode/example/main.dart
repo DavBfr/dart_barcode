@@ -105,4 +105,9 @@ void main() {
     Barcode.codabar(),
     '1234-5678',
   );
+
+  buildBarcode(
+    Barcode.pdf417(),
+    'PDF417',
+  );
 }
