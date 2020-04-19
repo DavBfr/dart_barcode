@@ -104,6 +104,11 @@ barcodes: .coverage
 	cd barcode; pub global run coverage:format_coverage --packages=.packages -i coverage.json --report-on lib --lcov --out ../lcov-example.info
 	mv -f barcode/*.svg img/
 
+icons:
+	dart image/bin/barcode.dart -t CodeEAN2 -w 16 -h 16 --no-text -o flutter/example/web/favicon.png 42
+	dart image/bin/barcode.dart -t QrCode -w 192 -h 192 --no-text -o flutter/example/web/icons/Icon-192.png Barcode
+	dart image/bin/barcode.dart -t QrCode -w 512 -h 512 --no-text -o flutter/example/web/icons/Icon-512.png https://davbfr.github.io/dart_barcode
+
 maps: build_maps.py
 	python3 build_maps.py > barcode/lib/src/barcode_maps.dart
 	dartfmt -w --fix barcode/lib/src/barcode_maps.dart
