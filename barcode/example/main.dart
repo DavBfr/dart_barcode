@@ -100,4 +100,9 @@ void main() {
     Barcode.qrCode(),
     'QR-Code',
   );
+
+  buildBarcode(
+    Barcode.codabar(),
+    '1234-5678',
+  );
 }

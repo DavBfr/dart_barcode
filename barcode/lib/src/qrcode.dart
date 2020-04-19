@@ -40,10 +40,11 @@ enum BarcodeQRCorrectionLevel {
 /// for the automotive industry in Japan.
 class BarcodeQR extends Barcode2D {
   /// Create a [BarcodeQR] object
-  const BarcodeQR({
+  const BarcodeQR(
     this.typeNumber,
-    this.errorCorrectLevel = BarcodeQRCorrectionLevel.low,
-  }) : assert(typeNumber == null || (typeNumber >= 1 && typeNumber <= 40));
+    this.errorCorrectLevel,
+  )   : assert(typeNumber == null || (typeNumber >= 1 && typeNumber <= 40)),
+        assert(errorCorrectLevel != null);
 
   /// QR code version number 1 to 40
   final int typeNumber;

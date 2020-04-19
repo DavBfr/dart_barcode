@@ -14,9 +14,50 @@
  * limitations under the License.
  */
 
-export 'src/barcode.dart';
-export 'src/barcode_exception.dart';
-export 'src/barcode_operations.dart';
-export 'src/barcode_types.dart';
-export 'src/codabar.dart' show BarcodeCodabarStartStop;
-export 'src/qrcode.dart' show BarcodeQRCorrectionLevel;
+/// Supported barcode types
+enum BarcodeType {
+  /// ITF14 Barcode
+  CodeITF14,
+
+  /// EAN 13 barcode
+  CodeEAN13,
+
+  /// EAN 8 barcode
+  CodeEAN8,
+
+  /// EAN 5 barcode
+  CodeEAN5,
+
+  /// EAN 2 barcode
+  CodeEAN2,
+
+  /// ISBN barcode
+  CodeISBN,
+
+  /// Code 39 barcode
+  Code39,
+
+  /// Code 93 barcode
+  Code93,
+
+  /// UPC-A barcode
+  CodeUPCA,
+
+  /// UPC-E barcode
+  CodeUPCE,
+
+  /// Code 128 barcode
+  Code128,
+
+  /// GS1-128 barcode
+  GS128,
+
+  /// Telepen Barcode
+  Telepen,
+
+  /// QR Code
+  QrCode,
+
+  /// Codabar
+  Codabar,
+}

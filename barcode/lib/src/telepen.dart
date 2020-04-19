@@ -36,10 +36,7 @@ class BarcodeTelepen extends Barcode1D {
   @override
   Iterable<bool> convert(String data) sync* {
     // Start
-    yield* add(
-      BarcodeMaps.telepen[BarcodeMaps.telepenStart],
-      BarcodeMaps.telepenLen,
-    );
+    yield* add(BarcodeMaps.telepenStart, BarcodeMaps.telepenLen);
 
     var checksum = 0;
 
@@ -58,15 +55,9 @@ class BarcodeTelepen extends Barcode1D {
     if (checksum == 127) {
       checksum = 0;
     }
-    yield* add(
-      BarcodeMaps.telepen[checksum],
-      BarcodeMaps.telepenLen,
-    );
+    yield* add(BarcodeMaps.telepen[checksum], BarcodeMaps.telepenLen);
 
     // Stop
-    yield* add(
-      BarcodeMaps.telepen[BarcodeMaps.telepenEnd],
-      BarcodeMaps.telepenLen,
-    );
+    yield* add(BarcodeMaps.telepenEnd, BarcodeMaps.telepenLen);
   }
 }

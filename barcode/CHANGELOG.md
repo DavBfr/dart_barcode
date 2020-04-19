@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.8.0
+
+- Add Codabar
+
 ## 1.7.0
 
 - Add QR-Code

@@ -14,12 +14,11 @@
  * limitations under the License.
  */
 
-// ignore_for_file: omit_local_variable_types
 // ignore_for_file: public_member_api_docs
 
 class BarcodeMaps {
   /// Code 39 conversion bits
-  static const Map<int, int> code39 = <int, int>{
+  static const code39 = <int, int>{
     0x30: 0xb65, // 0
     0x31: 0xd4b, // 1
     0x32: 0xd4d, // 2
@@ -66,11 +65,11 @@ class BarcodeMaps {
   };
 
   /// Code 39 misc bits
-  static const int code39StartStop = 0xb69;
+  static const code39StartStop = 0xb69;
   static const int code39Len = 13;
 
   /// Code 93 conversion bits
-  static const Map<int, int> code93 = <int, int>{
+  static const code93 = <int, int>{
     0x30: 0x51, // 0
     0x31: 0x25, // 1
     0x32: 0x45, // 2
@@ -123,16 +122,16 @@ class BarcodeMaps {
   };
 
   /// Code 93 misc bits
-  static const int code93Dollar = 0xc9;
-  static const int code93Percent = 0xb7;
-  static const int code93Slash = 0xd7;
-  static const int code93Plus = 0x99;
-  static const int code93StartStop = 0xf5;
-  static const int code93ReverseStop = 0xbd;
-  static const int code93Len = 9;
+  static const code93Dollar = 0xc9;
+  static const code93Percent = 0xb7;
+  static const code93Slash = 0xd7;
+  static const code93Plus = 0x99;
+  static const code93StartStop = 0xf5;
+  static const code93ReverseStop = 0xbd;
+  static const code93Len = 9;
 
   /// Code 128 A
-  static const Map<int, int> code128A = <int, int>{
+  static const code128A = <int, int>{
     0x20: 0x0, //
     0x21: 0x1, // !
     0x22: 0x2, // "
@@ -239,7 +238,7 @@ class BarcodeMaps {
   };
 
   /// Code 128 B
-  static const Map<int, int> code128B = <int, int>{
+  static const code128B = <int, int>{
     0x20: 0x0, //
     0x21: 0x1, // !
     0x22: 0x2, // "
@@ -346,7 +345,7 @@ class BarcodeMaps {
   };
 
   /// Code 128 C
-  static const Map<int, int> code128C = <int, int>{
+  static const code128C = <int, int>{
     0x0: 0x0, // 00
     0x1: 0x1, // 01
     0x2: 0x2, // 02
@@ -453,7 +452,7 @@ class BarcodeMaps {
   };
 
   /// Code 128 conversion bits
-  static const Map<int, int> code128 = <int, int>{
+  static const code128 = <int, int>{
     0x0: 0x19b, //   |   | 00
     0x1: 0x1b3, // ! | ! | 01
     0x2: 0x333, // " | " | 02
@@ -566,25 +565,25 @@ class BarcodeMaps {
   };
 
   /// Code 128 misc bits
-  static const int code128StartCodeA = 0x67;
-  static const int code128StartCodeB = 0x68;
-  static const int code128StartCodeC = 0x69;
-  static const int code128Stop = 0x6a;
-  static const int code128ReverseStop = 0x6b;
-  static const int code128StopPattern = 0x6c;
-  static const int code128FNC1 = -1;
-  static const int code128FNC2 = -2;
-  static const int code128FNC3 = -3;
-  static const int code128FNC4 = -4;
-  static const int code128ShiftA = -5;
-  static const int code128ShiftB = -6;
-  static const int code128CodeA = -7;
-  static const int code128CodeB = -8;
-  static const int code128CodeC = -9;
-  static const int code128Len = 11;
+  static const code128StartCodeA = 0x67;
+  static const code128StartCodeB = 0x68;
+  static const code128StartCodeC = 0x69;
+  static const code128Stop = 0x6a;
+  static const code128ReverseStop = 0x6b;
+  static const code128StopPattern = 0x6c;
+  static const code128FNC1 = -1;
+  static const code128FNC2 = -2;
+  static const code128FNC3 = -3;
+  static const code128FNC4 = -4;
+  static const code128ShiftA = -5;
+  static const code128ShiftB = -6;
+  static const code128CodeA = -7;
+  static const code128CodeB = -8;
+  static const code128CodeC = -9;
+  static const code128Len = 11;
 
   /// EAN 13 conversion bits
-  static const Map<int, List<int>> ean = <int, List<int>>{
+  static const ean = <int, List<int>>{
     0x30: <int>[0x58, 0x72, 0x27],
     0x31: <int>[0x4c, 0x66, 0x33],
     0x32: <int>[0x64, 0x6c, 0x1b],
@@ -598,7 +597,7 @@ class BarcodeMaps {
   };
 
   /// EAN 13 first digit
-  static const Map<int, int> eanFirst = <int, int>{
+  static const eanFirst = <int, int>{
     0x30: 0x0, // LLLLLL
     0x31: 0x34, // LLGLGG
     0x32: 0x2c, // LLGGLG
@@ -612,7 +611,7 @@ class BarcodeMaps {
   };
 
   /// EAN 5 checksum
-  static const Map<int, int> ean5Checksum = <int, int>{
+  static const ean5Checksum = <int, int>{
     0x30: 0x3, // GGLLL
     0x31: 0x5, // GLGLL
     0x32: 0x9, // GLLGL
@@ -626,7 +625,7 @@ class BarcodeMaps {
   };
 
   /// UPC-A to UPC-E conversion
-  static const Map<int, int> upce = <int, int>{
+  static const upce = <int, int>{
     0x30: 0x38, // EEEOOO | OOOEEE
     0x31: 0x34, // EEOEOO | OOEOEE
     0x32: 0x2c, // EEOOEO | OOEEOE
@@ -640,168 +639,211 @@ class BarcodeMaps {
   };
 
   /// EAN misc bits
-  static const int eanStartEnd = 0x5;
-  static const int eanCenter = 0xa;
-  static const int eanEndUpcE = 0x2a;
-  static const int eanStartEan2 = 0x1a;
-  static const int eanCenterEan2 = 0x2;
+  static const eanStartEnd = 0x5;
+  static const eanCenter = 0xa;
+  static const eanEndUpcE = 0x2a;
+  static const eanStartEan2 = 0x1a;
+  static const eanCenterEan2 = 0x2;
 
   /// ITF-14 conversion bits
-  static const Map<int, int> itf14 = <int, int>{
-    0x30: 0xc,
-    0x31: 0x11,
-    0x32: 0x12,
-    0x33: 0x3,
-    0x34: 0x14,
-    0x35: 0x5,
-    0x36: 0x6,
-    0x37: 0x18,
-    0x38: 0x9,
-    0x39: 0xa,
+  static const itf14 = <int, int>{
+    0x30: 0xc, // "0"
+    0x31: 0x11, // "1"
+    0x32: 0x12, // "2"
+    0x33: 0x3, // "3"
+    0x34: 0x14, // "4"
+    0x35: 0x5, // "5"
+    0x36: 0x6, // "6"
+    0x37: 0x18, // "7"
+    0x38: 0x9, // "8"
+    0x39: 0xa, // "9"
   };
 
   /// ITF-14 misc bits
-  static const int itfStart = 0x5;
-  static const int itfEnd = 0x17;
+  static const itfStart = 0x5;
+  static const itfEnd = 0x17;
 
   /// Telepen conversion bits
-  static const List<int> telepen = <int>[
-    0x7777,
-    0x5ddd,
-    0x5dc7,
-    0x7775,
-    0x5dd7,
-    0x771d,
-    0x7711,
-    0x5dd5,
-    0x5c77,
-    0x775d,
-    0x7747,
-    0x5c75,
-    0x7757,
-    0x5c45,
-    0x5c51,
-    0x7755,
-    0x5d77,
-    0x71dd,
-    0x71c7,
-    0x5d75,
-    0x71d7,
-    0x5d1d,
-    0x5d11,
-    0x71d5,
-    0x7117,
-    0x5d5d,
-    0x5d47,
-    0x7115,
-    0x5d57,
-    0x7145,
-    0x7151,
-    0x5d55,
-    0x4777,
-    0x75dd,
-    0x75c7,
-    0x4775,
-    0x75d7,
-    0x471d,
-    0x4711,
-    0x75d5,
-    0x7477,
-    0x475d,
-    0x4747,
-    0x7475,
-    0x4757,
-    0x7445,
-    0x7451,
-    0x4755,
-    0x7577,
-    0x445d,
-    0x4447,
-    0x7575,
-    0x4457,
-    0x751d,
-    0x7511,
-    0x4455,
-    0x4517,
-    0x755d,
-    0x7547,
-    0x4515,
-    0x7557,
-    0x4545,
-    0x4551,
-    0x7555,
-    0x5777,
-    0x1ddd,
-    0x1dc7,
-    0x5775,
-    0x1dd7,
-    0x571d,
-    0x5711,
-    0x1dd5,
-    0x1c77,
-    0x575d,
-    0x5747,
-    0x1c75,
-    0x5757,
-    0x1c45,
-    0x1c51,
-    0x5755,
-    0x1d77,
-    0x51dd,
-    0x51c7,
-    0x1d75,
-    0x51d7,
-    0x1d1d,
-    0x1d11,
-    0x51d5,
-    0x5117,
-    0x1d5d,
-    0x1d47,
-    0x5115,
-    0x1d57,
-    0x5145,
-    0x5151,
-    0x1d55,
-    0x1177,
-    0x55dd,
-    0x55c7,
-    0x1175,
-    0x55d7,
-    0x111d,
-    0x1111,
-    0x55d5,
-    0x5477,
-    0x115d,
-    0x1147,
-    0x5475,
-    0x1157,
-    0x5445,
-    0x5451,
-    0x1155,
-    0x5577,
-    0x145d,
-    0x1447,
-    0x5575,
-    0x1457,
-    0x551d,
-    0x5511,
-    0x1455,
-    0x1517,
-    0x555d,
-    0x5547,
-    0x1515,
-    0x5557,
-    0x1545,
-    0x1551,
-    0x5555,
-    0x1755,
-    0x5517,
-    0x15d5,
-    0x5457,
+  static const telepen = <int>[
+    0x7777, // '\x00'
+    0x5ddd, // '\x01'
+    0x5dc7, // '\x02'
+    0x7775, // '\x03'
+    0x5dd7, // '\x04'
+    0x771d, // '\x05'
+    0x7711, // '\x06'
+    0x5dd5, // '\x07'
+    0x5c77, // '\x08'
+    0x775d, // '\t'
+    0x7747, // '\n'
+    0x5c75, // '\x0b'
+    0x7757, // '\x0c'
+    0x5c45, // '\r'
+    0x5c51, // '\x0e'
+    0x7755, // '\x0f'
+    0x5d77, // '\x10'
+    0x71dd, // '\x11'
+    0x71c7, // '\x12'
+    0x5d75, // '\x13'
+    0x71d7, // '\x14'
+    0x5d1d, // '\x15'
+    0x5d11, // '\x16'
+    0x71d5, // '\x17'
+    0x7117, // '\x18'
+    0x5d5d, // '\x19'
+    0x5d47, // '\x1a'
+    0x7115, // '\x1b'
+    0x5d57, // '\x1c'
+    0x7145, // '\x1d'
+    0x7151, // '\x1e'
+    0x5d55, // '\x1f'
+    0x4777, // ' '
+    0x75dd, // '!'
+    0x75c7, // '"'
+    0x4775, // '#'
+    0x75d7, // '$'
+    0x471d, // '%'
+    0x4711, // '&'
+    0x75d5, // "'"
+    0x7477, // '('
+    0x475d, // ')'
+    0x4747, // '*'
+    0x7475, // '+'
+    0x4757, // ','
+    0x7445, // '-'
+    0x7451, // '.'
+    0x4755, // '/'
+    0x7577, // '0'
+    0x445d, // '1'
+    0x4447, // '2'
+    0x7575, // '3'
+    0x4457, // '4'
+    0x751d, // '5'
+    0x7511, // '6'
+    0x4455, // '7'
+    0x4517, // '8'
+    0x755d, // '9'
+    0x7547, // ':'
+    0x4515, // ';'
+    0x7557, // '<'
+    0x4545, // '='
+    0x4551, // '>'
+    0x7555, // '?'
+    0x5777, // '@'
+    0x1ddd, // 'A'
+    0x1dc7, // 'B'
+    0x5775, // 'C'
+    0x1dd7, // 'D'
+    0x571d, // 'E'
+    0x5711, // 'F'
+    0x1dd5, // 'G'
+    0x1c77, // 'H'
+    0x575d, // 'I'
+    0x5747, // 'J'
+    0x1c75, // 'K'
+    0x5757, // 'L'
+    0x1c45, // 'M'
+    0x1c51, // 'N'
+    0x5755, // 'O'
+    0x1d77, // 'P'
+    0x51dd, // 'Q'
+    0x51c7, // 'R'
+    0x1d75, // 'S'
+    0x51d7, // 'T'
+    0x1d1d, // 'U'
+    0x1d11, // 'V'
+    0x51d5, // 'W'
+    0x5117, // 'X'
+    0x1d5d, // 'Y'
+    0x1d47, // 'Z'
+    0x5115, // '['
+    0x1d57, // '\\'
+    0x5145, // ']'
+    0x5151, // '^'
+    0x1d55, // '_'
+    0x1177, // '`'
+    0x55dd, // 'a'
+    0x55c7, // 'b'
+    0x1175, // 'c'
+    0x55d7, // 'd'
+    0x111d, // 'e'
+    0x1111, // 'f'
+    0x55d5, // 'g'
+    0x5477, // 'h'
+    0x115d, // 'i'
+    0x1147, // 'j'
+    0x5475, // 'k'
+    0x1157, // 'l'
+    0x5445, // 'm'
+    0x5451, // 'n'
+    0x1155, // 'o'
+    0x5577, // 'p'
+    0x145d, // 'q'
+    0x1447, // 'r'
+    0x5575, // 's'
+    0x1457, // 't'
+    0x551d, // 'u'
+    0x5511, // 'v'
+    0x1455, // 'w'
+    0x1517, // 'x'
+    0x555d, // 'y'
+    0x5547, // 'z'
+    0x1515, // '{'
+    0x5557, // '|'
+    0x1545, // '}'
+    0x1551, // '~'
+    0x5555, // '\x7f'
   ];
 
   /// Telepen misc bits
-  static const int telepenStart = 0x5f;
-  static const int telepenEnd = 0x7a;
-  static const int telepenLen = 16;
+  static const telepenStart = 0x1d55; // "_"
+  static const telepenEnd = 0x5547; // "z"
+  static const telepenLen = 16;
+
+  /// Codabar conversion bits
+  static const codabar = <int, int>{
+    0x30: 0x195, // "0" => "101010011"
+    0x31: 0x135, // "1" => "101011001"
+    0x34: 0x12d, // "4" => "101101001"
+    0x35: 0x12b, // "5" => "110101001"
+    0x32: 0x1a5, // "2" => "101001011"
+    0x2d: 0x165, // "-" => "101001101"
+    0x24: 0x14d, // "$" => "101100101"
+    0x39: 0x14b, // "9" => "110100101"
+    0x36: 0x1a9, // "6" => "100101011"
+    0x37: 0x169, // "7" => "100101101"
+    0x38: 0x159, // "8" => "100110101"
+    0x33: 0x153, // "3" => "110010101"
+    0x2e: 0x2db, // "." => "1101101101"
+    0x2f: 0x35b, // "/" => "1101101011"
+    0x3a: 0x36b, // ":" => "1101011011"
+    0x2b: 0x36d, // "+" => "1011011011"
+    0x43: 0x325, // "C" => "1010010011"
+    0x44: 0x265, // "D" => "1010011001"
+    0x41: 0x24d, // "A" => "1011001001"
+    0x42: 0x349, // "B" => "1001001011"
+  };
+
+  static const codabarLen = <int, int>{
+    0x30: 9, // "0"
+    0x31: 9, // "1"
+    0x34: 9, // "4"
+    0x35: 9, // "5"
+    0x32: 9, // "2"
+    0x2d: 9, // "-"
+    0x24: 9, // "$"
+    0x39: 9, // "9"
+    0x36: 9, // "6"
+    0x37: 9, // "7"
+    0x38: 9, // "8"
+    0x33: 9, // "3"
+    0x2e: 10, // "."
+    0x2f: 10, // "/"
+    0x3a: 10, // ":"
+    0x2b: 10, // "+"
+    0x43: 10, // "C"
+    0x44: 10, // "D"
+    0x41: 10, // "A"
+    0x42: 10, // "B"
+  };
 }

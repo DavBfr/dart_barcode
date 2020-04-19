@@ -20,6 +20,8 @@ import 'package:meta/meta.dart';
 
 import 'barcode_exception.dart';
 import 'barcode_operations.dart';
+import 'barcode_types.dart';
+import 'codabar.dart';
 import 'code128.dart';
 import 'code39.dart';
 import 'code93.dart';
@@ -33,53 +35,6 @@ import 'qrcode.dart';
 import 'telepen.dart';
 import 'upca.dart';
 import 'upce.dart';
-
-export 'qrcode.dart' show BarcodeQRCorrectionLevel;
-
-/// Supported barcode types
-enum BarcodeType {
-  /// ITF14 Barcode
-  CodeITF14,
-
-  /// EAN 13 barcode
-  CodeEAN13,
-
-  /// EAN 8 barcode
-  CodeEAN8,
-
-  /// EAN 5 barcode
-  CodeEAN5,
-
-  /// EAN 2 barcode
-  CodeEAN2,
-
-  /// ISBN barcode
-  CodeISBN,
-
-  /// Code 39 barcode
-  Code39,
-
-  /// Code 93 barcode
-  Code93,
-
-  /// UPC-A barcode
-  CodeUPCA,
-
-  /// UPC-E barcode
-  CodeUPCE,
-
-  /// Code 128 barcode
-  Code128,
-
-  /// GS1-128 barcode
-  GS128,
-
-  /// Telepen Barcode
-  Telepen,
-
-  /// QR Code
-  QrCode,
-}
 
 /// Barcode generation class
 @immutable
@@ -126,6 +81,8 @@ abstract class Barcode {
         return Barcode.telepen();
       case BarcodeType.QrCode:
         return Barcode.qrCode();
+      case BarcodeType.Codabar:
+        return Barcode.codabar();
       default:
         throw UnimplementedError('Barcode $type not supported');
     }
@@ -200,7 +157,14 @@ abstract class Barcode {
           {int typeNumber,
           BarcodeQRCorrectionLevel errorCorrectLevel =
               BarcodeQRCorrectionLevel.low}) =>
-      BarcodeQR(typeNumber: typeNumber, errorCorrectLevel: errorCorrectLevel);
+      BarcodeQR(typeNumber, errorCorrectLevel);
+
+  /// Create a Codabar [Barcode] instance
+  /// ![Codabar](https://raw.githubusercontent.com/DavBfr/dart_barcode/master/img/codabar.svg?sanitize=true)
+  static Barcode codabar(
+          {BarcodeCodabarStartStop start = BarcodeCodabarStartStop.A,
+          BarcodeCodabarStartStop stop = BarcodeCodabarStartStop.B}) =>
+      BarcodeCodabar(start, stop);
 
   /// Main method to produce the barcode graphic description.
   /// Returns a stream of drawing operations required to properly

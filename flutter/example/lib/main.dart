@@ -96,6 +96,10 @@ Widget _barcodeInfo(BarcodeConf conf) {
       desc =
           'QR code (abbreviated from Quick Response code) is the trademark for a type of matrix barcode (or two-dimensional barcode) first designed in 1994 for the automotive industry in Japan.';
       break;
+    case BarcodeType.Codabar:
+      desc =
+          'Codabar was designed to be accurately read even when printed on dot-matrix printers for multi-part forms such as FedEx airbills and blood bank forms, where variants are still in use as of 2007.';
+      break;
   }
 
   return Center(

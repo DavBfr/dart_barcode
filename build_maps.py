@@ -34,7 +34,7 @@ def code39():
     }
 
     print('/// Code 39 conversion bits')
-    print('static const Map<int, int> code39 = <int, int>{')
+    print('static const code39 = <int, int>{')
     for k, v in C39.items():
         print(f'{hex(ord(k))}: {hex(int(v[::-1], 2))}, // {k}')
     print('};\n')
@@ -42,7 +42,7 @@ def code39():
     print('/// Code 39 misc bits')
     for name in misc:
         print(
-            f'static const int code39{name} = {hex(int(misc[name][::-1], 2))};')
+            f'static const code39{name} = {hex(int(misc[name][::-1], 2))};')
     print(f'static const int code39Len = 13;')
 
 
@@ -69,7 +69,7 @@ def code93():
     }
 
     print('/// Code 93 conversion bits')
-    print('static const Map<int, int> code93 = <int, int>{')
+    print('static const code93 = <int, int>{')
     for k, v in C93.items():
         print(f'{hex(ord(k))}: {hex(int(v[::-1], 2))}, // {k}')
     i = -1
@@ -81,8 +81,8 @@ def code93():
     print('/// Code 93 misc bits')
     for name in misc:
         print(
-            f'static const int code93{name} = {hex(int(misc[name][::-1], 2))};')
-    print(f'static const int code93Len = 9;')
+            f'static const code93{name} = {hex(int(misc[name][::-1], 2))};')
+    print(f'static const code93Len = 9;')
 
 
 def code128():
@@ -200,7 +200,7 @@ def code128():
     }
 
     print('/// Code 128 A')
-    print('static const Map<int, int> code128A = <int, int>{')
+    print('static const code128A = <int, int>{')
     i = 0
     for a, b, c, v in C128:
         r = ord(a) if len(a) == 1 else names[a]
@@ -212,7 +212,7 @@ def code128():
     print('};\n')
 
     print('/// Code 128 B')
-    print('static const Map<int, int> code128B = <int, int>{')
+    print('static const code128B = <int, int>{')
     i = 0
     for a, b, c, v in C128:
         r = ord(b) if len(b) == 1 else names[b]
@@ -224,7 +224,7 @@ def code128():
     print('};\n')
 
     print('/// Code 128 C')
-    print('static const Map<int, int> code128C = <int, int>{')
+    print('static const code128C = <int, int>{')
     i = 0
     for a, b, c, v in C128:
         r = int(c) if len(c) == 2 else names[c]
@@ -236,7 +236,7 @@ def code128():
     print('};\n')
 
     print('/// Code 128 conversion bits')
-    print('static const Map<int, int> code128 = <int, int>{')
+    print('static const code128 = <int, int>{')
     i = 0
     for a, b, c, v in C128:
         print(f'{hex(i)}: {hex(int(v[::-1], 2))}, // {a} | {b} | {c}')
@@ -247,12 +247,12 @@ def code128():
 
     print('/// Code 128 misc bits')
     for name in misc:
-        print(f'static const int code128{name} = {hex(i)};')
+        print(f'static const code128{name} = {hex(i)};')
         i += 1
     for name in names:
         if names[name] < 0:
-            print(f'static const int code128{name} = {names[name]};')
-    print(f'static const int code128Len = 11;')
+            print(f'static const code128{name} = {names[name]};')
+    print(f'static const code128Len = 11;')
 
 
 def ean13():
@@ -306,14 +306,14 @@ def ean13():
     )
 
     print('/// EAN 13 conversion bits')
-    print('static const Map<int, List<int>> ean = <int, List<int>>{')
+    print('static const ean = <int, List<int>>{')
     for d, l, g, r in digits:
         print(
             f'{hex(ord(d))}: <int>[{hex(int(l[::-1], 2))}, {hex(int(g[::-1], 2))}, {hex(int(r[::-1], 2))}],')
     print('};\n')
 
     print('/// EAN 13 first digit')
-    print('static const Map<int, int> eanFirst = <int, int>{')
+    print('static const eanFirst = <int, int>{')
     for d, f, s in first:
         v = 0
         i = 0
@@ -324,7 +324,7 @@ def ean13():
     print('};\n')
 
     print('/// EAN 5 checksum')
-    print('static const Map<int, int> ean5Checksum = <int, int>{')
+    print('static const ean5Checksum = <int, int>{')
     for d, f, s in first:
         v = 0
         i = 0
@@ -335,7 +335,7 @@ def ean13():
     print('};\n')
 
     print('/// UPC-A to UPC-E conversion')
-    print('static const Map<int, int> upce = <int, int>{')
+    print('static const upce = <int, int>{')
     for d, f, s in upce:
         v = 0
         i = 0
@@ -347,7 +347,7 @@ def ean13():
 
     print('/// EAN misc bits')
     for name in misc:
-        print(f'static const int ean{name} = {hex(int(misc[name][::-1], 2))};')
+        print(f'static const ean{name} = {hex(int(misc[name][::-1], 2))};')
 
 
 def itf14():
@@ -370,15 +370,15 @@ def itf14():
     }
 
     print('/// ITF-14 conversion bits')
-    print('static const Map<int, int> itf14 = <int, int>{')
+    print('static const itf14 = <int, int>{')
     for k, v in data.items():
         print(
-            f'{hex(ord(k))}: {hex(int(v[::-1], 2))},')
+            f'{hex(ord(k))}: {hex(int(v[::-1], 2))}, // "{k}"')
     print('};\n')
 
     print('/// ITF-14 misc bits')
     for name in misc:
-        print(f'static const int itf{name} = {hex(int(misc[name][::-1], 2))};')
+        print(f'static const itf{name} = {hex(int(misc[name][::-1], 2))};')
 
 
 def telepen():
@@ -523,15 +523,81 @@ def telepen():
     }
 
     print('/// Telepen conversion bits')
-    print('static const List<int> telepen = <int>[')
+    print('static const telepen = <int>[')
+    n = 0
     for v in data:
-        print(hex(int(''.join(reversed(v)), 2)) + ',')
+        c = hex(int(''.join(reversed(v)), 2))
+        print(f'{c}, // {repr(chr(n))}')
+        n += 1
+        if n > 127:
+            break
+
     print('];\n')
 
     print('/// Telepen misc bits')
     for name in misc:
-        print(f'static const int telepen{name} = {hex(ord(misc[name]))};')
-    print(f'static const int telepenLen = 16;')
+        c = hex(int(''.join(reversed(data[ord(misc[name])])), 2))
+        print(
+            f'static const telepen{name} = {c}; // "{misc[name]}"')
+    print(f'static const telepenLen = 16;')
+
+
+def codabar():
+    data = {
+        "0": "001 0001",
+        "1": "001 0010",
+        "4": "001 0100",
+        "5": "001 1000",
+        "2": "010 0001",
+        "-": "010 0010",
+        "$": "010 0100",
+        "9": "010 1000",
+        "6": "100 0001",
+        "7": "100 0010",
+        "8": "100 0100",
+        "3": "100 1000",
+        ".": "000 1110",
+        "/": "000 1101",
+        ":": "000 1011",
+        "+": "000 0111",
+        "C": "011 0001",
+        "D": "011 0010",
+        "A": "011 0100",
+        "B": "110 0001",
+    }
+
+    misc = [
+        "A",
+        "B",
+        "C",
+        "D",
+    ]
+
+    bars = {}
+
+    print('/// Codabar conversion bits')
+    print('static const codabar = <int, int>{')
+    for k, v in data.items():
+        c = ''
+        s = v[:3]
+        b = v[4:]
+        for i in range(4):
+            c += '1'
+            if b[i] == '1':
+                c += '1'
+            if i < 3:
+                c += '0'
+                if s[i] == '1':
+                    c += '0'
+        r = ''.join(reversed(c))
+        bars[k] = r
+        print(f'{hex(ord(k))}: {hex(int(r, 2))}, // "{k}" => "{c}"')
+    print('};\n')
+
+    print('static const codabarLen = <int, int>{')
+    for k, v in bars.items():
+        print(f'{hex(ord(k))}: {len(v)}, // "{k}"')
+    print('};')
 
 
 if __name__ == '__main__':
@@ -551,7 +617,6 @@ if __name__ == '__main__':
     print(' * limitations under the License.')
     print(' */')
     print('')
-    print('// ignore_for_file: omit_local_variable_types')
     print('// ignore_for_file: public_member_api_docs')
     print('')
     print('class BarcodeMaps {')
@@ -562,5 +627,6 @@ if __name__ == '__main__':
     ean13()
     itf14()
     telepen()
+    codabar()
 
     print('}')
