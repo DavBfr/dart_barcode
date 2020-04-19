@@ -31,6 +31,7 @@ import 'ean5.dart';
 import 'ean8.dart';
 import 'isbn.dart';
 import 'itf14.dart';
+import 'telepen.dart';
 import 'upca.dart';
 import 'upce.dart';
 
@@ -48,6 +49,7 @@ enum BarcodeType {
   CodeUPCE,
   Code128,
   GS128,
+  Telepen,
 }
 
 /// Barcode generation class
@@ -91,6 +93,8 @@ abstract class Barcode {
         return Barcode.upcA();
       case BarcodeType.CodeUPCE:
         return Barcode.upcE();
+      case BarcodeType.Telepen:
+        return Barcode.telepen();
       default:
         throw UnimplementedError('Barcode $type not supported');
     }
@@ -154,6 +158,10 @@ abstract class Barcode {
   /// * set fallback to true to silently try UPC-A if the code is not compatible with UPC-E
   /// ![UPC E](https://raw.githubusercontent.com/DavBfr/dart_barcode/master/img/upc-e.svg?sanitize=true)
   static Barcode upcE({bool fallback = false}) => BarcodeUpcE(fallback);
+
+  /// Create a Telepen `Barcode` instance
+  /// ![Telepen](https://raw.githubusercontent.com/DavBfr/dart_barcode/master/img/telepen.svg?sanitize=true)
+  static Barcode telepen() => const BarcodeTelepen();
 
   /// Main method to produce the barcode graphic description.
   /// Returns a stream of drawing operations required to properly

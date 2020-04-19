@@ -90,4 +90,9 @@ void main() {
     '06510000432',
     width: 100,
   );
+
+  buildBarcode(
+    Barcode.telepen(),
+    'Telepen',
+  );
 }

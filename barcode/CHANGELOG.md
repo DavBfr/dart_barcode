@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.6.0
+
+- Add Telepen
+
 ## 1.5.0
 
 - Reorganize the library
