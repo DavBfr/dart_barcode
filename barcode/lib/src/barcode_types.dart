@@ -63,4 +63,7 @@ enum BarcodeType {
 
   /// Pdf417
   PDF417,
+
+  /// Datamatrix
+  DataMatrix,
 }

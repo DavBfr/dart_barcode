@@ -110,4 +110,9 @@ void main() {
     Barcode.pdf417(),
     'PDF417',
   );
+
+  buildBarcode(
+    Barcode.dataMatrix(),
+    'Datamatrix',
+  );
 }

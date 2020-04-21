@@ -4,6 +4,7 @@
 
 - Add Codabar
 - Add PDF417
+- Add Data Matrix
 
 ## 1.7.0
 

@@ -104,6 +104,10 @@ Widget _barcodeInfo(BarcodeConf conf) {
       desc =
           'PDF417 is a stacked linear barcode format used in a variety of applications such as transport, identification cards, and inventory management.';
       break;
+    case BarcodeType.DataMatrix:
+      desc =
+          'A Data Matrix is a two-dimensional barcode consisting of black and white "cells" or modules arranged in either a square or rectangular pattern, also known as a matrix.';
+      break;
   }
 
   return Center(

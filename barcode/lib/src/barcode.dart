@@ -26,6 +26,7 @@ import 'codabar.dart';
 import 'code128.dart';
 import 'code39.dart';
 import 'code93.dart';
+import 'datamatrix.dart';
 import 'ean13.dart';
 import 'ean2.dart';
 import 'ean5.dart';
@@ -86,6 +87,8 @@ abstract class Barcode {
         return Barcode.codabar();
       case BarcodeType.PDF417:
         return Barcode.pdf417();
+      case BarcodeType.DataMatrix:
+        return Barcode.dataMatrix();
       default:
         throw UnimplementedError('Barcode $type not supported');
     }
@@ -177,6 +180,10 @@ abstract class Barcode {
           {BarcodeCodabarStartStop start = BarcodeCodabarStartStop.A,
           BarcodeCodabarStartStop stop = BarcodeCodabarStartStop.B}) =>
       BarcodeCodabar(start, stop);
+
+  /// Create a Datamatrix [Barcode] instance
+  /// ![Datamatrix](https://raw.githubusercontent.com/DavBfr/dart_barcode/master/img/data-matrix.svg?sanitize=true)
+  static Barcode dataMatrix() => const BarcodeDataMatrix();
 
   /// Main method to produce the barcode graphic description.
   /// Returns a stream of drawing operations required to properly
