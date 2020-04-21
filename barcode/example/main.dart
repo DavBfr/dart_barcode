@@ -4,9 +4,15 @@ import 'dart:io';
 
 import 'package:barcode/barcode.dart';
 
-void buildBarcode(Barcode bc, String data, {String filename, double width}) {
+void buildBarcode(
+  Barcode bc,
+  String data, {
+  String filename,
+  double width,
+  double height,
+}) {
   /// Create the Barcode
-  final svg = bc.toSvg(data, width: width ?? 200);
+  final svg = bc.toSvg(data, width: width ?? 200, height: height ?? 80);
 
   // Save the image
   filename ??= bc.name.replaceAll(RegExp(r'\s'), '-').toLowerCase();
@@ -99,6 +105,7 @@ void main() {
   buildBarcode(
     Barcode.qrCode(),
     'QR-Code',
+    height: 200,
   );
 
   buildBarcode(
@@ -109,10 +116,12 @@ void main() {
   buildBarcode(
     Barcode.pdf417(),
     'PDF417',
+    height: 30,
   );
 
   buildBarcode(
     Barcode.dataMatrix(),
     'Datamatrix',
+    height: 200,
   );
 }
