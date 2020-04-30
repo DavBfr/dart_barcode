@@ -168,10 +168,10 @@ class BarcodeAztec extends Barcode2D {
         states = _updateStateListForChar(states, data, index);
       }
     }
-    var minBitCnt = 0x3FFFFFFF;
+    int minBitCnt;
     _State result;
     for (final s in states) {
-      if (s.bitCount < minBitCnt) {
+      if (minBitCnt == null || s.bitCount < minBitCnt) {
         minBitCnt = s.bitCount;
         result = s;
       }
