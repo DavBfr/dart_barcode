@@ -20,90 +20,121 @@ Only two basic drawing primitives are required:
 * Filled rectangle to draw the bars
 * Text drawing to display the code in full-text
 
-See the example for how to use it.
+## Generate barcodes
+
+```dart
+// Create a DataMatrix barcode
+final dm = Barcode.dataMatrix();
+
+// Generate a SVG with "Hello World!"
+final svg = bc.toSvg('Hello World!', width: 200, height: 200);
+
+// Save the image
+await File('barcode.svg').writeAsString(svg);
+```
+
+Create a WIFI configuration barcode:
+
+```dart
+// Create a DataMatrix barcode
+final dm = Barcode.dataMatrix();
+
+final me = MeCard.wifi(
+  ssid: 'Wifi Name',
+  password: 'password',
+);
+
+// Generate a SVG with a barcode that configures the wifi access
+final svg = bc.toSvg(me.toString(), width: 200, height: 200);
+
+// Save the image
+await File('wifi.svg').writeAsString(svg);
+```
+
+## Supported barcodes
 
 The following barcode images are SVG. The proper rendering, especially text, depends on the browser implementation and availability of the fonts.
 
-## 1D Barcodes
+### 1D Barcodes
 
-### Code 39
+#### Code 39
 
 <img width="250" alt="CODE 39" src="https://raw.githubusercontent.com/DavBfr/dart_barcode/master/img/code-39.svg?sanitize=true">
 
-### Code 93
+#### Code 93
 
 <img width="200" alt="CODE 93" src="https://raw.githubusercontent.com/DavBfr/dart_barcode/master/img/code-93.svg?sanitize=true">
 
-### Code 128 A
+#### Code 128 A
 
 <img width="300" alt="CODE 128 A" src="https://raw.githubusercontent.com/DavBfr/dart_barcode/master/img/code-128a.svg?sanitize=true">
 
-### Code 128 B
+#### Code 128 B
 
 <img width="300" alt="CODE 128 B" src="https://raw.githubusercontent.com/DavBfr/dart_barcode/master/img/code-128b.svg?sanitize=true">
 
-### Code 128 C
+#### Code 128 C
 
 <img width="200" alt="CODE 128 C" src="https://raw.githubusercontent.com/DavBfr/dart_barcode/master/img/code-128c.svg?sanitize=true">
 
-### GS1-128
+#### GS1-128
 
 <img width="300" alt="GS1 128" src="https://raw.githubusercontent.com/DavBfr/dart_barcode/master/img/gs1-128.svg?sanitize=true">
 
-### ITF-14
+#### ITF-14
 
 <img width="300" alt="ITF 14" src="https://raw.githubusercontent.com/DavBfr/dart_barcode/master/img/itf-14.svg?sanitize=true">
 
-### EAN 13
+#### EAN 13
 
 <img width="200" alt="EAN 13" src="https://raw.githubusercontent.com/DavBfr/dart_barcode/master/img/ean-13.svg?sanitize=true">
 
-### EAN 8
+#### EAN 8
 
 <img height="100" alt="EAN 8" src="https://raw.githubusercontent.com/DavBfr/dart_barcode/master/img/ean-8.svg?sanitize=true">
 
-### EAN 2
+#### EAN 2
 
 <img height="100" alt="EAN 2" src="https://raw.githubusercontent.com/DavBfr/dart_barcode/master/img/ean-2.svg?sanitize=true">
 
-### EAN 5
+#### EAN 5
 
 <img height="100" alt="EAN 5" src="https://raw.githubusercontent.com/DavBfr/dart_barcode/master/img/ean-5.svg?sanitize=true">
 
-### ISBN
+#### ISBN
 
 <img width="200" alt="ISBN" src="https://raw.githubusercontent.com/DavBfr/dart_barcode/master/img/isbn.svg?sanitize=true">
 
-### UPC-A
+#### UPC-A
 
 <img width="200" alt="UPC A" src="https://raw.githubusercontent.com/DavBfr/dart_barcode/master/img/upc-a.svg?sanitize=true">
 
-### UPC-E
+#### UPC-E
 
 <img height="100" alt="UPC E" src="https://raw.githubusercontent.com/DavBfr/dart_barcode/master/img/upc-e.svg?sanitize=true">
 
-### Telepen
+#### Telepen
 
 <img width="200" alt="Telepen" src="https://raw.githubusercontent.com/DavBfr/dart_barcode/master/img/telepen.svg?sanitize=true">
 
-### Codabar
+#### Codabar
 
-## 2D Barcodes
+### 2D Barcodes
 
 <img width="200" alt="Codabar" src="https://raw.githubusercontent.com/DavBfr/dart_barcode/master/img/codabar.svg?sanitize=true">
 
-## QR-Code
+#### QR-Code
 
 <img width="200" alt="QR-Code" src="https://raw.githubusercontent.com/DavBfr/dart_barcode/master/img/qr-code.svg?sanitize=true">
 
-## PDF417
+#### PDF417
 
 <img width="200" alt="PDF417" src="https://raw.githubusercontent.com/DavBfr/dart_barcode/master/img/pdf417.svg?sanitize=true">
 
-## Data Matrix
+#### Data Matrix
 
 <img width="200" alt="Data Matrix" src="https://raw.githubusercontent.com/DavBfr/dart_barcode/master/img/data-matrix.svg?sanitize=true">
 
-## Aztec
+#### Aztec
 
 <img width="200" alt="Aztec" src="https://raw.githubusercontent.com/DavBfr/dart_barcode/master/img/aztec.svg?sanitize=true">

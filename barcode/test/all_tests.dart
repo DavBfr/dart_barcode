@@ -18,6 +18,7 @@ import 'code128_test.dart' as code128;
 import 'code39_test.dart' as code39;
 import 'code93_test.dart' as code93;
 import 'generic_test.dart' as generic;
+import 'mecard_test.dart' as mecard;
 import 'telepen_test.dart' as telepen;
 
 void main() {
@@ -26,4 +27,5 @@ void main() {
   code93.main();
   code128.main();
   telepen.main();
+  mecard.main();
 }

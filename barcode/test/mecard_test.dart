@@ -14,11 +14,28 @@
  * limitations under the License.
  */
 
-export 'src/barcode.dart';
-export 'src/barcode_exception.dart';
-export 'src/barcode_operations.dart';
-export 'src/barcode_types.dart';
-export 'src/codabar.dart' show BarcodeCodabarStartStop;
-export 'src/mecard.dart';
-export 'src/pdf417.dart' show Pdf417SecurityLevel;
-export 'src/qrcode.dart' show BarcodeQRCorrectionLevel;
+import 'dart:io';
+
+import 'package:barcode/barcode.dart';
+import 'package:test/test.dart';
+
+void main() {
+  test('MeCard WIFI', () {
+    final a = MeCard.wifi(
+      ssid: 'ssid',
+      password: '123;45',
+    );
+
+    expect(a.toString(), r'WIFI:S:ssid;T:WPA;P:123\;45;;');
+  });
+
+  test('MeCard contact', () {
+    final a = MeCard.contact(
+      name: 'David PHAM-VAN',
+      email: 'dev.nfet.net@gmail.com',
+    );
+
+    expect(a.toString(),
+        r'MECARD:N:David PHAM-VAN;EMAIL:dev.nfet.net@gmail.com;;');
+  });
+}

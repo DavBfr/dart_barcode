@@ -3,6 +3,7 @@
 ## 1.9.0
 
 - Add Aztec
+- Add MeCard generator
 
 ## 1.8.0
 
