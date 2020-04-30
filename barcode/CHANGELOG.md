@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.9.1
+
+- Fix issue with web build
+
 ## 1.9.0
 
 - Add Aztec
