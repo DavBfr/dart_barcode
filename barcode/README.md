@@ -24,67 +24,71 @@ See the example for how to use it.
 
 The following barcode images are SVG. The proper rendering, especially text, depends on the browser implementation and availability of the fonts.
 
-## Code 39
+## 1D Barcodes
+
+### Code 39
 
 <img width="250" alt="CODE 39" src="https://raw.githubusercontent.com/DavBfr/dart_barcode/master/img/code-39.svg?sanitize=true">
 
-## Code 93
+### Code 93
 
 <img width="200" alt="CODE 93" src="https://raw.githubusercontent.com/DavBfr/dart_barcode/master/img/code-93.svg?sanitize=true">
 
-## Code 128 A
+### Code 128 A
 
 <img width="300" alt="CODE 128 A" src="https://raw.githubusercontent.com/DavBfr/dart_barcode/master/img/code-128a.svg?sanitize=true">
 
-## Code 128 B
+### Code 128 B
 
 <img width="300" alt="CODE 128 B" src="https://raw.githubusercontent.com/DavBfr/dart_barcode/master/img/code-128b.svg?sanitize=true">
 
-## Code 128 C
+### Code 128 C
 
 <img width="200" alt="CODE 128 C" src="https://raw.githubusercontent.com/DavBfr/dart_barcode/master/img/code-128c.svg?sanitize=true">
 
-## GS1-128
+### GS1-128
 
 <img width="300" alt="GS1 128" src="https://raw.githubusercontent.com/DavBfr/dart_barcode/master/img/gs1-128.svg?sanitize=true">
 
-## ITF-14
+### ITF-14
 
 <img width="300" alt="ITF 14" src="https://raw.githubusercontent.com/DavBfr/dart_barcode/master/img/itf-14.svg?sanitize=true">
 
-## EAN 13
+### EAN 13
 
 <img width="200" alt="EAN 13" src="https://raw.githubusercontent.com/DavBfr/dart_barcode/master/img/ean-13.svg?sanitize=true">
 
-## EAN 8
+### EAN 8
 
 <img height="100" alt="EAN 8" src="https://raw.githubusercontent.com/DavBfr/dart_barcode/master/img/ean-8.svg?sanitize=true">
 
-## EAN 2
+### EAN 2
 
 <img height="100" alt="EAN 2" src="https://raw.githubusercontent.com/DavBfr/dart_barcode/master/img/ean-2.svg?sanitize=true">
 
-## EAN 5
+### EAN 5
 
 <img height="100" alt="EAN 5" src="https://raw.githubusercontent.com/DavBfr/dart_barcode/master/img/ean-5.svg?sanitize=true">
 
-## ISBN
+### ISBN
 
 <img width="200" alt="ISBN" src="https://raw.githubusercontent.com/DavBfr/dart_barcode/master/img/isbn.svg?sanitize=true">
 
-## UPC-A
+### UPC-A
 
 <img width="200" alt="UPC A" src="https://raw.githubusercontent.com/DavBfr/dart_barcode/master/img/upc-a.svg?sanitize=true">
 
-## UPC-E
+### UPC-E
 
 <img height="100" alt="UPC E" src="https://raw.githubusercontent.com/DavBfr/dart_barcode/master/img/upc-e.svg?sanitize=true">
 
-## Telepen
+### Telepen
 
 <img width="200" alt="Telepen" src="https://raw.githubusercontent.com/DavBfr/dart_barcode/master/img/telepen.svg?sanitize=true">
 
-## Codabar
+### Codabar
+
+## 2D Barcodes
 
 <img width="200" alt="Codabar" src="https://raw.githubusercontent.com/DavBfr/dart_barcode/master/img/codabar.svg?sanitize=true">
 
@@ -99,3 +103,7 @@ The following barcode images are SVG. The proper rendering, especially text, dep
 ## Data Matrix
 
 <img width="200" alt="Data Matrix" src="https://raw.githubusercontent.com/DavBfr/dart_barcode/master/img/data-matrix.svg?sanitize=true">
+
+## Aztec
+
+<img width="200" alt="Aztec" src="https://raw.githubusercontent.com/DavBfr/dart_barcode/master/img/aztec.svg?sanitize=true">

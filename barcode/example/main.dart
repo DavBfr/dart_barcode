@@ -124,4 +124,10 @@ void main() {
     'Datamatrix',
     height: 200,
   );
+
+  buildBarcode(
+    Barcode.aztec(),
+    'Aztec',
+    height: 200,
+  );
 }

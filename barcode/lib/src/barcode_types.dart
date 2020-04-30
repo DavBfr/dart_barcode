@@ -66,4 +66,7 @@ enum BarcodeType {
 
   /// Datamatrix
   DataMatrix,
+
+  /// Aztec
+  Aztec,
 }

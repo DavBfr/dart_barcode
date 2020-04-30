@@ -19,6 +19,7 @@ import 'dart:convert';
 import 'package:barcode/src/pdf417.dart';
 import 'package:meta/meta.dart';
 
+import 'aztec.dart';
 import 'barcode_exception.dart';
 import 'barcode_operations.dart';
 import 'barcode_types.dart';
@@ -89,6 +90,8 @@ abstract class Barcode {
         return Barcode.pdf417();
       case BarcodeType.DataMatrix:
         return Barcode.dataMatrix();
+      case BarcodeType.Aztec:
+        return Barcode.aztec();
       default:
         throw UnimplementedError('Barcode $type not supported');
     }
@@ -184,6 +187,13 @@ abstract class Barcode {
   /// Create a Datamatrix [Barcode] instance
   /// ![Datamatrix](https://raw.githubusercontent.com/DavBfr/dart_barcode/master/img/data-matrix.svg?sanitize=true)
   static Barcode dataMatrix() => const BarcodeDataMatrix();
+
+  /// Create an Aztec [Barcode] instance
+  /// ![Aztec](https://raw.githubusercontent.com/DavBfr/dart_barcode/master/img/aztec.svg?sanitize=true)
+  static Barcode aztec(
+          {int minECCPercent = BarcodeAztec.defaultEcPercent,
+          int userSpecifiedLayers = BarcodeAztec.defaultLayers}) =>
+      BarcodeAztec(minECCPercent, userSpecifiedLayers);
 
   /// Main method to produce the barcode graphic description.
   /// Returns a stream of drawing operations required to properly

@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.9.0
+
+- Add Aztec
+
 ## 1.8.0
 
 - Add Codabar

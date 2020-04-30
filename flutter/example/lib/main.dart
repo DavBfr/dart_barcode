@@ -108,6 +108,10 @@ Widget _barcodeInfo(BarcodeConf conf) {
       desc =
           'A Data Matrix is a two-dimensional barcode consisting of black and white "cells" or modules arranged in either a square or rectangular pattern, also known as a matrix.';
       break;
+    case BarcodeType.Aztec:
+      desc =
+          'Named after the resemblance of the central finder pattern to an Aztec pyramid.';
+      break;
   }
 
   return Center(
