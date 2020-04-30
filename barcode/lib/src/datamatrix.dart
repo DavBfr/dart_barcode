@@ -15,6 +15,7 @@
  */
 
 import 'barcode_2d.dart';
+import 'barcode_exception.dart';
 import 'reedsolomon.dart';
 
 /// Data Matrix
@@ -39,7 +40,7 @@ class BarcodeDataMatrix extends Barcode2D {
     }
 
     if (size == null) {
-      throw Exception('to much data to encode');
+      throw const BarcodeException('Too much data to encode');
     }
     text = _addPadding(text, size.dataCodewords());
     text = _ErrorCorrection.ec.calcECC(text, size);
@@ -52,7 +53,7 @@ class BarcodeDataMatrix extends Barcode2D {
         code,
       );
     }
-    throw Exception('unable to render barcode');
+    throw const BarcodeException('Unable to render barcode');
   }
 
   @override

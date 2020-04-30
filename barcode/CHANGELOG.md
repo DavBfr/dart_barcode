@@ -4,6 +4,7 @@
 
 - Add Aztec
 - Add MeCard generator
+- Use BarcodeException for all errors
 
 ## 1.8.0
 

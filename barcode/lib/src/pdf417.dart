@@ -17,6 +17,7 @@
 import 'dart:math';
 
 import 'barcode_2d.dart';
+import 'barcode_exception.dart';
 import 'pdf417_codewords.dart';
 
 /// Error correction levels
@@ -82,7 +83,7 @@ class BarcodePDF417 extends Barcode2D {
         dim.columns > _maxCols ||
         dim.rows < _minRows ||
         dim.rows > _maxRows) {
-      throw Exception('Unable to fit data in barcode');
+      throw const BarcodeException('Unable to fit data in barcode');
     }
 
     final codeWords =

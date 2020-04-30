@@ -16,6 +16,8 @@
 
 // ignore_for_file: public_member_api_docs
 
+import 'barcode_exception.dart';
+
 class ReedSolomonEncoder {
   ReedSolomonEncoder(this.gf) {
     polynomes = <GFPoly>[
@@ -97,7 +99,7 @@ class GaloisField {
 // Divide divides two numbers
   int divide(int a, int b) {
     if (b == 0) {
-      throw Exception('divide by zero');
+      throw const BarcodeException('Divide by zero');
     } else if (a == 0) {
       return 0;
     }

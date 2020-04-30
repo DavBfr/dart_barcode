@@ -15,6 +15,7 @@
  */
 
 import 'barcode_2d.dart';
+import 'barcode_exception.dart';
 import 'reedsolomon.dart';
 
 /// Aztec
@@ -435,7 +436,7 @@ class BarcodeAztec extends Barcode2D {
       }
       if ((compact && layers > _maxNbBitsCompact) ||
           (!compact && layers > _maxNbBits)) {
-        throw Exception('Illegal value $userSpecifiedLayers for layers');
+        throw BarcodeException('Illegal value $userSpecifiedLayers for layers');
       }
       totalBitsInLayer = _totalBitsInLayer(layers, compact);
       wordSize = _wordSize[layers];
@@ -443,10 +444,10 @@ class BarcodeAztec extends Barcode2D {
           totalBitsInLayer - (totalBitsInLayer % wordSize);
       stuffedBits = _stuffBits(bits, wordSize);
       if (stuffedBits.length + eccBits > usableBitsInLayers) {
-        throw Exception('Data too large for user specified layer');
+        throw const BarcodeException('Data too large for user specified layer');
       }
       if (compact && stuffedBits.length > wordSize * 64) {
-        throw Exception('Data too large for user specified layer');
+        throw const BarcodeException('Data too large for user specified layer');
       }
     } else {
       wordSize = 0;
@@ -456,7 +457,7 @@ class BarcodeAztec extends Barcode2D {
       // is the same size, but has more data.
       for (var i = 0;; i++) {
         if (i > _maxNbBits) {
-          throw Exception('Data too large for an aztec code');
+          throw const BarcodeException('Data too large for an aztec code');
         }
         compact = i <= 3;
         layers = i;
