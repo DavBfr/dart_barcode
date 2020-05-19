@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.10.0
+
+- Improve UPC-E barcode
+
+
 ## 1.9.1
 
 - Fix issue with web build

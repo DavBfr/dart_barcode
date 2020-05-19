@@ -119,9 +119,9 @@ The following barcode images are SVG. The proper rendering, especially text, dep
 
 #### Codabar
 
-### 2D Barcodes
-
 <img width="200" alt="Codabar" src="https://raw.githubusercontent.com/DavBfr/dart_barcode/master/img/codabar.svg?sanitize=true">
+
+### 2D Barcodes
 
 #### QR-Code
 

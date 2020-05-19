@@ -40,21 +40,33 @@ class BarcodeUpcE extends BarcodeEan {
   String get name => 'UPC E';
 
   @override
-  int get minLength => 11;
+  int get minLength => 6;
 
   @override
   int get maxLength => 12;
 
   @override
   void verify(String data) {
+    if (data.length <= 8) {
+      // Try to convert UPC-E to UPC-A
+      data = upceToUpca(data);
+    }
+
+    if (data.length < 11) {
+      throw BarcodeException(
+          'Unable to encode "$data", minimum length is 11 for $name Barcode');
+    }
+
     final upca = checkLength(data, maxLength);
     if (!fallback) {
-      _upcaToUpce(upca);
+      upcaToUpce(upca);
     }
+
     super.verify(data);
   }
 
-  String _upcaToUpce(String data) {
+  /// Convert an UPC-A barcode to a short version UPC-E
+  String upcaToUpce(String data) {
     final exp = RegExp(r'^[01](\d\d+)([0-2]000[05-9])(\d*)\d$');
     final match = exp.firstMatch(data);
 
@@ -106,14 +118,82 @@ class BarcodeUpcE extends BarcodeEan {
     return left + right + last;
   }
 
+  /// Convert a short version UPC-E barcode to a full length UPC-A
+  String upceToUpca(String data) {
+    final exp = RegExp(r'^\d{6,8}$');
+    final match = exp.firstMatch(data);
+
+    if (match == null) {
+      throw BarcodeException('Unable to convert "$data" to UPC A Barcode');
+    }
+
+    var first = '0';
+    String checksum;
+
+    switch (data.length) {
+      case 8:
+        checksum = data[7];
+        first = data[0];
+        data = data.substring(1, 7);
+        break;
+      case 7:
+        first = data[0];
+        data = data.substring(1, 7);
+        break;
+    }
+
+    if (first != '0' && first != '1') {
+      throw BarcodeException('Unable to convert "$data" to UPC A Barcode');
+    }
+
+    final d1 = data[0];
+    final d2 = data[1];
+    final d3 = data[2];
+    final d4 = data[3];
+    final d5 = data[4];
+    final d6 = data[5];
+
+    String manufacturer;
+    String product;
+
+    switch (d6) {
+      case '0':
+      case '1':
+      case '2':
+        manufacturer = '$d1$d2${d6}00';
+        product = '00$d3$d4$d5';
+        break;
+      case '3':
+        manufacturer = '$d1$d2${d3}00';
+        product = '000$d4$d5';
+        break;
+      case '4':
+        manufacturer = '$d1$d2$d3${d4}0';
+        product = '0000$d5';
+        break;
+      default:
+        manufacturer = '$d1$d2$d3$d4$d5';
+        product = '0000$d6';
+        break;
+    }
+
+    data = first + manufacturer + product;
+    return data + (checksum ?? checkSumModulo10(data));
+  }
+
   @override
   Iterable<bool> convert(String data) sync* {
+    if (data.length <= 8) {
+      // Try to convert UPC-E to UPC-A
+      data = upceToUpca(data);
+    }
+
     data = checkLength(data, maxLength);
     final first = data.codeUnitAt(0);
     final last = data.codeUnitAt(11);
 
     try {
-      data = _upcaToUpce(data);
+      data = upcaToUpce(data);
     } on BarcodeException {
       if (fallback) {
         yield* const BarcodeUpcA().convert(data);
@@ -195,12 +275,17 @@ class BarcodeUpcE extends BarcodeEan {
     double fontHeight,
     double lineWidth,
   ) sync* {
+    if (data.length <= 8) {
+      // Try to convert UPC-E to UPC-A
+      data = upceToUpca(data);
+    }
+
     data = checkLength(data, maxLength);
     final first = data.substring(0, 1);
     final last = data.substring(11, 12);
 
     try {
-      data = _upcaToUpce(data);
+      data = upcaToUpce(data);
     } on BarcodeException {
       if (fallback) {
         yield* const BarcodeUpcA()
