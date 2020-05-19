@@ -83,12 +83,8 @@ analyze-image: .pana
 	@pub global run pana --no-warning --source path image
 	@find image -name pubspec.yaml -exec sed -i -e 's/^_dependency_overrides:/dependency_overrides:/g' '{}' ';'
 
-.pubspec_extract:
-	which pubspec_extract || pub global activate pubspec_extract
-	touch $@
-
-image/lib/src/pubspec.dart: image/pubspec.yaml .pubspec_extract
-	pubspec_extract -s "$<" -d "$@"
+image/lib/src/pubspec.dart: image/pubspec.yaml
+	cd image; pub run pubspec_extract -s "../$<" -d "../$@"
 
 .dartfix:
 	which dartfix || pub global activate dartfix

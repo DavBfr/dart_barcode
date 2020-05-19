@@ -53,6 +53,7 @@ class Pubspec {
 
   static const Map<dynamic, dynamic> dev_dependencies = <dynamic, dynamic>{
     'pedantic': '1.9.0',
+    'pubspec_extract': '^1.3.1',
   };
 
   static const Map<dynamic, dynamic> executables = <dynamic, dynamic>{
