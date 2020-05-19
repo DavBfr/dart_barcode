@@ -63,7 +63,7 @@ class BarcodeDataMatrix extends Barcode2D {
   String get name => 'Data Matrix';
 
   @override
-  int get maxLength => 2335;
+  int get maxLength => 1559;
 
   List<bool> _render(List<int> data, _CodeSize size) {
     final cl = _CodeLayout(size);
