@@ -16,9 +16,9 @@ class Pubspec {
   static const String issue_tracker =
       'https://github.com/DavBfr/dart_barcode/issues';
 
-  static const String versionFull = '1.0.2';
+  static const String versionFull = '1.0.3';
 
-  static const String version = '1.0.2';
+  static const String version = '1.0.3';
 
   static const String versionSmall = '1.0';
 
@@ -26,7 +26,7 @@ class Pubspec {
 
   static const int versionMinor = 0;
 
-  static const int versionPatch = 2;
+  static const int versionPatch = 3;
 
   static const int versionBuild = 0;
 

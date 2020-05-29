@@ -35,7 +35,11 @@ test-barcode: .coverage
 	dart --enable-asserts --disable-service-auth-codes --enable-vm-service=$(COV_PORT) --pause-isolates-on-exit test/all_tests.dart
 	cd barcode; pub global run coverage:format_coverage --packages=.packages -i coverage.json --report-on lib --lcov --out ../lcov-tests.info
 
-test: node_modules test-barcode barcodes
+test-image:
+	cd image; pub get
+	cd image; dart test
+
+test: node_modules test-barcode test-image barcodes
 	lcov --add-tracefile lcov-tests.info -t test1 -a lcov-example.info -t test2 -o lcov.info
 	cat lcov.info | node_modules/.bin/lcov-summary
 
