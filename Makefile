@@ -37,10 +37,16 @@ test-barcode: .coverage
 
 test-image:
 	cd image; pub get
-	cd image; dart test
+	cd image; dart test --coverage=.coverage
+	cd image; pub global run coverage:format_coverage --packages=.packages -i .coverage --report-on lib --lcov --out ../lcov-image.info
 
-test: node_modules test-barcode test-image barcodes
-	lcov --add-tracefile lcov-tests.info -t test1 -a lcov-example.info -t test2 -o lcov.info
+test-flutter:
+	cd flutter; flutter pub get
+	cd flutter; flutter test --coverage
+	mv flutter/coverage/lcov.info lcov-flutter.info
+
+test: node_modules test-barcode test-image test-flutter barcodes
+	lcov --add-tracefile lcov-tests.info -t test1 -a lcov-example.info -t test2 -a lcov-image.info -t test3 -a lcov-flutter.info -t test4 -o lcov.info
 	cat lcov.info | node_modules/.bin/lcov-summary
 
 clean:

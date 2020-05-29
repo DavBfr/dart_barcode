@@ -67,4 +67,21 @@ void main() {
       equals('44ff75acb301f764cb6cfc8dea61ec9e4edb937b'),
     );
   });
+
+  test('Image Barcode 1D auto-size', () {
+    final image = img.Image(450, 200);
+    drawBarcode(
+      image,
+      Barcode.code128(),
+      'Hello',
+      font: img.arial_24,
+    );
+
+    File('../code128.png').writeAsBytesSync(img.writePng(image));
+
+    expect(
+      sha1.convert(image.getBytes()).toString(),
+      equals('7608224396ba51dfce991042acfbbf9e97ca5ad7'),
+    );
+  });
 }
