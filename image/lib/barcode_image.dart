@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-library barcode_widget;
+library barcode_image;
 
 export 'package:barcode/barcode.dart';
 
