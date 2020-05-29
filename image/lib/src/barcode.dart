@@ -95,9 +95,9 @@ void drawBarcode(
         fillRect(
           image,
           (x + elem.left).round(),
-          elem.top.round(),
-          (y + elem.right - 1).round(),
-          (elem.bottom - 1).round(),
+          (y + elem.top).round(),
+          (x + elem.right).round(),
+          (y + elem.bottom).round(),
           color,
         );
       }
