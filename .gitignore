@@ -14,5 +14,7 @@ node_modules
 package-lock.json
 pubspec.lock
 build
-flutter/example/.flutter-plugins
-flutter/example/.flutter-plugins-dependencies
+flutter
+demo
+/*.svg
+/*.png
