@@ -29,7 +29,11 @@ import 'ean.dart';
 /// The ITF-14 will always encode 14 digits.
 class BarcodeItf14 extends BarcodeEan {
   /// Create an ITF-14 Barcode
-  const BarcodeItf14(this.drawBorder, this.borderWidth, this.quietWidth);
+  const BarcodeItf14(
+    this.drawBorder,
+    this.borderWidth,
+    this.quietWidth,
+  ) : assert(drawBorder != null);
 
   /// Draw a black border around the barcode
   final bool drawBorder;

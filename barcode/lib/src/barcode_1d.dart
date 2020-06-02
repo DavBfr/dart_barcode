@@ -172,6 +172,7 @@ abstract class Barcode1D extends Barcode {
 
   /// Computes a hexadecimal representation of the barcode, mostly for
   /// testing purposes
+  @visibleForTesting
   String toHex(String data) {
     var intermediate = '';
     for (var bit in convert(data)) {
