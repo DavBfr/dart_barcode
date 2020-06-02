@@ -54,7 +54,7 @@ class BarcodeCode39 extends Barcode1D {
   }
 
   @override
-  Iterable<BarcodeText> makeText(
+  Iterable<BarcodeElement> makeText(
     String data,
     double width,
     double height,

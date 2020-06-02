@@ -124,7 +124,7 @@ class BarcodeEan8 extends BarcodeEan {
   }
 
   @override
-  Iterable<BarcodeText> makeText(String data, double width, double height,
+  Iterable<BarcodeElement> makeText(String data, double width, double height,
       double fontHeight, double lineWidth) sync* {
     data = checkLength(data, maxLength);
     final w = lineWidth * 7;

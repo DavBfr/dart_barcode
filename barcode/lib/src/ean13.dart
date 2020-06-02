@@ -139,7 +139,7 @@ class BarcodeEan13 extends BarcodeEan {
   }
 
   @override
-  Iterable<BarcodeText> makeText(
+  Iterable<BarcodeElement> makeText(
     String data,
     double width,
     double height,

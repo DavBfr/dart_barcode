@@ -40,7 +40,7 @@ class BarcodeIsbn extends BarcodeEan13 {
   }
 
   @override
-  Iterable<BarcodeText> makeText(
+  Iterable<BarcodeElement> makeText(
     String data,
     double width,
     double height,

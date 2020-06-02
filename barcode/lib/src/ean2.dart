@@ -83,7 +83,7 @@ class BarcodeEan2 extends BarcodeEan {
       height;
 
   @override
-  Iterable<BarcodeText> makeText(String data, double width, double height,
+  Iterable<BarcodeElement> makeText(String data, double width, double height,
       double fontHeight, double lineWidth) sync* {
     yield BarcodeText(
       left: 0,
