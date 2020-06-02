@@ -600,6 +600,43 @@ def codabar():
     print('};')
 
 
+def rm4scc():
+    bits = ('0011', '0101', '0110', '1001', '1010', '1100')
+    chars = ("0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "A", "B", "C", "D", "E", "F",
+             "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V",
+             "W", "X", "Y", "Z")
+
+    print('/// RM4SCC conversion bits')
+    print('static const rm4scc = <int, int>{')
+    for i, k in enumerate(chars):
+        v = ''
+        t = bits[i//6]
+        b = bits[i % 6]
+        o = 0
+        n = 0
+        for j in range(4):
+            if t[j] == '0' and b[j] == '0':
+                v += 'T'
+                o += 0b00 << n
+            if t[j] == '1' and b[j] == '0':
+                v += 'A'
+                o += 0b01 << n
+            if t[j] == '0' and b[j] == '1':
+                v += 'D'
+                o += 0b10 << n
+            if t[j] == '1' and b[j] == '1':
+                v += 'F'
+                o += 0b11 << n
+            n += 2
+        print(f'{hex(ord(k))}: {hex(o)}, // "{k}" => {v}')
+    print('};')
+
+    print('/// RM4SCC misc bits')
+    print('static const rm4sccLen = 4;')
+    print(f'static const rm4sccStart = {hex(0b01)}; // A')
+    print(f'static const rm4sccStop = {hex(0b11)}; // F')
+
+
 if __name__ == '__main__':
     print('/*')
     print(' * Copyright (C) 2020, David PHAM-VAN <dev.nfet.net@gmail.com>')
@@ -628,5 +665,6 @@ if __name__ == '__main__':
     itf14()
     telepen()
     codabar()
+    rm4scc()
 
     print('}')

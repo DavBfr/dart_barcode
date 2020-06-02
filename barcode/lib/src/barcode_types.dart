@@ -69,4 +69,7 @@ enum BarcodeType {
 
   /// Aztec
   Aztec,
+
+  /// RM4SCC
+  Rm4scc,
 }

@@ -35,6 +35,7 @@ import 'ean8.dart';
 import 'isbn.dart';
 import 'itf14.dart';
 import 'qrcode.dart';
+import 'rm4scc.dart';
 import 'telepen.dart';
 import 'upca.dart';
 import 'upce.dart';
@@ -82,10 +83,12 @@ abstract class Barcode {
         return Barcode.upcE();
       case BarcodeType.Telepen:
         return Barcode.telepen();
-      case BarcodeType.QrCode:
-        return Barcode.qrCode();
       case BarcodeType.Codabar:
         return Barcode.codabar();
+      case BarcodeType.Rm4scc:
+        return Barcode.rm4scc();
+      case BarcodeType.QrCode:
+        return Barcode.qrCode();
       case BarcodeType.PDF417:
         return Barcode.pdf417();
       case BarcodeType.DataMatrix:
@@ -183,6 +186,10 @@ abstract class Barcode {
           {BarcodeCodabarStartStop start = BarcodeCodabarStartStop.A,
           BarcodeCodabarStartStop stop = BarcodeCodabarStartStop.B}) =>
       BarcodeCodabar(start, stop);
+
+  /// Create an RM4SCC [Barcode] instance
+  /// ![RM4SCC](https://raw.githubusercontent.com/DavBfr/dart_barcode/master/img/rm4scc.svg?sanitize=true)
+  static Barcode rm4scc() => const BarcodeRm4scc();
 
   /// Create a Datamatrix [Barcode] instance
   /// ![Datamatrix](https://raw.githubusercontent.com/DavBfr/dart_barcode/master/img/data-matrix.svg?sanitize=true)

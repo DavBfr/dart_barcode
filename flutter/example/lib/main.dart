@@ -92,13 +92,17 @@ Widget _barcodeInfo(BarcodeConf conf) {
       desc =
           'Telepen is a barcode designed in 1972 in the UK to express all 128 ASCII characters without using shift characters for code switching, and using only two different widths for bars and spaces.';
       break;
-    case BarcodeType.QrCode:
-      desc =
-          'QR code (abbreviated from Quick Response code) is the trademark for a type of matrix barcode (or two-dimensional barcode) first designed in 1994 for the automotive industry in Japan.';
-      break;
     case BarcodeType.Codabar:
       desc =
           'Codabar was designed to be accurately read even when printed on dot-matrix printers for multi-part forms such as FedEx airbills and blood bank forms, where variants are still in use as of 2007.';
+      break;
+    case BarcodeType.Rm4scc:
+      desc =
+          'The RM4SCC is used for the Royal Mail Cleanmail service. It enables UK postcodes as well as Delivery Point Suffixes (DPSs) to be easily read by a machine at high speed.';
+      break;
+    case BarcodeType.QrCode:
+      desc =
+          'QR code (abbreviated from Quick Response code) is the trademark for a type of matrix barcode (or two-dimensional barcode) first designed in 1994 for the automotive industry in Japan.';
       break;
     case BarcodeType.PDF417:
       desc =

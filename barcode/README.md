@@ -121,6 +121,12 @@ The following barcode images are SVG. The proper rendering, especially text, dep
 
 <img width="200" alt="Codabar" src="https://raw.githubusercontent.com/DavBfr/dart_barcode/master/img/codabar.svg?sanitize=true">
 
+### Height Modulated Barcodes
+
+#### RM4SCC
+
+<img width="200" alt="RM4SCC" src="https://raw.githubusercontent.com/DavBfr/dart_barcode/master/img/rm4scc.svg?sanitize=true">
+
 ### 2D Barcodes
 
 #### QR-Code

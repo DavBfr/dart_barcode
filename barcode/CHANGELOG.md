@@ -3,6 +3,7 @@
 ## 1.11.0
 
 - Fix font height error if not specified
+- Implement RM4SCC Barcode
 
 ## 1.10.0
 

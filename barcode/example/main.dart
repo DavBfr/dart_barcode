@@ -10,9 +10,15 @@ void buildBarcode(
   String filename,
   double width,
   double height,
+  double fontHeight,
 }) {
   /// Create the Barcode
-  final svg = bc.toSvg(data, width: width ?? 200, height: height ?? 80);
+  final svg = bc.toSvg(
+    data,
+    width: width ?? 200,
+    height: height ?? 80,
+    fontHeight: fontHeight,
+  );
 
   // Save the image
   filename ??= bc.name.replaceAll(RegExp(r'\s'), '-').toLowerCase();
@@ -129,5 +135,12 @@ void main() {
     Barcode.aztec(),
     'Aztec',
     height: 200,
+  );
+
+  buildBarcode(
+    Barcode.rm4scc(),
+    'RM4SCC',
+    height: 50,
+    fontHeight: 30,
   );
 }
