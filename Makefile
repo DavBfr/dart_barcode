@@ -17,7 +17,7 @@
 
 all: format
 
-format: image/lib/src/pubspec.dart format-dart
+format: image/lib/src/pubspec.dart demo/.metadata flutter/example/.metadata format-dart
 
 format-dart: $(DART_SRC)
 	dartfmt -w --fix $^
@@ -25,6 +25,14 @@ format-dart: $(DART_SRC)
 .coverage:
 	which coverage || pub global activate coverage
 	touch $@
+
+demo/.metadata:
+	cd demo; flutter create -t app --no-overwrite --org net.nfet --project-name demo .
+	rm -rf demo/test
+
+flutter/example/.metadata:
+	cd flutter/example; flutter create -t app --no-overwrite --org net.nfet --project-name example .
+	rm -rf flutter/example/test
 
 node_modules:
 	npm install lcov-summary
@@ -93,6 +101,8 @@ analyze-image: .pana
 	@pub global run pana --no-warning --source path image
 	@find image -name pubspec.yaml -exec sed -i -e 's/^_dependency_overrides:/dependency_overrides:/g' '{}' ';'
 
+analyze: analyze-barcode analyze-flutter analyze-image
+
 image/lib/src/pubspec.dart: image/pubspec.yaml
 	cd image; pub run pubspec_extract -s "../$<" -d "../$@"
 
@@ -121,9 +131,9 @@ maps: build_maps.py
 
 gh-pages:
 	test -z "$(shell git status --porcelain)"
-	cd flutter/example; flutter build web
+	cd demo; flutter build web
 	git checkout gh-pages
-	cp -rf flutter/example/build/web/* .
+	cp -rf demo/build/web/* .
 
 get:
 	cd barcode; pub get

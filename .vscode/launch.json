@@ -18,6 +18,12 @@
       "program": "flutter/example/lib/main.dart"
     },
     {
+      "name": "Barcode Demo",
+      "type": "dart",
+      "request": "launch",
+      "program": "demo/lib/main.dart"
+    },
+    {
       "name": "ITF14",
       "program": "image/bin/barcode.dart",
       "args": [

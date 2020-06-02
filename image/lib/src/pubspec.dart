@@ -52,6 +52,8 @@ class Pubspec {
   };
 
   static const Map<dynamic, dynamic> dev_dependencies = <dynamic, dynamic>{
+    'test': null,
+    'crypto': null,
     'pedantic': '1.9.0',
     'pubspec_extract': '^1.3.1',
   };

@@ -43,3 +43,27 @@ BarcodeWidget(
 ```
 
 Many layout options are available like: width, height, margin, padding, colors, etc.
+
+To add a logo on top of a QrCode, use Flutter's composing abilities while increasing the error recovery density:
+
+```dart
+Stack(
+  alignment: Alignment.center,
+  children: [
+    BarcodeWidget(
+      barcode: Barcode.qrCode(
+        errorCorrectLevel: BarcodeQRCorrectionLevel.high,
+      ),
+      data: 'https://pub.dev/packages/barcode_widget',
+      width: 200,
+      height: 200,
+    ),
+    Container(
+      color: Colors.white,
+      width: 60,
+      height: 60,
+      child: const FlutterLogo(),
+    ),
+  ],
+)
+```

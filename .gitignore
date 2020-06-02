@@ -10,13 +10,6 @@
 build
 coverage.json
 doc
-flutter/example/.flutter-plugins
-flutter/example/.flutter-plugins-dependencies
-flutter/example/.gitignore
-flutter/example/android
-flutter/example/ios
-flutter/example/macos
-flutter/example/test
 lcov*.info
 main.dart.js.deps
 main.dart.js.map

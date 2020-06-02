@@ -9,12 +9,13 @@ dependencies:
   flutter:
     sdk: flutter
   barcode_widget:
+  google_fonts:
 
 dependency_overrides:
   barcode_widget:
-    path: ../
+    path: ../flutter
   barcode:
-    path: ../../barcode
+    path: ../barcode
 
 flutter:
   uses-material-design: true
