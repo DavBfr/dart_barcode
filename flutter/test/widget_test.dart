@@ -20,8 +20,6 @@ import 'package:barcode_widget/barcode_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
-import '../lib/src/painter.dart';
-
 void main() {
   testWidgets('Default settings', (WidgetTester tester) async {
     await tester.pumpWidget(
