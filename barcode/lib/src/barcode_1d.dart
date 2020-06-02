@@ -36,6 +36,7 @@ abstract class Barcode1D extends Barcode {
     assert(width != null && width > 0);
     assert(height != null && height > 0);
     assert(!drawText || fontHeight != null);
+    fontHeight ??= 0;
 
     final bits = convert(data).toList();
 
@@ -143,7 +144,7 @@ abstract class Barcode1D extends Barcode {
   /// Stream the text operations required to draw the
   /// barcode texts. This is automatically called by [make]
   @protected
-  Iterable<BarcodeText> makeText(
+  Iterable<BarcodeElement> makeText(
     String data,
     double width,
     double height,

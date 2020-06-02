@@ -87,7 +87,7 @@ void drawBarcode(
     width: width.toDouble(),
     height: height.toDouble(),
     drawText: font != null,
-    fontHeight: font != null ? font.lineHeight.toDouble() : null,
+    fontHeight: font?.lineHeight?.toDouble(),
   )) {
     if (elem is BarcodeBar) {
       if (elem.black) {
