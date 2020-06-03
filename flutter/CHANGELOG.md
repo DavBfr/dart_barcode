@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.2.4
+
+- Update example
+
 ## 1.2.3
 
 - Fix 2D Codes pixel gap
