@@ -45,7 +45,7 @@ test-barcode: .coverage
 
 test-image:
 	cd image; pub get
-	cd image; dart test --coverage=.coverage
+	cd image; pub run test --coverage=.coverage
 	cd image; pub global run coverage:format_coverage --packages=.packages -i .coverage --report-on lib --lcov --out ../lcov-image.info
 
 test-flutter:
