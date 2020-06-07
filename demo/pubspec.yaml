@@ -8,14 +8,25 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  barcode_image:
   barcode_widget:
   google_fonts:
+  open_file:
+  path_provider:
+  pdf:
 
 dependency_overrides:
   barcode_widget:
     path: ../flutter
+  barcode_image:
+    path: ../image
   barcode:
     path: ../barcode
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  pedantic: ^1.8.0
 
 flutter:
   uses-material-design: true

@@ -17,6 +17,7 @@
 import 'package:flutter/material.dart';
 
 import 'barcode.dart';
+import 'barcode_conf.dart';
 import 'barcode_info.dart';
 import 'code.dart';
 import 'settings.dart';
@@ -30,7 +31,7 @@ class _MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     const title = 'Barcode Demo';
 
-    return MaterialApp(
+    return const MaterialApp(
       title: title,
       home: _Home(title),
     );
@@ -94,7 +95,7 @@ class _HomeState extends State<_Home> {
                       ],
                     ),
                   ),
-                  SizedBox(width: 20),
+                  const SizedBox(width: 20),
                   Flexible(
                     child: ListView(
                       children: <Widget>[

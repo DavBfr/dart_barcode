@@ -18,8 +18,9 @@ import 'package:barcode_widget/barcode_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import 'barcode_conf.dart';
 import 'barcode_error.dart';
-import 'settings.dart';
+import 'download.dart';
 
 class BarcodeView extends StatelessWidget {
   const BarcodeView({
@@ -32,7 +33,7 @@ class BarcodeView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     try {
-      Barcode.fromType(conf.type).verify(conf.data);
+      conf.barcode.verify(conf.data);
     } on BarcodeException catch (error) {
       return BarcodeError(message: error.message);
     }
@@ -41,25 +42,34 @@ class BarcodeView extends StatelessWidget {
       padding: const EdgeInsets.symmetric(vertical: 20),
       child: Center(
         child: Card(
-          child: BarcodeWidget(
-            barcode: Barcode.fromType(conf.type),
-            data: conf.data,
-            width: conf.width,
-            height: conf.height,
-            style: GoogleFonts.sourceCodePro(
-              textStyle: TextStyle(
-                fontSize: conf.fontSize,
-                color: Colors.black,
+          child: Column(
+            children: [
+              BarcodeWidget(
+                barcode: conf.barcode,
+                data: conf.data,
+                width: conf.width,
+                height: conf.height,
+                style: GoogleFonts.sourceCodePro(
+                  textStyle: TextStyle(
+                    fontSize: conf.fontSize,
+                    color: Colors.black,
+                  ),
+                ),
+                margin: const EdgeInsets.symmetric(
+                  horizontal: 20,
+                  vertical: 20,
+                ),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  border: Border.all(
+                    color: Theme.of(context).accentColor,
+                  ),
+                ),
               ),
-            ),
-            margin: EdgeInsets.symmetric(horizontal: 20, vertical: 20),
-            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
-            decoration: BoxDecoration(
-              color: Colors.white,
-              border: Border.all(
-                color: Theme.of(context).accentColor,
-              ),
-            ),
+              Download(conf: conf),
+            ],
           ),
         ),
       ),
