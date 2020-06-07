@@ -13,7 +13,7 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  barcode: ^1.3.0
+  barcode: ^1.11.1
   meta: ^1.1.5
 
 dependency_overrides:

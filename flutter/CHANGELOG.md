@@ -3,6 +3,7 @@
 ## 1.3.0
 
 - Add errorBuilder to BarcodeWidget
+- Update dependencies
 
 ## 1.2.4
 
