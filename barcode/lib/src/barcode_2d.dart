@@ -17,6 +17,7 @@
 import 'package:meta/meta.dart';
 
 import 'barcode.dart';
+import 'barcode_exception.dart';
 import 'barcode_operations.dart';
 
 /// Matrix representing the raw code pixels
@@ -126,6 +127,17 @@ abstract class Barcode2D extends Barcode {
         x = 0;
         y++;
       }
+    }
+  }
+
+  @override
+  void verify(String data) {
+    super.verify(data);
+
+    try {
+      convert(data);
+    } on Exception catch (ex) {
+      throw BarcodeException(ex.toString());
     }
   }
 

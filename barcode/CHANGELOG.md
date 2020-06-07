@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.11.1
+
+- Improve 2d barcode verifications
+
 ## 1.11.0
 
 - Fix font height error if not specified
