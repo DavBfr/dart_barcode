@@ -60,7 +60,7 @@ void main() {
 
     expect(bc.isValid('123456'), isTrue);
     expect(bc.isValid('1234567'), isTrue);
-    expect(bc.isValid('12345678'), isTrue);
+    expect(bc.isValid('11234593'), isTrue);
     expect(bc.isValid('123456789'), isFalse);
   });
 }
