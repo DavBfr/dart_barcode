@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.3.0
+
+- Add errorBuilder to BarcodeWidget
+
 ## 1.2.4
 
 - Update example

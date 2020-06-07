@@ -20,6 +20,9 @@ import 'package:flutter/widgets.dart';
 
 import 'painter.dart';
 
+typedef BarcodeErrorBuilder = Widget Function(
+    BuildContext context, String error);
+
 /// Flutter widget to draw a [Barcode] on screen.
 class BarcodeWidget extends StatelessWidget {
   /// Draw a barcode on screen
@@ -35,6 +38,7 @@ class BarcodeWidget extends StatelessWidget {
     this.height,
     this.drawText = true,
     this.style,
+    this.errorBuilder,
   })  : assert(data != null),
         assert(barcode != null);
 
@@ -77,6 +81,9 @@ class BarcodeWidget extends StatelessWidget {
   /// Decoration to apply to the barcode
   final Decoration decoration;
 
+  /// Displays a custom widget in case of error with the barcode.
+  final BarcodeErrorBuilder errorBuilder;
+
   @override
   Widget build(BuildContext context) {
     final defaultTextStyle = DefaultTextStyle.of(context);
@@ -92,6 +99,14 @@ class BarcodeWidget extends StatelessWidget {
       drawText,
       effectiveTextStyle,
     );
+
+    if (errorBuilder != null) {
+      try {
+        barcode.verify(data);
+      } catch (e) {
+        child = errorBuilder(context, e.toString());
+      }
+    }
 
     if (padding != null) {
       child = Padding(padding: padding, child: child);

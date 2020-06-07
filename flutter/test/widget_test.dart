@@ -55,4 +55,34 @@ void main() {
     await tester.pump();
     expect(tapped, isTrue);
   });
+
+  testWidgets('Error', (WidgetTester tester) async {
+    await tester.pumpWidget(
+      MaterialApp(
+        home: BarcodeWidget(
+          barcode: Barcode.ean13(),
+          data: 'Hello',
+          errorBuilder: (context, error) => const FlutterLogo(),
+        ),
+      ),
+    );
+
+    expect(find.byType(BarcodeWidget), findsOneWidget);
+    expect(find.byType(FlutterLogo), findsOneWidget);
+  });
+
+  testWidgets('No Error', (WidgetTester tester) async {
+    await tester.pumpWidget(
+      MaterialApp(
+        home: BarcodeWidget(
+          barcode: Barcode.ean13(),
+          data: '123456789012',
+          errorBuilder: (context, error) => const FlutterLogo(),
+        ),
+      ),
+    );
+
+    expect(find.byType(BarcodeWidget), findsOneWidget);
+    expect(find.byType(FlutterLogo), findsNothing);
+  });
 }
