@@ -2,6 +2,12 @@
 
 Barcode generation library for Dart that can generate barcodes using the [pub:image](https://pub.dev/packages/image) library.
 
+Live example with Flutter Web: <https://davbfr.github.io/dart_barcode/>
+
+---
+
+[![Buy Me A Coffee](https://bmc-cdn.nyc3.digitaloceanspaces.com/BMC-button-images/custom_images/orange_img.png "Buy Me A Coffee")](https://www.buymeacoffee.com/JORBmbw9h "Buy Me A Coffee")
+
 ## Dart usage
 
 ```dart
