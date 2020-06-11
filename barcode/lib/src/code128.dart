@@ -14,9 +14,28 @@
  * limitations under the License.
  */
 
+import 'package:meta/meta.dart';
+
 import 'barcode_1d.dart';
 import 'barcode_exception.dart';
 import 'barcode_maps.dart';
+import 'barcode_operations.dart';
+
+/// Functions available in [BarcodeCode128] used for special purposes
+class BarcodeCode128Fnc {
+  /// FNC1 at the beginning of a bar code indicates a GS1-128 bar code
+  /// avaiable in Code128A, Code128B, and Code128C
+  static const fnc1 = BarcodeMaps.code128FNC1String;
+
+  /// Function 2 avaiable in Code128A and Code128B
+  static const fnc2 = BarcodeMaps.code128FNC2String;
+
+  /// Function 3 avaiable in Code128A and Code128B
+  static const fnc3 = BarcodeMaps.code128FNC3String;
+
+  /// Function 4 avaiable in Code128A and Code128B
+  static const fnc4 = BarcodeMaps.code128FNC4String;
+}
 
 /// Code128 Barcode
 ///
@@ -36,6 +55,7 @@ class BarcodeCode128 extends Barcode1D {
     this.useCode128B,
     this.useCode128C,
     this.isGS1,
+    this.escapes,
   ) : assert(useCode128A || useCode128B || useCode128C,
             'Enable at least one of the CODE 128 tables');
 
@@ -48,13 +68,27 @@ class BarcodeCode128 extends Barcode1D {
   /// Use Code 128 C table
   final bool useCode128C;
 
+  /// Use {1} for fnc1, {2} for fnc2, {3} for fnc3, and {4} for fnc4
+  final bool escapes;
+
   /// Generate a GS1-128 Barcode
   final bool isGS1;
 
   @override
-  Iterable<int> get charSet =>
-      BarcodeMaps.code128B.keys.where((int x) => x >= 0).followedBy(
-          BarcodeMaps.code128A.keys.where((int x) => x >= 0 && x < 0x20));
+  Iterable<int> get charSet => BarcodeMaps.code128B.keys
+          .where((int x) => useCode128B && x >= 0)
+          .followedBy(
+              BarcodeMaps.code128A.keys.where((int x) => useCode128A && x >= 0))
+          .followedBy(useCode128C
+              ? List<int>.generate(10, (int index) => index + 0x30)
+              : [])
+          .followedBy([
+        BarcodeMaps.code128FNC1,
+        if (useCode128A || useCode128B) BarcodeMaps.code128FNC2,
+        if (useCode128A || useCode128B) BarcodeMaps.code128FNC3,
+        if (useCode128A || useCode128B) BarcodeMaps.code128FNC4,
+        if (isGS1) ...[40, 41],
+      ]).toSet();
 
   @override
   String get name => isGS1 ? 'GS1 128' : 'CODE 128';
@@ -78,12 +112,13 @@ class BarcodeCode128 extends Barcode1D {
     // the number of chars for the current table
     var length = 0;
     var digitCount = 0;
+    // var fnc1Count = 0;
 
     final result = <int>[];
 
     void addFrom(List<int> data, int start) {
       Map<int, int> t;
-      if (table & 4 != 0 && digitCount & 1 == 0) {
+      if (table & 4 != 0 && digitCount & 1 == 0 /*&& digitCount > 0*/) {
         // New data from table C
         t = BarcodeMaps.code128C;
         if (lastTable == 1) {
@@ -112,17 +147,27 @@ class BarcodeCode128 extends Barcode1D {
         lastTable = 2;
       }
 
+      if (t == null) {
+        throw BarcodeException(
+            'Unable to encode "${String.fromCharCodes(data)}" to $name Barcode');
+      }
+
       // Add sublist(start, length + start)
       if (lastTable == 3) {
         // Encode Code 128C $digitCount
-        for (var i = digitCount ~/ 2 - 1; i >= 0; i--) {
-          final digit = data[start + i * 2 + 1] -
-              0x30 +
-              (data[start + i * 2] - 0x30) * 10;
-          result.add(t[digit]);
+        for (var i = start + length - 1; i >= start; i--) {
+          if (data[i] == BarcodeMaps.code128FNC1) {
+            result.add(t[BarcodeMaps.code128FNC1]);
+          } else {
+            final digit = data[i] - 0x30 + (data[i - 1] - 0x30) * 10;
+            assert(t[digit] != null);
+            result.add(t[digit]);
+            i--;
+          }
         }
       } else {
-        for (var c in data.sublist(start, length + start).reversed) {
+        for (final c in data.sublist(start, start + length).reversed) {
+          assert(t[c] != null);
           result.add(t[c]);
         }
       }
@@ -133,6 +178,7 @@ class BarcodeCode128 extends Barcode1D {
 
       final codeA = useCode128A && BarcodeMaps.code128A.containsKey(code);
       final codeB = useCode128B && BarcodeMaps.code128B.containsKey(code);
+      final isFnc1 = code == BarcodeMaps.code128FNC1;
       final codeC = useCode128C && (code >= 0x30 && code <= 0x39);
 
       var available = 0;
@@ -142,7 +188,7 @@ class BarcodeCode128 extends Barcode1D {
       if (codeB) {
         available |= 2;
       }
-      if (codeC) {
+      if (codeC || isFnc1) {
         available |= 4;
       }
 
@@ -154,6 +200,12 @@ class BarcodeCode128 extends Barcode1D {
       if (codeC) {
         // It's a digit
         digitCount++;
+      } else if (isFnc1) {
+        length++;
+        addFrom(data, index);
+        length = 0;
+        digitCount = 0;
+        continue;
       } else {
         if (digitCount >= 4) {
           // Use to CODE C to output 4 digits or more
@@ -166,13 +218,14 @@ class BarcodeCode128 extends Barcode1D {
           }
           if (length > digitCount) {
             length -= digitCount;
-            // First: Add $length chars using one of tables A or B
+            // First: Add $length chars using one of the tables A or B
             table &= 3;
             if (table == 0) {
               throw BarcodeException(
                   'Unable to encode "${String.fromCharCodes(data)}" to $name Barcode');
             }
             addFrom(data, index + digitCount + 1);
+            length = digitCount;
           }
           // Then: Optimize $digitCount with table C');
           table = 4;
@@ -181,6 +234,7 @@ class BarcodeCode128 extends Barcode1D {
           length = 0;
         }
         digitCount = 0;
+        // fnc1Count = 0;
       }
 
       if (table == 0) {
@@ -207,18 +261,11 @@ class BarcodeCode128 extends Barcode1D {
       addFrom(data, digitCount - 1);
       digitCount--;
       table = 4;
+      length = digitCount;
     }
-    addFrom(data, 0);
-
-    if (isGS1) {
-      // Add FNC1 as the second code
-      if (lastTable == 1) {
-        result.add(BarcodeMaps.code128A[BarcodeMaps.code128FNC1]);
-      } else if (lastTable == 2) {
-        result.add(BarcodeMaps.code128B[BarcodeMaps.code128FNC1]);
-      } else if (lastTable == 3) {
-        result.add(BarcodeMaps.code128C[BarcodeMaps.code128FNC1]);
-      }
+    if (length > 0) {
+      // Add remaining data
+      addFrom(data, 0);
     }
 
     // Add the start code
@@ -233,8 +280,61 @@ class BarcodeCode128 extends Barcode1D {
     return result.reversed;
   }
 
+  /// Update the string to insert FNC1
+  @visibleForTesting
+  String adaptData(String data, [bool text = false]) {
+    if (isGS1) {
+      // Add FNC1 at parenthesis boundaries
+      final result = StringBuffer();
+      var start = 0;
+      for (final match in RegExp(r'\(.+?\)').allMatches(data)) {
+        result.write(data.substring(start, match.start));
+        result.write(BarcodeMaps.code128FNC1String);
+        result.write(data.substring(match.start + 1, match.end - 1));
+        if (text) {
+          result.write(' ');
+        }
+        start = match.end;
+      }
+      result.write(data.substring(start));
+      data = result.toString();
+    }
+
+    if (escapes) {
+      final result = StringBuffer();
+      var start = 0;
+      for (final match in RegExp(r'{\d}').allMatches(data)) {
+        result.write(data.substring(start, match.start));
+        switch (match.group(0)) {
+          case '{1}':
+            result.write(BarcodeMaps.code128FNC1String);
+            break;
+          case '{2}':
+            result.write(BarcodeMaps.code128FNC2String);
+            break;
+          case '{3}':
+            result.write(BarcodeMaps.code128FNC3String);
+            break;
+          case '{4}':
+            result.write(BarcodeMaps.code128FNC4String);
+            break;
+          default:
+            result.write(match.group(0));
+        }
+        // result.write(data.substring(match.start + 1, match.end - 1));
+        start = match.end;
+      }
+      result.write(data.substring(start));
+      data = result.toString();
+    }
+
+    return data;
+  }
+
   @override
   Iterable<bool> convert(String data) sync* {
+    data = adaptData(data);
+
     final checksum = <int>[];
 
     for (var codeIndex in shortestCode(data.codeUnits)) {
@@ -260,5 +360,31 @@ class BarcodeCode128 extends Barcode1D {
     // Termination Bars
     yield true;
     yield true;
+  }
+
+  @override
+  Iterable<BarcodeElement> makeText(
+    String data,
+    double width,
+    double height,
+    double fontHeight,
+    double lineWidth,
+  ) {
+    data = adaptData(data, true).replaceAll(RegExp('[^ -\u{7f}]'), ' ').trim();
+
+    return super.makeText(
+      data,
+      width,
+      height,
+      fontHeight,
+      lineWidth,
+    );
+  }
+
+  @override
+  void verify(String data) {
+    data = adaptData(data);
+    shortestCode(data.codeUnits);
+    super.verify(data);
   }
 }

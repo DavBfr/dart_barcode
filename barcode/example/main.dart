@@ -56,7 +56,7 @@ void main() {
 
   buildBarcode(
     Barcode.gs128(),
-    '00123456780000000001',
+    '(420)22345(56780000000001)',
   );
 
   buildBarcode(

@@ -110,15 +110,23 @@ abstract class Barcode {
 
   /// Create a CODE 128 [Barcode] instance
   /// ![CODE 128 B](https://raw.githubusercontent.com/DavBfr/dart_barcode/master/img/code-128b.svg?sanitize=true)
-  static Barcode code128(
-          {bool useCode128A = true,
-          bool useCode128B = true,
-          bool useCode128C = true}) =>
-      BarcodeCode128(useCode128A, useCode128B, useCode128C, false);
+  static Barcode code128({
+    bool useCode128A = true,
+    bool useCode128B = true,
+    bool useCode128C = true,
+    bool escapes = false,
+  }) =>
+      BarcodeCode128(useCode128A, useCode128B, useCode128C, false, escapes);
 
   /// Create a GS1-128 [Barcode] instance
   /// ![GS1-128](https://raw.githubusercontent.com/DavBfr/dart_barcode/master/img/gs1-128.svg?sanitize=true)
-  static Barcode gs128() => const BarcodeCode128(true, true, true, true);
+  static Barcode gs128({
+    bool useCode128A = true,
+    bool useCode128B = true,
+    bool useCode128C = true,
+    bool escapes = false,
+  }) =>
+      BarcodeCode128(useCode128A, useCode128B, useCode128C, true, escapes);
 
   /// Create an ITF 14 [Barcode] instance
   /// ![ITF 14](https://raw.githubusercontent.com/DavBfr/dart_barcode/master/img/itf-14.svg?sanitize=true)

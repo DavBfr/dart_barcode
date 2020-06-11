@@ -188,10 +188,10 @@ def code128():
         'RS': 0x1E,
         'US': 0x1F,
         'DEL': 0x7F,
-        'FNC1': -1,
-        'FNC2': -2,
-        'FNC3': -3,
-        'FNC4': -4,
+        'FNC1': 0xfa,
+        'FNC2': 0xfb,
+        'FNC3': 0xfc,
+        'FNC4': 0xfd,
         'ShiftA': -5,
         'ShiftB': -6,
         'CodeA': -7,
@@ -204,7 +204,7 @@ def code128():
     i = 0
     for a, b, c, v in C128:
         r = ord(a) if len(a) == 1 else names[a]
-        if r >= 0:
+        if r >= 0 and r < 0xf0:
             print(f'{hex(r)}: {hex(i)}, // {a}')
         else:
             print(f'code128{a}: {hex(i)}, // {a}')
@@ -216,7 +216,7 @@ def code128():
     i = 0
     for a, b, c, v in C128:
         r = ord(b) if len(b) == 1 else names[b]
-        if r >= 0:
+        if r >= 0 and r < 0xf0:
             print(f'{hex(r)}: {hex(i)}, // {b}')
         else:
             print(f'code128{b}: {hex(i)}, // {b}')
@@ -228,7 +228,7 @@ def code128():
     i = 0
     for a, b, c, v in C128:
         r = int(c) if len(c) == 2 else names[c]
-        if r >= 0:
+        if r >= 0 and r < 0xf0:
             print(f'{hex(r)}: {hex(i)}, // {c}')
         else:
             print(f'code128{c}: {hex(i)}, // {c}')
@@ -252,6 +252,9 @@ def code128():
     for name in names:
         if names[name] < 0:
             print(f'static const code128{name} = {names[name]};')
+        elif names[name] > 0xf0:
+            print(f'static const code128{name} = {hex(names[name])};')
+            print(f'static const code128{name}String = \'\\u{{{format(names[name], "x")}}}\';')
     print(f'static const code128Len = 11;')
 
 

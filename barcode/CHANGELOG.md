@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.12.0
+
+- Add support for FNCx to GS1-128 and Code-128
+
 ## 1.11.1
 
 - Improve 2d barcode verifications
