@@ -649,8 +649,8 @@ class BarcodeMaps {
   static const eanStartEan2 = 0x1a;
   static const eanCenterEan2 = 0x2;
 
-  /// ITF-14 conversion bits
-  static const itf14 = <int, int>{
+  /// ITF conversion bits
+  static const itf = <int, int>{
     0x30: 0xc, // "0"
     0x31: 0x11, // "1"
     0x32: 0x12, // "2"
@@ -663,7 +663,7 @@ class BarcodeMaps {
     0x39: 0xa, // "9"
   };
 
-  /// ITF-14 misc bits
+  /// ITF misc bits
   static const itfStart = 0x5;
   static const itfEnd = 0x17;
 

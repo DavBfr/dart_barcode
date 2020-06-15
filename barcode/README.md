@@ -10,6 +10,8 @@ Barcode generation library for Dart that can generate generic drawing operations
 
 They all use this library to generate the drawing operations.
 
+Interactive demo: <https://davbfr.github.io/dart_barcode/>
+
 ---
 
 [![Buy Me A Coffee](https://bmc-cdn.nyc3.digitaloceanspaces.com/BMC-button-images/custom_images/orange_img.png "Buy Me A Coffee")](https://www.buymeacoffee.com/JORBmbw9h "Buy Me A Coffee")
@@ -81,6 +83,10 @@ The following barcode images are SVG. The proper rendering, especially text, dep
 #### GS1-128
 
 <img width="300" alt="GS1 128" src="https://raw.githubusercontent.com/DavBfr/dart_barcode/master/img/gs1-128.svg?sanitize=true">
+
+### Interleaved 2 of 5 (ITF)
+
+<img width="300" alt="ITF" src="https://raw.githubusercontent.com/DavBfr/dart_barcode/master/img/itf.svg?sanitize=true">
 
 #### ITF-14
 

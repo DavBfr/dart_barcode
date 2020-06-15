@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.13.0
+
+- Add Interleaved 2 of 5 (ITF) Barcode
+
 ## 1.12.0
 
 - Add support for FNCx to GS1-128 and Code-128

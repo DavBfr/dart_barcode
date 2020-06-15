@@ -16,10 +16,8 @@
 
 import 'package:meta/meta.dart';
 
-import 'barcode_exception.dart';
-import 'barcode_maps.dart';
 import 'barcode_operations.dart';
-import 'ean.dart';
+import 'itf.dart';
 
 /// ITF-14 Barcode
 ///
@@ -27,13 +25,14 @@ import 'ean.dart';
 /// to encode a Global Trade Item Number. ITF-14 symbols are generally used
 /// on packaging levels of a product, such as a case box of 24 cans of soup.
 /// The ITF-14 will always encode 14 digits.
-class BarcodeItf14 extends BarcodeEan {
+class BarcodeItf14 extends BarcodeItf {
   /// Create an ITF-14 Barcode
   const BarcodeItf14(
     this.drawBorder,
     this.borderWidth,
     this.quietWidth,
-  ) : assert(drawBorder != null);
+  )   : assert(drawBorder != null),
+        super(false);
 
   /// Draw a black border around the barcode
   final bool drawBorder;
@@ -55,42 +54,14 @@ class BarcodeItf14 extends BarcodeEan {
 
   @override
   void verify(String data) {
-    checkLength(data, maxLength);
+    data = checkLength(data, maxLength);
     super.verify(data);
   }
 
   @override
-  Iterable<bool> convert(String data) sync* {
+  Iterable<bool> convert(String data) {
     data = checkLength(data, maxLength);
-
-    // Start
-    yield* add(BarcodeMaps.itfStart, 4);
-
-    final cu = data.codeUnits;
-    for (var i = 0; i < cu.length / 2; i++) {
-      final tuple = <int>[
-        BarcodeMaps.itf14[cu[i * 2]],
-        BarcodeMaps.itf14[cu[i * 2 + 1]]
-      ];
-
-      if (tuple[0] == null || tuple[1] == null) {
-        throw BarcodeException(
-            'Unable to encode "${String.fromCharCode(cu[i * 2])}${String.fromCharCode(cu[i * 2 + 1])}" to $name Barcode');
-      }
-
-      for (var n = 0; n < 10; n++) {
-        final v = (tuple[n % 2] >> (n ~/ 2)) & 1;
-        final c = n % 2 == 0;
-        yield c;
-        if (v != 0) {
-          yield c;
-          yield c;
-        }
-      }
-    }
-
-    // End
-    yield* add(BarcodeMaps.itfEnd, 5);
+    return super.convert(data);
   }
 
   double _getBorderWidth(double width) {

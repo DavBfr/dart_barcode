@@ -143,4 +143,9 @@ void main() {
     height: 50,
     fontHeight: 30,
   );
+
+  buildBarcode(
+    Barcode.itf(),
+    '987234',
+  );
 }

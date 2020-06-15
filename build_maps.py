@@ -353,7 +353,7 @@ def ean13():
         print(f'static const ean{name} = {hex(int(misc[name][::-1], 2))};')
 
 
-def itf14():
+def itf():
     data = {
         '0': '00110',
         '1': '10001',
@@ -372,14 +372,14 @@ def itf14():
         'End': '11101',
     }
 
-    print('/// ITF-14 conversion bits')
-    print('static const itf14 = <int, int>{')
+    print('/// ITF conversion bits')
+    print('static const itf = <int, int>{')
     for k, v in data.items():
         print(
             f'{hex(ord(k))}: {hex(int(v[::-1], 2))}, // "{k}"')
     print('};\n')
 
-    print('/// ITF-14 misc bits')
+    print('/// ITF misc bits')
     for name in misc:
         print(f'static const itf{name} = {hex(int(misc[name][::-1], 2))};')
 
@@ -665,7 +665,7 @@ if __name__ == '__main__':
     code93()
     code128()
     ean13()
-    itf14()
+    itf()
     telepen()
     codabar()
     rm4scc()

@@ -33,6 +33,7 @@ import 'ean2.dart';
 import 'ean5.dart';
 import 'ean8.dart';
 import 'isbn.dart';
+import 'itf.dart';
 import 'itf14.dart';
 import 'qrcode.dart';
 import 'rm4scc.dart';
@@ -65,6 +66,8 @@ abstract class Barcode {
         return Barcode.code128();
       case BarcodeType.GS128:
         return Barcode.gs128();
+      case BarcodeType.Itf:
+        return Barcode.itf();
       case BarcodeType.CodeITF14:
         return Barcode.itf14();
       case BarcodeType.CodeEAN13:
@@ -136,6 +139,13 @@ abstract class Barcode {
     double quietWidth,
   }) =>
       BarcodeItf14(drawBorder, borderWidth, quietWidth);
+
+// Create an Interleaved 2 of 5 (ITF) [Barcode] instance
+  /// ![2 of 5](https://raw.githubusercontent.com/DavBfr/dart_barcode/master/img/itf.svg?sanitize=true)
+  static Barcode itf({
+    bool addChecksum = false,
+  }) =>
+      BarcodeItf(addChecksum);
 
   /// Create an EAN 13 [Barcode] instance
   /// ![EAN 13](https://raw.githubusercontent.com/DavBfr/dart_barcode/master/img/ean-13.svg?sanitize=true)

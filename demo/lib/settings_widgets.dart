@@ -63,7 +63,9 @@ class _DropdownPreferenceState<T> extends State<DropdownPreference> {
               textAlign: TextAlign.end,
             ),
           );
-        }).toList(),
+        }).toList()
+          ..sort((a, b) =>
+              widget.values[a.value].compareTo(widget.values[b.value])),
         onChanged: (newVal) async {
           widget.onWrite(context, newVal);
         },
