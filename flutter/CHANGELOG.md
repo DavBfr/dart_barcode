@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.4.0
+
+- Allow Uint8List data barcodes
+
 ## 1.3.0
 
 - Add errorBuilder to BarcodeWidget

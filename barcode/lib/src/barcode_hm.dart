@@ -14,6 +14,9 @@
  * limitations under the License.
  */
 
+import 'dart:convert';
+import 'dart:typed_data';
+
 import 'package:barcode/src/barcode_1d.dart';
 import 'package:meta/meta.dart';
 
@@ -42,8 +45,8 @@ abstract class BarcodeHM extends Barcode1D {
   static const _tracker = .3;
 
   @override
-  Iterable<BarcodeElement> make(
-    String data, {
+  Iterable<BarcodeElement> makeBytes(
+    Uint8List data, {
     @required double width,
     @required double height,
     bool drawText = false,
@@ -55,7 +58,8 @@ abstract class BarcodeHM extends Barcode1D {
     assert(!drawText || fontHeight != null);
     fontHeight ??= 0;
 
-    final bars = convertHM(data).toList();
+    final text = utf8.decoder.convert(data);
+    final bars = convertHM(text).toList();
 
     if (bars.isEmpty) {
       return;
@@ -114,7 +118,7 @@ abstract class BarcodeHM extends Barcode1D {
     }
 
     if (drawText) {
-      yield* makeText(data, width, height, fontHeight, lineWidth);
+      yield* makeText(text, width, height, fontHeight, lineWidth);
     }
   }
 

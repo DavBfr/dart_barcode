@@ -14,6 +14,9 @@
  * limitations under the License.
  */
 
+import 'dart:convert';
+import 'dart:typed_data';
+
 import 'barcode_exception.dart';
 import 'barcode_maps.dart';
 import 'barcode_operations.dart';
@@ -39,9 +42,10 @@ class BarcodeUpcA extends BarcodeEan {
   int get maxLength => 12;
 
   @override
-  void verify(String data) {
-    checkLength(data, maxLength);
-    super.verify(data);
+  void verifyBytes(Uint8List data) {
+    final text = utf8.decoder.convert(data);
+    checkLength(text, maxLength);
+    super.verifyBytes(data);
   }
 
   @override

@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.1.0
+
+- Allow Uint8List data barcodes
+
 ## 1.0.3
 
 - Fix library name [Steve Gehrman]

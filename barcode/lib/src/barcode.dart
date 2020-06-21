@@ -15,6 +15,7 @@
  */
 
 import 'dart:convert';
+import 'dart:typed_data';
 
 import 'package:barcode/src/pdf417.dart';
 import 'package:meta/meta.dart';
@@ -230,8 +231,26 @@ abstract class Barcode {
   ///   print(op);
   /// }
   /// ```
+  @nonVirtual
   Iterable<BarcodeElement> make(
     String data, {
+    @required double width,
+    @required double height,
+    bool drawText = false,
+    double fontHeight,
+  }) =>
+      makeBytes(
+        utf8.encoder.convert(data),
+        width: width,
+        height: height,
+        drawText: drawText,
+        fontHeight: fontHeight,
+      );
+
+  /// Generate the barcode graphic description like [make] but takes an
+  /// Uint8List data.
+  Iterable<BarcodeElement> makeBytes(
+    Uint8List data, {
     @required double width,
     @required double height,
     bool drawText = false,
@@ -239,9 +258,12 @@ abstract class Barcode {
   });
 
   /// Check if the Barcode is valid
-  bool isValid(String data) {
+  bool isValid(String data) => isValidBytes(utf8.encoder.convert(data));
+
+  /// Check if the Barcode is valid
+  bool isValidBytes(Uint8List data) {
     try {
-      verify(data);
+      verifyBytes(data);
     } catch (_) {
       return false;
     }
@@ -251,8 +273,13 @@ abstract class Barcode {
 
   /// Check if the Barcode is valid. Throws [BarcodeException] with a proper
   /// message in case of error
+  @nonVirtual
+  void verify(String data) => verifyBytes(utf8.encoder.convert(data));
+
+  /// Check if the Barcode is valid. Throws [BarcodeException] with a proper
+  /// message in case of error
   @mustCallSuper
-  void verify(String data) {
+  void verifyBytes(Uint8List data) {
     if (data.length > maxLength) {
       throw BarcodeException(
           'Unable to encode "$data", maximum length is $maxLength for $name Barcode');
@@ -265,7 +292,7 @@ abstract class Barcode {
 
     final chr = charSet.toSet();
 
-    for (var code in data.codeUnits) {
+    for (var code in data) {
       if (!chr.contains(code)) {
         throw BarcodeException(
             'Unable to encode "${String.fromCharCode(code)}" to $name Barcode');
@@ -287,9 +314,38 @@ abstract class Barcode {
     return '#' + (c & 0xffffff).toRadixString(16).padLeft(6, '0');
   }
 
-  /// Create a SVG file with this Barcode
+  /// Create an SVG file with this Barcode from Uint8List data
+  @nonVirtual
   String toSvg(
     String data, {
+    double x = 0,
+    double y = 0,
+    double width = 200,
+    double height = 80,
+    bool drawText = true,
+    String fontFamily = 'monospace',
+    double fontHeight,
+    int color = 0x000000,
+    bool fullSvg = true,
+    double baseline = .75,
+  }) =>
+      toSvgBytes(
+        utf8.encoder.convert(data),
+        x: x,
+        y: y,
+        width: width,
+        height: height,
+        drawText: drawText,
+        fontFamily: fontFamily,
+        fontHeight: fontHeight,
+        color: color,
+        fullSvg: fullSvg,
+        baseline: baseline,
+      );
+
+  /// Create an SVG file with this Barcode from Uint8List data
+  String toSvgBytes(
+    Uint8List data, {
     double x = 0,
     double y = 0,
     double width = 200,
@@ -316,7 +372,7 @@ abstract class Barcode {
     final tspan = StringBuffer();
 
     // Draw the barcode
-    for (var elem in make(
+    for (var elem in makeBytes(
       data,
       width: width.toDouble(),
       height: height.toDouble(),

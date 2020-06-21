@@ -14,6 +14,7 @@
  * limitations under the License.
  */
 
+import 'dart:typed_data';
 import 'dart:ui' as ui;
 
 import 'package:barcode/barcode.dart';
@@ -33,7 +34,7 @@ class BarcodePainter extends LeafRenderObjectWidget {
   ) : super();
 
   /// The Data to include in the barcode
-  final String data;
+  final Uint8List data;
 
   /// The barcode rendering object
   final Barcode barcode;
@@ -88,7 +89,7 @@ class _RenderBarcode extends RenderBox {
     this.style,
   );
 
-  String data;
+  Uint8List data;
 
   Barcode barcode;
 
@@ -182,7 +183,7 @@ class _RenderBarcode extends RenderBox {
   @override
   void paint(PaintingContext context, Offset offset) {
     try {
-      for (var element in barcode.make(
+      for (var element in barcode.makeBytes(
         data,
         width: size.width,
         height: size.height,

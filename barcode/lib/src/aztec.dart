@@ -14,6 +14,8 @@
  * limitations under the License.
  */
 
+import 'dart:typed_data';
+
 import 'barcode_2d.dart';
 import 'barcode_exception.dart';
 import 'reedsolomon.dart';
@@ -56,13 +58,13 @@ class BarcodeAztec extends Barcode2D {
   static bool _initialized = false;
 
   @override
-  Barcode2DMatrix convert(String data) {
+  Barcode2DMatrix convert(Uint8List data) {
     if (!_initialized) {
       _State.init();
       _initialized = true;
     }
 
-    final m = _encode(data.codeUnits);
+    final m = _encode(data);
 
     return Barcode2DMatrix(
       m.matrixSize,

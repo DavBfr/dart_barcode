@@ -14,6 +14,8 @@
  * limitations under the License.
  */
 
+import 'dart:typed_data';
+
 import 'barcode_2d.dart';
 import 'barcode_exception.dart';
 import 'reedsolomon.dart';
@@ -28,8 +30,8 @@ class BarcodeDataMatrix extends Barcode2D {
   const BarcodeDataMatrix();
 
   @override
-  Barcode2DMatrix convert(String data) {
-    var text = _encodeText(data.codeUnits);
+  Barcode2DMatrix convert(Uint8List data) {
+    var text = _encodeText(data);
 
     _CodeSize size;
     for (final s in _CodeSize.codeSizes) {

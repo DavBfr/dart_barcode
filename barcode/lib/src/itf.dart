@@ -14,6 +14,9 @@
  * limitations under the License.
  */
 
+import 'dart:convert';
+import 'dart:typed_data';
+
 import 'barcode_exception.dart';
 import 'barcode_maps.dart';
 import 'barcode_operations.dart';
@@ -89,16 +92,18 @@ class BarcodeItf extends BarcodeEan {
   }
 
   @override
-  void verify(String data) {
+  void verifyBytes(Uint8List data) {
+    var text = utf8.decoder.convert(data);
+
     if (addChecksum) {
-      data += checkSumModulo10(data);
+      text += checkSumModulo10(text);
     }
 
-    if (data.length % 2 != 0) {
+    if (text.length % 2 != 0) {
       throw BarcodeException(
           '$name barcode can only encode an even number of digits.');
     }
 
-    super.verify(data);
+    super.verifyBytes(utf8.encoder.convert(text));
   }
 }

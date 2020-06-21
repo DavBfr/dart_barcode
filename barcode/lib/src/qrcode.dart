@@ -14,6 +14,8 @@
  * limitations under the License.
  */
 
+import 'dart:typed_data';
+
 import 'package:qr/qr.dart';
 
 import 'barcode_2d.dart';
@@ -53,12 +55,13 @@ class BarcodeQR extends Barcode2D {
   final BarcodeQRCorrectionLevel errorCorrectLevel;
 
   @override
-  Barcode2DMatrix convert(String data) {
+  Barcode2DMatrix convert(Uint8List data) {
     final errorLevel = QrErrorCorrectLevel.levels[errorCorrectLevel.index];
 
     final qrCode = typeNumber == null
-        ? QrCode.fromData(data: data, errorCorrectLevel: errorLevel)
-        : (QrCode(typeNumber, QrErrorCorrectLevel.L)..addData(data));
+        ? QrCode.fromUint8List(data: data, errorCorrectLevel: errorLevel)
+        : (QrCode(typeNumber, errorLevel)
+          ..addByteData(data.buffer.asByteData()));
 
     qrCode.make();
 

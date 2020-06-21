@@ -14,6 +14,9 @@
  * limitations under the License.
  */
 
+import 'dart:convert';
+import 'dart:typed_data';
+
 import 'package:barcode/barcode.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -26,7 +29,41 @@ typedef BarcodeErrorBuilder = Widget Function(
 /// Flutter widget to draw a [Barcode] on screen.
 class BarcodeWidget extends StatelessWidget {
   /// Draw a barcode on screen
-  const BarcodeWidget({
+  factory BarcodeWidget({
+    @required String data,
+    @required Barcode barcode,
+    Color color = Colors.black,
+    Color backgroundColor,
+    Decoration decoration,
+    EdgeInsetsGeometry margin,
+    EdgeInsetsGeometry padding,
+    double width,
+    double height,
+    bool drawText = true,
+    TextStyle style,
+    BarcodeErrorBuilder errorBuilder,
+  }) {
+    assert(data != null);
+    assert(barcode != null);
+
+    return BarcodeWidget.fromBytes(
+      data: utf8.encoder.convert(data),
+      barcode: barcode,
+      color: color,
+      backgroundColor: backgroundColor,
+      decoration: decoration,
+      margin: margin,
+      padding: padding,
+      width: width,
+      height: height,
+      drawText: drawText,
+      style: style,
+      errorBuilder: errorBuilder,
+    );
+  }
+
+  /// Draw a barcode on screen using Uint8List data
+  const BarcodeWidget.fromBytes({
     @required this.data,
     @required this.barcode,
     this.color = Colors.black,
@@ -43,7 +80,7 @@ class BarcodeWidget extends StatelessWidget {
         assert(barcode != null);
 
   /// The barcode data to display
-  final String data;
+  final Uint8List data;
 
   /// The type of barcode to use.
   /// use:
@@ -102,7 +139,7 @@ class BarcodeWidget extends StatelessWidget {
 
     if (errorBuilder != null) {
       try {
-        barcode.verify(data);
+        barcode.verifyBytes(data);
       } catch (e) {
         child = errorBuilder(context, e.toString());
       }

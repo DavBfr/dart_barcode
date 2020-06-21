@@ -14,6 +14,9 @@
  * limitations under the License.
  */
 
+import 'dart:convert';
+import 'dart:typed_data';
+
 import 'package:meta/meta.dart';
 
 import 'barcode.dart';
@@ -25,8 +28,8 @@ abstract class Barcode1D extends Barcode {
   const Barcode1D();
 
   @override
-  Iterable<BarcodeElement> make(
-    String data, {
+  Iterable<BarcodeElement> makeBytes(
+    Uint8List data, {
     @required double width,
     @required double height,
     bool drawText = false,
@@ -38,7 +41,8 @@ abstract class Barcode1D extends Barcode {
     assert(!drawText || fontHeight != null);
     fontHeight ??= 0;
 
-    final bits = convert(data).toList();
+    final text = utf8.decoder.convert(data);
+    final bits = convert(text).toList();
 
     if (bits.isEmpty) {
       return;
@@ -94,7 +98,7 @@ abstract class Barcode1D extends Barcode {
     );
 
     if (drawText) {
-      yield* makeText(data, width, height, fontHeight, lineWidth);
+      yield* makeText(text, width, height, fontHeight, lineWidth);
     }
   }
 

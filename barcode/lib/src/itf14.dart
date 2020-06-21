@@ -14,6 +14,9 @@
  * limitations under the License.
  */
 
+import 'dart:convert';
+import 'dart:typed_data';
+
 import 'package:meta/meta.dart';
 
 import 'barcode_operations.dart';
@@ -53,9 +56,10 @@ class BarcodeItf14 extends BarcodeItf {
   int get maxLength => 14;
 
   @override
-  void verify(String data) {
-    data = checkLength(data, maxLength);
-    super.verify(data);
+  void verifyBytes(Uint8List data) {
+    final text = utf8.decoder.convert(data);
+    data = utf8.encoder.convert(checkLength(text, maxLength));
+    super.verifyBytes(data);
   }
 
   @override
@@ -112,14 +116,14 @@ class BarcodeItf14 extends BarcodeItf {
   }
 
   @override
-  Iterable<BarcodeElement> make(
-    String data, {
+  Iterable<BarcodeElement> makeBytes(
+    Uint8List data, {
     @required double width,
     @required double height,
     bool drawText = false,
     double fontHeight,
   }) sync* {
-    yield* super.make(data,
+    yield* super.makeBytes(data,
         width: width,
         height: height,
         drawText: drawText,

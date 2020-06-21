@@ -14,6 +14,9 @@
  * limitations under the License.
  */
 
+import 'dart:convert';
+import 'dart:typed_data';
+
 import 'package:barcode/barcode.dart';
 import 'package:image/image.dart';
 
@@ -78,12 +81,37 @@ void drawBarcode(
   BitmapFont font,
   int color = 0xff000000,
 }) {
+  drawBarcodeBytes(
+    image,
+    barcode,
+    utf8.encoder.convert(data),
+    x: x,
+    y: y,
+    width: width,
+    height: height,
+    font: font,
+    color: color,
+  );
+}
+
+/// Create a Barcode
+void drawBarcodeBytes(
+  Image image,
+  Barcode barcode,
+  Uint8List bytes, {
+  int x = 0,
+  int y = 0,
+  int width,
+  int height,
+  BitmapFont font,
+  int color = 0xff000000,
+}) {
   width ??= image.width;
   height ??= image.height;
 
   // Draw the barcode
-  for (var elem in barcode.make(
-    data,
+  for (var elem in barcode.makeBytes(
+    bytes,
     width: width.toDouble(),
     height: height.toDouble(),
     drawText: font != null,

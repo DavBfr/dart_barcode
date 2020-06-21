@@ -14,6 +14,8 @@
  * limitations under the License.
  */
 
+import 'dart:typed_data';
+
 import 'package:meta/meta.dart';
 
 import 'barcode.dart';
@@ -61,8 +63,8 @@ abstract class Barcode2D extends Barcode {
   const Barcode2D();
 
   @override
-  Iterable<BarcodeElement> make(
-    String data, {
+  Iterable<BarcodeElement> makeBytes(
+    Uint8List data, {
     @required double width,
     @required double height,
     bool drawText = false,
@@ -131,8 +133,8 @@ abstract class Barcode2D extends Barcode {
   }
 
   @override
-  void verify(String data) {
-    super.verify(data);
+  void verifyBytes(Uint8List data) {
+    super.verifyBytes(data);
 
     try {
       convert(data);
@@ -143,5 +145,5 @@ abstract class Barcode2D extends Barcode {
 
   /// Actual barcode computation method, returns a matrix of [bool]
   /// which represents the presence or absence of a pixel
-  Barcode2DMatrix convert(String data);
+  Barcode2DMatrix convert(Uint8List data);
 }

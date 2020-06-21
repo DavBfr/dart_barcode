@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.14.0
+
+- Allow Uint8List data barcodes
+
 ## 1.13.0
 
 - Add Interleaved 2 of 5 (ITF) Barcode

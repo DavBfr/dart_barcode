@@ -14,6 +14,9 @@
  * limitations under the License.
  */
 
+import 'dart:convert';
+import 'dart:typed_data';
+
 import 'package:meta/meta.dart';
 
 import 'barcode_1d.dart';
@@ -382,9 +385,10 @@ class BarcodeCode128 extends Barcode1D {
   }
 
   @override
-  void verify(String data) {
-    data = adaptData(data);
-    shortestCode(data.codeUnits);
-    super.verify(data);
+  void verifyBytes(Uint8List data) {
+    final text = adaptData(utf8.decoder.convert(data));
+    data = utf8.encoder.convert(text);
+    shortestCode(text.codeUnits);
+    super.verifyBytes(data);
   }
 }

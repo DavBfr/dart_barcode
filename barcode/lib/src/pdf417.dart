@@ -15,6 +15,7 @@
  */
 
 import 'dart:math';
+import 'dart:typed_data';
 
 import 'barcode_2d.dart';
 import 'barcode_exception.dart';
@@ -74,8 +75,8 @@ class BarcodePDF417 extends Barcode2D {
   final Pdf417SecurityLevel securityLevel;
 
   @override
-  Barcode2DMatrix convert(String data) {
-    final dataWords = _highlevelEncode(data.codeUnits);
+  Barcode2DMatrix convert(Uint8List data) {
+    final dataWords = _highlevelEncode(data);
 
     final dim = _calcDimensions(
         dataWords.length, _errorCorrectionWordCount(securityLevel));

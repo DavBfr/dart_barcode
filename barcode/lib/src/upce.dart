@@ -14,6 +14,9 @@
  * limitations under the License.
  */
 
+import 'dart:convert';
+import 'dart:typed_data';
+
 import 'barcode_exception.dart';
 import 'barcode_maps.dart';
 import 'barcode_operations.dart';
@@ -46,23 +49,25 @@ class BarcodeUpcE extends BarcodeEan {
   int get maxLength => 12;
 
   @override
-  void verify(String data) {
-    if (data.length <= 8) {
+  void verifyBytes(Uint8List data) {
+    var text = utf8.decoder.convert(data);
+
+    if (text.length <= 8) {
       // Try to convert UPC-E to UPC-A
-      data = upceToUpca(data);
+      text = upceToUpca(text);
     }
 
-    if (data.length < 11) {
+    if (text.length < 11) {
       throw BarcodeException(
-          'Unable to encode "$data", minimum length is 11 for $name Barcode');
+          'Unable to encode "$text", minimum length is 11 for $name Barcode');
     }
 
-    final upca = checkLength(data, maxLength);
+    final upca = checkLength(text, maxLength);
     if (!fallback) {
       upcaToUpce(upca);
     }
 
-    super.verify(data);
+    super.verifyBytes(utf8.encoder.convert(text));
   }
 
   /// Convert an UPC-A barcode to a short version UPC-E
