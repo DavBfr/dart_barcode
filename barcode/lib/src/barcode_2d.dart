@@ -14,6 +14,7 @@
  * limitations under the License.
  */
 
+import 'dart:convert';
 import 'dart:typed_data';
 
 import 'package:meta/meta.dart';
@@ -141,6 +142,27 @@ abstract class Barcode2D extends Barcode {
     } on Exception catch (ex) {
       throw BarcodeException(ex.toString());
     }
+  }
+
+  /// Computes a hexadecimal representation of the barcode, mostly for
+  /// testing purposes
+  @visibleForTesting
+  String toHex(String data) {
+    var intermediate = '';
+    final matrix = convert(Uint8List.fromList(data.codeUnits));
+    for (var bit in matrix.pixels) {
+      intermediate += bit ? '1' : '0';
+    }
+
+    var result = '';
+    while (intermediate.length > 8) {
+      final sub = intermediate.substring(intermediate.length - 8);
+      result += int.parse(sub, radix: 2).toRadixString(16);
+      intermediate = intermediate.substring(0, intermediate.length - 8);
+    }
+    result += int.parse(intermediate, radix: 2).toRadixString(16);
+
+    return result;
   }
 
   /// Actual barcode computation method, returns a matrix of [bool]

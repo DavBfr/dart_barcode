@@ -224,7 +224,7 @@ abstract class Barcode {
 
   /// Main method to produce the barcode graphic description.
   /// Returns a stream of drawing operations required to properly
-  /// display the barcode.
+  /// display the barcode as a UTF-8 string.
   ///
   /// Use it with:
   /// ```dart
@@ -248,7 +248,7 @@ abstract class Barcode {
         fontHeight: fontHeight,
       );
 
-  /// Generate the barcode graphic description like [make] but takes an
+  /// Generate the barcode graphic description like [make] but takes a
   /// Uint8List data.
   Iterable<BarcodeElement> makeBytes(
     Uint8List data, {

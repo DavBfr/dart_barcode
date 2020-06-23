@@ -14,18 +14,15 @@
  * limitations under the License.
  */
 
-import 'code128_test.dart' as code128;
-import 'code39_test.dart' as code39;
-import 'code93_test.dart' as code93;
-import 'generic_test.dart' as generic;
-import 'mecard_test.dart' as mecard;
-import 'telepen_test.dart' as telepen;
+import 'package:barcode/barcode.dart';
+import 'package:barcode/src/ean.dart';
+import 'package:test/test.dart';
 
 void main() {
-  generic.main();
-  code39.main();
-  code93.main();
-  code128.main();
-  telepen.main();
-  mecard.main();
+  test('Barcode EAN', () {
+    final BarcodeEan bc = Barcode.ean13();
+
+    expect(bc.checkSumModulo10('987234'), equals('9'));
+    expect(bc.checkSumModulo11('987234'), equals('5'));
+  });
 }

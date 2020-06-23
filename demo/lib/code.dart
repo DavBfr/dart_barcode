@@ -53,7 +53,7 @@ class _CodeState extends State<Code> {
                 padding:
                     const EdgeInsets.symmetric(horizontal: 5, vertical: 20),
                 decoration: BoxDecoration(
-                  color: Colors.grey.shade800,
+                  color: Colors.grey.shade200,
                   border: Border.all(
                     color: Colors.black,
                     width: 1,

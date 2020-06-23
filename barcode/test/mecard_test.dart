@@ -31,9 +31,17 @@ void main() {
     final a = MeCard.contact(
       name: 'David PHAM-VAN',
       email: 'dev.nfet.net@gmail.com',
+      address: '234 BAY Avenue',
+      birthday: DateTime.fromMillisecondsSinceEpoch(1577880945000),
+      memo: 'Hello',
+      nickname: 'D',
+      reading: 'Reading',
+      tel: '9872394872',
+      url: 'https://github.com/DavBfr/dart_barcode',
+      videophone: '987234987234',
     );
 
     expect(a.toString(),
-        r'MECARD:N:David PHAM-VAN;EMAIL:dev.nfet.net@gmail.com;;');
+        r'MECARD:N:David PHAM-VAN;SOUND:Reading;TEL:9872394872;TEL-AV:987234987234;EMAIL:dev.nfet.net@gmail.com;NOTE:Hello;BDAY:20200101;ADR:234 BAY Avenue;URL:https\://github.com/DavBfr/dart_barcode;NICKNAME:D;;');
   });
 }

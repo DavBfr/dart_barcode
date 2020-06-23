@@ -39,9 +39,8 @@ node_modules:
 
 test-barcode: .coverage
 	cd barcode; pub get
-	cd barcode; pub global run coverage:collect_coverage --port=$(COV_PORT) -o coverage.json --resume-isolates --wait-paused &\
-	dart --enable-asserts --disable-service-auth-codes --enable-vm-service=$(COV_PORT) --pause-isolates-on-exit test/all_tests.dart
-	cd barcode; pub global run coverage:format_coverage --packages=.packages -i coverage.json --report-on lib --lcov --out ../lcov-tests.info
+	cd barcode; pub run test --coverage=.coverage
+	cd barcode; pub global run coverage:format_coverage --packages=.packages -i .coverage --report-on lib --lcov --out ../lcov-barcode.info
 
 test-image:
 	cd image; pub get
@@ -54,7 +53,7 @@ test-flutter:
 	mv flutter/coverage/lcov.info lcov-flutter.info
 
 test: node_modules test-barcode test-image test-flutter barcodes
-	lcov --add-tracefile lcov-tests.info -t test1 -a lcov-example.info -t test2 -a lcov-image.info -t test3 -a lcov-flutter.info -t test4 -o lcov.info
+	lcov --add-tracefile lcov-barcode.info -t test1 -a lcov-example.info -t test2 -a lcov-image.info -t test3 -a lcov-flutter.info -t test4 -o lcov.info
 	cat lcov.info | node_modules/.bin/lcov-summary
 
 clean:
@@ -131,7 +130,7 @@ maps: build_maps.py
 
 gh-pages:
 	test -z "$(shell git status --porcelain)"
-	cd demo; flutter build web
+	cd demo; flutter build web --release --dart-define=FLUTTER_WEB_USE_SKIA=true
 	git checkout gh-pages
 	cp -rf demo/build/web/* .
 

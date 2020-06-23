@@ -4,6 +4,7 @@
 
 - Allow Uint8List data barcodes
 - Improve ITF barcode
+- Add more unit tests
 
 ## 1.13.0
 

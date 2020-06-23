@@ -19,9 +19,15 @@ import 'package:barcode/src/barcode_1d.dart';
 import 'package:test/test.dart';
 
 void main() {
-  test('Barcode Telepen charsets', () {
+  test('Barcode Telepen', () {
     final Barcode1D bc = Barcode.telepen();
 
     expect(bc.toHex('z'), 'aae23aa2aae2b8aa');
+  });
+
+  test('Barcode Telepen limits', () {
+    final Barcode1D bc = Barcode.telepen();
+
+    expect(bc.charSet, Iterable<int>.generate(128));
   });
 }
