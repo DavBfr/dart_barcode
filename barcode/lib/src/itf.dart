@@ -32,18 +32,31 @@ class BarcodeItf extends BarcodeEan {
   /// Create an ITF-14 Barcode
   const BarcodeItf(
     this.addChecksum,
+    this.zeroPrepend,
   ) : assert(addChecksum != null);
 
   /// Add Modulo 10 checksum
   final bool addChecksum;
+
+  /// Prepend with a '0' if the length is not odd
+  final bool zeroPrepend;
 
   @override
   String get name => 'ITF';
 
   @override
   Iterable<bool> convert(String data) sync* {
+    if (zeroPrepend && ((data.length % 2 != 0) != addChecksum)) {
+      data = '0$data';
+    }
+
     if (addChecksum) {
       data += checkSumModulo10(data);
+    }
+
+    if (data.length % 2 != 0) {
+      throw BarcodeException(
+          '$name barcode can only encode an even number of digits.');
     }
 
     // Start
@@ -84,6 +97,10 @@ class BarcodeItf extends BarcodeEan {
     double fontHeight,
     double lineWidth,
   ) {
+    if (zeroPrepend && ((data.length % 2 != 0) != addChecksum)) {
+      data = '0$data';
+    }
+
     if (addChecksum) {
       data += checkSumModulo10(data);
     }
@@ -94,6 +111,10 @@ class BarcodeItf extends BarcodeEan {
   @override
   void verifyBytes(Uint8List data) {
     var text = utf8.decoder.convert(data);
+
+    if (zeroPrepend && ((text.length % 2 != 0) != addChecksum)) {
+      text = '0$text';
+    }
 
     if (addChecksum) {
       text += checkSumModulo10(text);

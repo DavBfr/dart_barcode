@@ -73,8 +73,8 @@ class BarcodeConf extends ChangeNotifier {
         _defaultData = '345874';
         _desc =
             'Interleaved 2 of 5 (ITF) is a continuous two-width barcodesymbology encoding digits. It is used commercially on 135 film, for ITF-14 barcodes, and on cartons of some products, while the products inside are labeled with UPC or EAN.';
-        _method = 'itf()';
-        _barcode = Barcode.itf();
+        _method = 'itf(zeroPrepend: true)';
+        _barcode = Barcode.itf(zeroPrepend: true);
         break;
       case BarcodeType.CodeITF14:
         fontSize = 25;

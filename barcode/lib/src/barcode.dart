@@ -145,8 +145,9 @@ abstract class Barcode {
   /// ![2 of 5](https://raw.githubusercontent.com/DavBfr/dart_barcode/master/img/itf.svg?sanitize=true)
   static Barcode itf({
     bool addChecksum = false,
+    bool zeroPrepend = false,
   }) =>
-      BarcodeItf(addChecksum);
+      BarcodeItf(addChecksum, zeroPrepend);
 
   /// Create an EAN 13 [Barcode] instance
   /// ![EAN 13](https://raw.githubusercontent.com/DavBfr/dart_barcode/master/img/ean-13.svg?sanitize=true)

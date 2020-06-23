@@ -35,7 +35,7 @@ class BarcodeItf14 extends BarcodeItf {
     this.borderWidth,
     this.quietWidth,
   )   : assert(drawBorder != null),
-        super(false);
+        super(false, false);
 
   /// Draw a black border around the barcode
   final bool drawBorder;

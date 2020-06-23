@@ -3,6 +3,7 @@
 ## 1.14.0
 
 - Allow Uint8List data barcodes
+- Improve ITF barcode
 
 ## 1.13.0
 
