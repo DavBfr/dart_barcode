@@ -84,4 +84,18 @@ void main() {
       equals('7608224396ba51dfce991042acfbbf9e97ca5ad7'),
     );
   });
+
+  test('Image Barcode EAN13', () {
+    final image = img.Image(300, 150);
+    img.fill(image, img.getColor(255, 255, 255));
+
+    drawBarcode(image, Barcode.ean13(), '1064992311055', font: img.arial_24);
+
+    File('../ean13.png').writeAsBytesSync(img.writePng(image));
+
+    expect(
+      sha1.convert(image.getBytes()).toString(),
+      equals('03f5e16e93de4f8e4159842546e7e63f3af5cd91'),
+    );
+  });
 }
