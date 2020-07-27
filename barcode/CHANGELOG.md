@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.15.0
+
+- Add more options to codabar to specify the start and stop chars
+
 ## 1.14.0
 
 - Allow Uint8List data barcodes

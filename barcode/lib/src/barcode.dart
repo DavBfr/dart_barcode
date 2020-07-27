@@ -202,10 +202,13 @@ abstract class Barcode {
 
   /// Create a Codabar [Barcode] instance
   /// ![Codabar](https://raw.githubusercontent.com/DavBfr/dart_barcode/master/img/codabar.svg?sanitize=true)
-  static Barcode codabar(
-          {BarcodeCodabarStartStop start = BarcodeCodabarStartStop.A,
-          BarcodeCodabarStartStop stop = BarcodeCodabarStartStop.B}) =>
-      BarcodeCodabar(start, stop);
+  static Barcode codabar({
+    BarcodeCodabarStartStop start = BarcodeCodabarStartStop.A,
+    BarcodeCodabarStartStop stop = BarcodeCodabarStartStop.B,
+    bool printStartStop = false,
+    bool explicitStartStop = false,
+  }) =>
+      BarcodeCodabar(start, stop, printStartStop, explicitStartStop);
 
   /// Create an RM4SCC [Barcode] instance
   /// ![RM4SCC](https://raw.githubusercontent.com/DavBfr/dart_barcode/master/img/rm4scc.svg?sanitize=true)
@@ -259,9 +262,11 @@ abstract class Barcode {
   });
 
   /// Check if the Barcode is valid
+  @nonVirtual
   bool isValid(String data) => isValidBytes(utf8.encoder.convert(data));
 
   /// Check if the Barcode is valid
+  @nonVirtual
   bool isValidBytes(Uint8List data) {
     try {
       verifyBytes(data);

@@ -194,6 +194,20 @@ abstract class Barcode1D extends Barcode {
     return result;
   }
 
+  /// Get the generated texts, for testing purposes
+  @visibleForTesting
+  String getText(String data) {
+    final result = StringBuffer();
+
+    for (final elem in makeText(data, 200, 200, 10, 10)) {
+      if (elem is BarcodeText) {
+        result.write(elem.text);
+      }
+    }
+
+    return result.toString();
+  }
+
   /// Actual barcode computation method, returns a stream of [bool]
   /// which represents the presence or absence of a bar
   @protected
