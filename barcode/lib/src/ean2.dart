@@ -19,12 +19,12 @@ import 'barcode_maps.dart';
 import 'barcode_operations.dart';
 import 'ean.dart';
 
-/// EAN 2 Barcode Generator
+/// EAN 2 Barcode
 ///
 /// The EAN-2 is a supplement to the EAN-13 and UPC-A barcodes.
 /// It is often used on magazines and periodicals to indicate an issue number.
 class BarcodeEan2 extends BarcodeEan {
-  /// EAN 2 Barcode Generator
+  /// EAN 2 Barcode
   const BarcodeEan2();
 
   @override

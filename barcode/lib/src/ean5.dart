@@ -18,13 +18,13 @@ import 'barcode_exception.dart';
 import 'barcode_maps.dart';
 import 'ean2.dart';
 
-/// EAN 5 Barcode Generator
+/// EAN 5 Barcode
 ///
 /// The EAN-5 is a 5-digit European Article Number code, and is a supplement
 /// to the EAN-13 barcode used on books. It is used to give a suggestion
 /// for the price of the book.
 class BarcodeEan5 extends BarcodeEan2 {
-  /// EAN 5 Barcode Generator
+  /// EAN 5 Barcode
   const BarcodeEan5();
 
   @override

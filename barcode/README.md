@@ -78,13 +78,13 @@ The following barcode images are SVG. The proper rendering, especially text, dep
 
 #### Code 128 C
 
-<img width="200" alt="CODE 128 C" src="https://raw.githubusercontent.com/DavBfr/dart_barcode/master/img/code-128c.svg?sanitize=true">
+<img width="300" alt="CODE 128 C" src="https://raw.githubusercontent.com/DavBfr/dart_barcode/master/img/code-128c.svg?sanitize=true">
 
 #### GS1-128
 
 <img width="300" alt="GS1 128" src="https://raw.githubusercontent.com/DavBfr/dart_barcode/master/img/gs1-128.svg?sanitize=true">
 
-### Interleaved 2 of 5 (ITF)
+#### Interleaved 2 of 5 (ITF)
 
 <img width="300" alt="ITF" src="https://raw.githubusercontent.com/DavBfr/dart_barcode/master/img/itf.svg?sanitize=true">
 
@@ -142,7 +142,7 @@ The following barcode images are SVG. The proper rendering, especially text, dep
 
 #### PDF417
 
-<img width="200" alt="PDF417" src="https://raw.githubusercontent.com/DavBfr/dart_barcode/master/img/pdf417.svg?sanitize=true">
+<img width="300" alt="PDF417" src="https://raw.githubusercontent.com/DavBfr/dart_barcode/master/img/pdf417.svg?sanitize=true">
 
 #### Data Matrix
 

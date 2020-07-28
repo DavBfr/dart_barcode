@@ -18,11 +18,13 @@ import 'barcode_1d.dart';
 import 'barcode_exception.dart';
 import 'barcode_maps.dart';
 
-/// Code 93 Barcode
+/// Code 93 [Barcode]
 ///
 /// Code 93 is a barcode symbology designed in 1982 by Intermec to provide
 /// a higher density and data security enhancement to Code 39.
+///
 /// It is an alphanumeric, variable length symbology.
+///
 /// Code 93 is used primarily by Canada Post to encode supplementary
 /// delivery information.
 class BarcodeCode93 extends Barcode1D {

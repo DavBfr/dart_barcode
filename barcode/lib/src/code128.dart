@@ -40,10 +40,11 @@ class BarcodeCode128Fnc {
   static const fnc4 = BarcodeMaps.code128FNC4String;
 }
 
-/// Code128 Barcode
+/// Code128 [Barcode]
 ///
 /// Code 128 is a high-density linear barcode symbology defined in
 /// ISO/IEC 15417:2007. It is used for alphanumeric or numeric-only barcodes.
+///
 /// It can encode all 128 characters of ASCII and, by use of an extension
 /// symbol, the Latin-1 characters defined in ISO/IEC 8859-1.
 ///

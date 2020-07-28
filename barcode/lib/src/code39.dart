@@ -20,11 +20,12 @@ import 'barcode_1d.dart';
 import 'barcode_exception.dart';
 import 'barcode_maps.dart';
 
-/// Code 39 Barcode
+/// Code 39 [Barcode]
 ///
 /// The Code 39 specification defines 43 characters, consisting of uppercase
 /// letters (A through Z), numeric digits (0 through 9) and a number of special
 /// characters (-, ., \$, /, +, %, and space).
+///
 /// An additional character (denoted '*') is used for both start and stop
 /// delimiters.
 class BarcodeCode39 extends Barcode1D {

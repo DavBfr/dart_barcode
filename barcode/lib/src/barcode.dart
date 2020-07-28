@@ -104,16 +104,61 @@ abstract class Barcode {
     }
   }
 
-  /// Create a CODE 39 [Barcode] instance:
-  /// ![CODE 39](https://raw.githubusercontent.com/DavBfr/dart_barcode/master/img/code-39.svg?sanitize=true)
+  /// Code 39 [Barcode]
+  ///
+  /// The Code 39 specification defines 43 characters, consisting of uppercase
+  /// letters (A through Z), numeric digits (0 through 9) and a number of special
+  /// characters (-, ., \$, /, +, %, and space).
+  ///
+  /// An additional character (denoted '*') is used for both start and stop
+  /// delimiters.
+  ///
+  /// <img width="250" alt="CODE 39" src="https://raw.githubusercontent.com/DavBfr/dart_barcode/master/img/code-39.svg?sanitize=true">
   static Barcode code39() => const BarcodeCode39();
 
-  /// Create a CODE 93 [Barcode] instance:
-  /// ![CODE 93](https://raw.githubusercontent.com/DavBfr/dart_barcode/master/img/code-93.svg?sanitize=true)
+  /// Code 93 [Barcode]
+  ///
+  /// Code 93 is a barcode symbology designed in 1982 by Intermec to provide
+  /// a higher density and data security enhancement to Code 39.
+  ///
+  /// It is an alphanumeric, variable length symbology.
+  ///
+  /// Code 93 is used primarily by Canada Post to encode supplementary
+  /// delivery information.
+  ///
+  /// <img width="200" alt="CODE 93" src="https://raw.githubusercontent.com/DavBfr/dart_barcode/master/img/code-93.svg?sanitize=true">
+
   static Barcode code93() => const BarcodeCode93();
 
-  /// Create a CODE 128 [Barcode] instance
-  /// ![CODE 128 B](https://raw.githubusercontent.com/DavBfr/dart_barcode/master/img/code-128b.svg?sanitize=true)
+  /// Code128 [Barcode]
+  ///
+  /// Code 128 is a high-density linear barcode symbology defined in
+  /// ISO/IEC 15417:2007. It is used for alphanumeric or numeric-only barcodes.
+  ///
+  /// It can encode all 128 characters of ASCII and, by use of an extension
+  /// symbol, the Latin-1 characters defined in ISO/IEC 8859-1.
+  ///
+  /// Code 128 A:
+  ///
+  /// <img width="300" alt="CODE 128 A" src="https://raw.githubusercontent.com/DavBfr/dart_barcode/master/img/code-128a.svg?sanitize=true">
+  ///
+  /// Code 128 B:
+  ///
+  /// <img width="300" alt="CODE 128 B" src="https://raw.githubusercontent.com/DavBfr/dart_barcode/master/img/code-128b.svg?sanitize=true">
+  ///
+  /// Code 128 C:
+  ///
+  /// <img width="300" alt="CODE 128 C" src="https://raw.githubusercontent.com/DavBfr/dart_barcode/master/img/code-128c.svg?sanitize=true">
+  ///
+  /// [useCode128A], [useCode128B], [useCode128C] specify what code tables are
+  /// allowed. The library will optimize the code to minimize the number of bars
+  /// depending on the available tables.
+  ///
+  /// When [escapes] is enabled, special function codes are accepted in the data
+  /// for application-defined meaning.
+  /// Use `"{1}"` for FNC1, `"{2}"` for FNC2, `"{3}"` for FNC3, `"{4}"` for FNC4.
+  /// Example: `"Test{1}1233{3}45"` will be equivalent to `Test FNC1 1233 FNC3 45`
+  /// for the reader application.
   static Barcode code128({
     bool useCode128A = true,
     bool useCode128B = true,
@@ -122,8 +167,30 @@ abstract class Barcode {
   }) =>
       BarcodeCode128(useCode128A, useCode128B, useCode128C, false, escapes);
 
-  /// Create a GS1-128 [Barcode] instance
-  /// ![GS1-128](https://raw.githubusercontent.com/DavBfr/dart_barcode/master/img/gs1-128.svg?sanitize=true)
+  /// GS1-128 [Barcode]
+  ///
+  /// The GS1-128 is an application standard of the GS1.
+  ///
+  /// It uses a series of Application Identifiers to include additional data
+  /// such as best before dates, batch numbers, quantities, weights and many
+  /// other attributes needed by the user.
+  ///
+  /// the data may contain parenthesis to separate Application Identifiers.
+  /// Example: Use `"(420)22345(56780000000001)"` to generate the following barcode.
+  /// For the reader application, this will be equivalent to
+  /// `420 FNC1 22345 FNC1 56780000000001`.
+  ///
+  /// <img width="300" alt="GS1 128" src="https://raw.githubusercontent.com/DavBfr/dart_barcode/master/img/gs1-128.svg?sanitize=true">
+  ///
+  /// [useCode128A], [useCode128B], [useCode128C] specify what code tables are
+  /// allowed. The library will optimize the code to minimize the number of bars
+  /// depending on the available tables.
+  ///
+  /// When [escapes] is enabled, special function codes are accepted in the data
+  /// for application-defined meaning.
+  /// Use `"{1}"` for FNC1, `"{2}"` for FNC2, `"{3}"` for FNC3, `"{4}"` for FNC4.
+  /// Example: `"Test{1}1233{3}45"` will be equivalent to `Test FNC1 1233 FNC3 45`
+  /// for the reader application.
   static Barcode gs128({
     bool useCode128A = true,
     bool useCode128B = true,
@@ -132,8 +199,21 @@ abstract class Barcode {
   }) =>
       BarcodeCode128(useCode128A, useCode128B, useCode128C, true, escapes);
 
-  /// Create an ITF 14 [Barcode] instance
-  /// ![ITF 14](https://raw.githubusercontent.com/DavBfr/dart_barcode/master/img/itf-14.svg?sanitize=true)
+  /// ITF-14 Barcode
+  ///
+  /// ITF-14 is the GS1 implementation of an Interleaved 2 of 5 (ITF) bar code
+  /// to encode a Global Trade Item Number. ITF-14 symbols are generally used
+  /// on packaging levels of a product, such as a case box of 24 cans of soup.
+  /// The ITF-14 will always encode 14 digits.
+  ///
+  /// <img width="300" alt="ITF 14" src="https://raw.githubusercontent.com/DavBfr/dart_barcode/master/img/itf-14.svg?sanitize=true">
+  ///
+  /// [drawBorder] draws a black border around the barcode
+  ///
+  /// [borderWidth] specify the width of the border around the barcode
+  ///
+  /// [quietWidth] defines the width of the quiet zone before and after
+  /// the barcode, inside the border
   static Barcode itf14({
     bool drawBorder = true,
     double borderWidth,
@@ -141,58 +221,144 @@ abstract class Barcode {
   }) =>
       BarcodeItf14(drawBorder, borderWidth, quietWidth);
 
-// Create an Interleaved 2 of 5 (ITF) [Barcode] instance
-  /// ![2 of 5](https://raw.githubusercontent.com/DavBfr/dart_barcode/master/img/itf.svg?sanitize=true)
+  /// 2 of 5 Barcode
+  ///
+  /// Interleaved 2 of 5 (ITF) is a continuous two-width barcode symbology
+  /// encoding digits. It is used commercially on 135 film, for ITF-14 barcodes,
+  /// and on cartons of some products, while the products inside are labeled
+  /// with UPC or EAN.
+  ///
+  /// <img width="300" alt="ITF" src="https://raw.githubusercontent.com/DavBfr/dart_barcode/master/img/itf.svg?sanitize=true">
+  ///
+  /// [addChecksum] add Modulo 10 checksum
+  ///
+  /// [zeroPrepend] Prepend with a '0' if the length is not odd
   static Barcode itf({
     bool addChecksum = false,
     bool zeroPrepend = false,
   }) =>
       BarcodeItf(addChecksum, zeroPrepend);
 
-  /// Create an EAN 13 [Barcode] instance
-  /// ![EAN 13](https://raw.githubusercontent.com/DavBfr/dart_barcode/master/img/ean-13.svg?sanitize=true)
+  /// EAN 13 Barcode
+  ///
+  /// The International Article Number is a standard describing a barcode
+  /// symbology and numbering system used in global trade to identify a specific
+  /// retail product type, in a specific packaging configuration,
+  /// from a specific manufacturer.
+  ///
+  /// <img width="200" alt="EAN 13" src="https://raw.githubusercontent.com/DavBfr/dart_barcode/master/img/ean-13.svg?sanitize=true">
+  ///
+  /// [drawEndChar] draws the end char '>' in the right margin
   static Barcode ean13({bool drawEndChar = false}) => BarcodeEan13(drawEndChar);
 
-  /// Create an EAN 8 [Barcode] instance
-  /// ![EAN 8](https://raw.githubusercontent.com/DavBfr/dart_barcode/master/img/ean-8.svg?sanitize=true)
+  /// EAN 8 Barcode
+  ///
+  /// An EAN-8 is an EAN/UPC symbology barcode and is derived from the longer
+  /// International Article Number code. It was introduced for use on small
+  /// packages where an EAN-13 barcode would be too large; for example on
+  /// cigarettes, pencils, and chewing gum packets. It is encoded identically
+  /// to the 12 digits of the UPC-A barcode, except that it has 4 digits in
+  /// each of the left and right halves.
+  ///
+  /// <img height="100" alt="EAN 8" src="https://raw.githubusercontent.com/DavBfr/dart_barcode/master/img/ean-8.svg?sanitize=true">
+  ///
+  /// [drawSpacers] draws the start '<' and end '>' chars in the left and right margins
   static Barcode ean8({bool drawSpacers = false}) => BarcodeEan8(drawSpacers);
 
-  /// Create an EAN 5 [Barcode] instance
-  /// ![EAN 5](https://raw.githubusercontent.com/DavBfr/dart_barcode/master/img/ean-5.svg?sanitize=true)
+  /// EAN 5 Barcode
+  ///
+  /// The EAN-5 is a 5-digit European Article Number code, and is a supplement
+  /// to the EAN-13 barcode used on books. It is used to give a suggestion
+  /// for the price of the book.
+  ///
+  /// <img height="100" alt="EAN 5" src="https://raw.githubusercontent.com/DavBfr/dart_barcode/master/img/ean-5.svg?sanitize=true">
   static Barcode ean5() => const BarcodeEan5();
 
-  /// Create an EAN 2 [Barcode] instance
-  /// ![EAN 2](https://raw.githubusercontent.com/DavBfr/dart_barcode/master/img/ean-2.svg?sanitize=true)
+  /// EAN 2 Barcode
+  ///
+  /// The EAN-2 is a supplement to the EAN-13 and UPC-A barcodes.
+  /// It is often used on magazines and periodicals to indicate an issue number.
+  ///
+  /// <img height="100" alt="EAN 2" src="https://raw.githubusercontent.com/DavBfr/dart_barcode/master/img/ean-2.svg?sanitize=true">
   static Barcode ean2() => const BarcodeEan2();
 
-  /// Create an ISBN [Barcode] instance
-  /// ![EAN 8](https://raw.githubusercontent.com/DavBfr/dart_barcode/master/img/isbn.svg?sanitize=true)
+  /// ISBN Barcode
+  ///
+  /// The International Standard Book Number is a numeric commercial book
+  /// identifier which is intended to be unique. Publishers purchase ISBNs
+  /// from an affiliate of the International ISBN Agency.
+  ///
+  /// <img width="200" alt="ISBN" src="https://raw.githubusercontent.com/DavBfr/dart_barcode/master/img/isbn.svg?sanitize=true">
+  ///
+  /// [drawEndChar] draws the end char '>' in the right margin
+  ///
+  /// [drawIsbn] draws the ISBN number as text on the top of the barcode
   static Barcode isbn({bool drawEndChar = false, bool drawIsbn = true}) =>
       BarcodeIsbn(drawEndChar, drawIsbn);
 
-  /// Create an UPC A [Barcode] instance
-  /// ![UPC A](https://raw.githubusercontent.com/DavBfr/dart_barcode/master/img/upc-a.svg?sanitize=true)
+  /// UPC-A Barcode
+  ///
+  /// The Universal Product Code is a barcode symbology that is widely used in
+  /// the United States, Canada, Europe, Australia, New Zealand, and other
+  /// countries for tracking trade items in stores. UPC consists of 12 numeric
+  /// digits that are uniquely assigned to each trade item.
+  ///
+  /// <img width="200" alt="UPC A" src="https://raw.githubusercontent.com/DavBfr/dart_barcode/master/img/upc-a.svg?sanitize=true">
   static Barcode upcA() => const BarcodeUpcA();
 
-  /// Create an UPC E [Barcode] instance
-  /// * set fallback to true to silently try UPC-A if the code is not compatible with UPC-E
-  /// ![UPC E](https://raw.githubusercontent.com/DavBfr/dart_barcode/master/img/upc-e.svg?sanitize=true)
+  /// UPC-E Barcode
+  ///
+  /// The Universal Product Code is a barcode symbology that is widely used in
+  /// the United States, Canada, Europe, Australia, New Zealand, and other
+  /// countries for tracking trade items in stores. To allow the use of UPC
+  /// barcodes on smaller packages, where a full 12-digit barcode may not fit,
+  /// a zero-suppressed version of UPC was developed, called UPC-E, in which
+  /// the number system digit, all trailing zeros in the manufacturer code,
+  /// and all leading zeros in the product code, are suppressed.
+  ///
+  /// <img height="100" alt="UPC E" src="https://raw.githubusercontent.com/DavBfr/dart_barcode/master/img/upc-e.svg?sanitize=true">
+  ///
+  /// [fallback] fallback to UPC-A if the code cannot be converted to UPC-E
   static Barcode upcE({bool fallback = false}) => BarcodeUpcE(fallback);
 
-  /// Create a Telepen [Barcode] instance
-  /// ![Telepen](https://raw.githubusercontent.com/DavBfr/dart_barcode/master/img/telepen.svg?sanitize=true)
+  /// Telepen Barcode
+  ///
+  /// Telepen is a barcode designed in 1972 in the UK to express all 128 ASCII
+  /// characters without using shift characters for code switching, and using
+  /// only two different widths for bars and spaces.
+  ///
+  /// <img width="200" alt="Telepen" src="https://raw.githubusercontent.com/DavBfr/dart_barcode/master/img/telepen.svg?sanitize=true">
   static Barcode telepen() => const BarcodeTelepen();
 
-  /// Create a QR-Code [Barcode] instance
-  /// ![QR-Code](https://raw.githubusercontent.com/DavBfr/dart_barcode/master/img/qr-code.svg?sanitize=true)
+  /// QR Code
+  ///
+  /// QR code (abbreviated from Quick Response code) is the trademark for a
+  /// type of matrix barcode (or two-dimensional barcode) first designed in 1994
+  /// for the automotive industry in Japan.
+  ///
+  /// <img width="200" alt="QR-Code" src="https://raw.githubusercontent.com/DavBfr/dart_barcode/master/img/qr-code.svg?sanitize=true">
+  ///
+  /// [typeNumber] QR code version number 1 to 40
+  ///
+  /// [errorCorrectLevel] is the QR Code Correction Level
   static Barcode qrCode(
           {int typeNumber,
           BarcodeQRCorrectionLevel errorCorrectLevel =
               BarcodeQRCorrectionLevel.low}) =>
       BarcodeQR(typeNumber, errorCorrectLevel);
 
-  /// Create a PDF417 [Barcode] instance
-  /// ![PDF417](https://raw.githubusercontent.com/DavBfr/dart_barcode/master/img/pdf417.svg?sanitize=true)
+  /// PDF417
+  ///
+  /// PDF417 is a stacked linear barcode format used in a variety of applications
+  /// such as transport, identification cards, and inventory management.
+  ///
+  /// <img width="300" alt="PDF417" src="https://raw.githubusercontent.com/DavBfr/dart_barcode/master/img/pdf417.svg?sanitize=true">
+  ///
+  /// [securityLevel] is the error recovery level
+  ///
+  /// [moduleHeight] defines the height of the bars
+  ///
+  /// [preferredRatio] defines the width to height ratio
   static Barcode pdf417({
     Pdf417SecurityLevel securityLevel = Pdf417SecurityLevel.level2,
     double moduleHeight = 2.0,
@@ -200,8 +366,24 @@ abstract class Barcode {
   }) =>
       BarcodePDF417(securityLevel, moduleHeight, preferredRatio);
 
-  /// Create a Codabar [Barcode] instance
-  /// ![Codabar](https://raw.githubusercontent.com/DavBfr/dart_barcode/master/img/codabar.svg?sanitize=true)
+  /// Codabar Barcode
+  ///
+  /// Codabar was designed to be accurately read even when printed on dot-matrix
+  /// printers for multi-part forms such as FedEx airbills and blood bank forms,
+  /// where variants are still in use as of 2007.
+  ///
+  /// <img width="200" alt="Codabar" src="https://raw.githubusercontent.com/DavBfr/dart_barcode/master/img/codabar.svg?sanitize=true">
+  ///
+  /// [start] is the start symbol to use
+  ///
+  /// [stop] is the stop symbol to use
+  ///
+  /// [printStartStop] outputs the Start and Stop characters as text under the
+  /// barcode
+  ///
+  /// [explicitStartStop] explicitly specify the Start and Stop characters
+  /// as letters (ABCDETN*) in the data. In this case, start and stop
+  /// settings are ignored
   static Barcode codabar({
     BarcodeCodabarStartStop start = BarcodeCodabarStartStop.A,
     BarcodeCodabarStartStop stop = BarcodeCodabarStartStop.B,
@@ -210,16 +392,34 @@ abstract class Barcode {
   }) =>
       BarcodeCodabar(start, stop, printStartStop, explicitStartStop);
 
-  /// Create an RM4SCC [Barcode] instance
-  /// ![RM4SCC](https://raw.githubusercontent.com/DavBfr/dart_barcode/master/img/rm4scc.svg?sanitize=true)
+  /// RM4SCC Barcode
+  ///
+  /// The RM4SCC is used for the Royal Mail Cleanmail service. It enables UK
+  /// postcodes as well as Delivery Point Suffixes (DPSs) to be easily read by
+  /// a machine at high speed.
+  ///
+  /// <img width="200" alt="RM4SCC" src="https://raw.githubusercontent.com/DavBfr/dart_barcode/master/img/rm4scc.svg?sanitize=true">
   static Barcode rm4scc() => const BarcodeRm4scc();
 
-  /// Create a Datamatrix [Barcode] instance
-  /// ![Datamatrix](https://raw.githubusercontent.com/DavBfr/dart_barcode/master/img/data-matrix.svg?sanitize=true)
+  /// Data Matrix
+  ///
+  /// A Data Matrix is a two-dimensional barcode consisting of black and white
+  /// "cells" or modules arranged in either a square or rectangular pattern, also
+  /// known as a matrix.
+  ///
+  /// <img width="200" alt="Data Matrix" src="https://raw.githubusercontent.com/DavBfr/dart_barcode/master/img/data-matrix.svg?sanitize=true">
   static Barcode dataMatrix() => const BarcodeDataMatrix();
 
-  /// Create an Aztec [Barcode] instance
-  /// ![Aztec](https://raw.githubusercontent.com/DavBfr/dart_barcode/master/img/aztec.svg?sanitize=true)
+  /// Aztec
+  ///
+  /// Named after the resemblance of the central finder pattern to an
+  /// Aztec pyramid.
+  ///
+  /// <img width="200" alt="Aztec" src="https://raw.githubusercontent.com/DavBfr/dart_barcode/master/img/aztec.svg?sanitize=true">
+  ///
+  /// [minECCPercent] defines the error correction percentage
+  ///
+  /// [userSpecifiedLayers] defines the number of layers
   static Barcode aztec(
           {int minECCPercent = BarcodeAztec.defaultEcPercent,
           int userSpecifiedLayers = BarcodeAztec.defaultLayers}) =>
