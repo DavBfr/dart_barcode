@@ -67,7 +67,7 @@ class _CodeState extends State<Code> {
   height: ${widget.conf.height},
 );''',
                   style: GoogleFonts.sourceCodePro(
-                    color: Colors.white,
+                    color: Colors.black,
                   ),
                 ),
               ),
