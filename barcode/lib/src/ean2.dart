@@ -74,17 +74,31 @@ class BarcodeEan2 extends BarcodeEan {
     double width,
     double height,
     double fontHeight,
+    double textPadding,
   ) =>
-      drawText ? fontHeight : 0;
+      drawText ? fontHeight + textPadding : 0;
 
   @override
-  double getHeight(int index, int count, double width, double height,
-          double fontHeight, bool drawText) =>
+  double getHeight(
+    int index,
+    int count,
+    double width,
+    double height,
+    double fontHeight,
+    double textPadding,
+    bool drawText,
+  ) =>
       height;
 
   @override
-  Iterable<BarcodeElement> makeText(String data, double width, double height,
-      double fontHeight, double lineWidth) sync* {
+  Iterable<BarcodeElement> makeText(
+    String data,
+    double width,
+    double height,
+    double fontHeight,
+    double textPadding,
+    double lineWidth,
+  ) sync* {
     yield BarcodeText(
       left: 0,
       top: 0,

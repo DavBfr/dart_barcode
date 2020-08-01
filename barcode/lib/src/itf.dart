@@ -95,6 +95,7 @@ class BarcodeItf extends BarcodeEan {
     double width,
     double height,
     double fontHeight,
+    double textPadding,
     double lineWidth,
   ) {
     if (zeroPrepend && ((data.length % 2 != 0) != addChecksum)) {
@@ -105,7 +106,14 @@ class BarcodeItf extends BarcodeEan {
       data += checkSumModulo10(data);
     }
 
-    return super.makeText(data, width, height, fontHeight, lineWidth);
+    return super.makeText(
+      data,
+      width,
+      height,
+      fontHeight,
+      textPadding,
+      lineWidth,
+    );
   }
 
   @override

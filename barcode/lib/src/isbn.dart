@@ -31,12 +31,17 @@ class BarcodeIsbn extends BarcodeEan13 {
 
   @override
   double marginTop(
-      bool drawText, double width, double height, double fontHeight) {
+    bool drawText,
+    double width,
+    double height,
+    double fontHeight,
+    double textPadding,
+  ) {
     if (!drawText || !drawIsbn) {
-      return super.marginTop(drawText, width, height, fontHeight);
+      return super.marginTop(drawText, width, height, fontHeight, textPadding);
     }
 
-    return fontHeight;
+    return fontHeight + textPadding;
   }
 
   @override
@@ -45,13 +50,20 @@ class BarcodeIsbn extends BarcodeEan13 {
     double width,
     double height,
     double fontHeight,
+    double textPadding,
     double lineWidth,
   ) sync* {
     data = checkLength(data, maxLength);
-    yield* super.makeText(data, width, height, fontHeight, lineWidth);
+    yield* super.makeText(
+      data,
+      width,
+      height,
+      fontHeight,
+      textPadding,
+      lineWidth,
+    );
 
     if (drawIsbn) {
-      final top = marginTop(true, width, height, fontHeight);
       final isbn = data.substring(0, 3) +
           '-' +
           data.substring(3, 12) +
@@ -62,7 +74,7 @@ class BarcodeIsbn extends BarcodeEan13 {
         left: 0,
         top: 0,
         width: width,
-        height: top,
+        height: fontHeight,
         text: 'ISBN $isbn',
         align: BarcodeTextAlign.center,
       );

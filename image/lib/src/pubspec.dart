@@ -16,15 +16,15 @@ class Pubspec {
   static const String issue_tracker =
       'https://github.com/DavBfr/dart_barcode/issues';
 
-  static const String versionFull = '1.1.0';
+  static const String versionFull = '1.2.0';
 
-  static const String version = '1.1.0';
+  static const String version = '1.2.0';
 
-  static const String versionSmall = '1.1';
+  static const String versionSmall = '1.2';
 
   static const int versionMajor = 1;
 
-  static const int versionMinor = 1;
+  static const int versionMinor = 2;
 
   static const int versionPatch = 0;
 
@@ -39,7 +39,7 @@ class Pubspec {
   };
 
   static const Map<dynamic, dynamic> dependencies = <dynamic, dynamic>{
-    'barcode': '^1.14.0',
+    'barcode': '^1.16.0',
     'meta': '^1.1.8',
     'image': '^2.1.0',
     'args': '^1.5.0',

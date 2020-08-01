@@ -158,6 +158,7 @@ class BarcodeCodabar extends Barcode1D {
     double width,
     double height,
     double fontHeight,
+    double textPadding,
     double lineWidth,
   ) {
     if (printStartStop && !explicitStartStop) {
@@ -168,6 +169,13 @@ class BarcodeCodabar extends Barcode1D {
       data = data.substring(1, data.length - 1);
     }
 
-    return super.makeText(data, width, height, fontHeight, lineWidth);
+    return super.makeText(
+      data,
+      width,
+      height,
+      fontHeight,
+      textPadding,
+      lineWidth,
+    );
   }
 }

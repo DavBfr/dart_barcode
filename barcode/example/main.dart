@@ -65,12 +65,12 @@ void main() {
   );
 
   buildBarcode(
-    Barcode.ean13(),
+    Barcode.ean13(drawEndChar: true),
     '590123412345',
   );
 
   buildBarcode(
-    Barcode.ean8(),
+    Barcode.ean8(drawSpacers: true),
     '9638507',
     width: 100,
   );
@@ -88,7 +88,7 @@ void main() {
   );
 
   buildBarcode(
-    Barcode.isbn(),
+    Barcode.isbn(drawEndChar: true),
     '978316148410',
   );
 
@@ -115,8 +115,8 @@ void main() {
   );
 
   buildBarcode(
-    Barcode.codabar(),
-    '1234-5678',
+    Barcode.codabar(explicitStartStop: true),
+    'A1234-5678B',
   );
 
   buildBarcode(

@@ -232,7 +232,12 @@ class BarcodeUpcE extends BarcodeEan {
 
   @override
   double marginLeft(
-      bool drawText, double width, double height, double fontHeight) {
+    bool drawText,
+    double width,
+    double height,
+    double fontHeight,
+    double textPadding,
+  ) {
     if (!drawText) {
       return 0;
     }
@@ -242,7 +247,12 @@ class BarcodeUpcE extends BarcodeEan {
 
   @override
   double marginRight(
-      bool drawText, double width, double height, double fontHeight) {
+    bool drawText,
+    double width,
+    double height,
+    double fontHeight,
+    double textPadding,
+  ) {
     if (!drawText) {
       return 0;
     }
@@ -257,16 +267,25 @@ class BarcodeUpcE extends BarcodeEan {
     double width,
     double height,
     double fontHeight,
+    double textPadding,
     bool drawText,
   ) {
     if (!drawText) {
-      return super.getHeight(index, count, width, height, fontHeight, drawText);
+      return super.getHeight(
+        index,
+        count,
+        width,
+        height,
+        fontHeight,
+        textPadding,
+        drawText,
+      );
     }
 
-    final h = height - fontHeight;
+    final h = height - fontHeight - textPadding;
 
     if (index + count < 4 || index > 44) {
-      return h + fontHeight / 2;
+      return h + fontHeight / 2 + textPadding;
     }
 
     return h;
@@ -278,6 +297,7 @@ class BarcodeUpcE extends BarcodeEan {
     double width,
     double height,
     double fontHeight,
+    double textPadding,
     double lineWidth,
   ) sync* {
     if (data.length <= 8) {
@@ -293,16 +313,22 @@ class BarcodeUpcE extends BarcodeEan {
       data = upcaToUpce(data);
     } on BarcodeException {
       if (fallback) {
-        yield* const BarcodeUpcA()
-            .makeText(data, width, height, fontHeight, lineWidth);
+        yield* const BarcodeUpcA().makeText(
+          data,
+          width,
+          height,
+          fontHeight,
+          textPadding,
+          lineWidth,
+        );
         return;
       }
       rethrow;
     }
 
     final w = lineWidth * 7;
-    final left = marginLeft(true, width, height, fontHeight);
-    final right = marginRight(true, width, height, fontHeight);
+    final left = marginLeft(true, width, height, fontHeight, textPadding);
+    final right = marginRight(true, width, height, fontHeight, textPadding);
 
     yield BarcodeText(
       left: 0,

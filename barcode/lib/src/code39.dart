@@ -60,6 +60,7 @@ class BarcodeCode39 extends Barcode1D {
     double width,
     double height,
     double fontHeight,
+    double textPadding,
     double lineWidth,
   ) sync* {
     final text = '*$data*';

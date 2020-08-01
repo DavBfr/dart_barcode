@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.16.0
+
+- Add textPadding parameter
+
 ## 1.15.0
 
 - Add more options to codabar to specify the start and stop chars

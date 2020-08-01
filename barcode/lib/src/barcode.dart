@@ -442,6 +442,7 @@ abstract class Barcode {
     @required double height,
     bool drawText = false,
     double fontHeight,
+    double textPadding,
   }) =>
       makeBytes(
         utf8.encoder.convert(data),
@@ -449,6 +450,7 @@ abstract class Barcode {
         height: height,
         drawText: drawText,
         fontHeight: fontHeight,
+        textPadding: textPadding,
       );
 
   /// Generate the barcode graphic description like [make] but takes a
@@ -459,6 +461,7 @@ abstract class Barcode {
     @required double height,
     bool drawText = false,
     double fontHeight,
+    double textPadding,
   });
 
   /// Check if the Barcode is valid
@@ -520,7 +523,7 @@ abstract class Barcode {
     return '#' + (c & 0xffffff).toRadixString(16).padLeft(6, '0');
   }
 
-  /// Create an SVG file with this Barcode from Uint8List data
+  /// Create an SVG file with this Barcode from String data
   @nonVirtual
   String toSvg(
     String data, {
@@ -531,6 +534,7 @@ abstract class Barcode {
     bool drawText = true,
     String fontFamily = 'monospace',
     double fontHeight,
+    double textPadding,
     int color = 0x000000,
     bool fullSvg = true,
     double baseline = .75,
@@ -544,6 +548,7 @@ abstract class Barcode {
         drawText: drawText,
         fontFamily: fontFamily,
         fontHeight: fontHeight,
+        textPadding: textPadding,
         color: color,
         fullSvg: fullSvg,
         baseline: baseline,
@@ -559,6 +564,7 @@ abstract class Barcode {
     bool drawText = true,
     String fontFamily = 'monospace',
     double fontHeight,
+    double textPadding,
     int color = 0x000000,
     bool fullSvg = true,
     double baseline = .75,
@@ -573,6 +579,7 @@ abstract class Barcode {
     assert(baseline != null);
 
     fontHeight ??= height * 0.2;
+    textPadding ??= height * 0.05;
 
     final path = StringBuffer();
     final tspan = StringBuffer();
@@ -584,6 +591,7 @@ abstract class Barcode {
       height: height.toDouble(),
       drawText: drawText,
       fontHeight: fontHeight,
+      textPadding: textPadding,
     )) {
       if (elem is BarcodeBar) {
         if (elem.black) {

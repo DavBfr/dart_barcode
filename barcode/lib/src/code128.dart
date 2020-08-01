@@ -372,6 +372,7 @@ class BarcodeCode128 extends Barcode1D {
     double width,
     double height,
     double fontHeight,
+    double textPadding,
     double lineWidth,
   ) {
     data = adaptData(data, true).replaceAll(RegExp('[^ -\u{7f}]'), ' ').trim();
@@ -381,6 +382,7 @@ class BarcodeCode128 extends Barcode1D {
       width,
       height,
       fontHeight,
+      textPadding,
       lineWidth,
     );
   }

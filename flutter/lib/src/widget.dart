@@ -41,26 +41,24 @@ class BarcodeWidget extends StatelessWidget {
     double height,
     bool drawText = true,
     TextStyle style,
+    double textPadding = 5,
     BarcodeErrorBuilder errorBuilder,
-  }) {
-    assert(data != null);
-    assert(barcode != null);
-
-    return BarcodeWidget.fromBytes(
-      data: utf8.encoder.convert(data),
-      barcode: barcode,
-      color: color,
-      backgroundColor: backgroundColor,
-      decoration: decoration,
-      margin: margin,
-      padding: padding,
-      width: width,
-      height: height,
-      drawText: drawText,
-      style: style,
-      errorBuilder: errorBuilder,
-    );
-  }
+  }) =>
+      BarcodeWidget.fromBytes(
+        data: utf8.encoder.convert(data),
+        barcode: barcode,
+        color: color,
+        backgroundColor: backgroundColor,
+        decoration: decoration,
+        margin: margin,
+        padding: padding,
+        width: width,
+        height: height,
+        drawText: drawText,
+        style: style,
+        textPadding: textPadding,
+        errorBuilder: errorBuilder,
+      );
 
   /// Draw a barcode on screen using Uint8List data
   const BarcodeWidget.fromBytes({
@@ -75,9 +73,11 @@ class BarcodeWidget extends StatelessWidget {
     this.height,
     this.drawText = true,
     this.style,
+    this.textPadding = 5,
     this.errorBuilder,
   })  : assert(data != null),
-        assert(barcode != null);
+        assert(barcode != null),
+        assert(textPadding != null);
 
   /// The barcode data to display
   final Uint8List data;
@@ -115,6 +115,9 @@ class BarcodeWidget extends StatelessWidget {
   /// Text style to use to draw the text
   final TextStyle style;
 
+  /// Padding to add between the text and the barcode
+  final double textPadding;
+
   /// Decoration to apply to the barcode
   final Decoration decoration;
 
@@ -135,6 +138,7 @@ class BarcodeWidget extends StatelessWidget {
       color,
       drawText,
       effectiveTextStyle,
+      textPadding,
     );
 
     if (errorBuilder != null) {

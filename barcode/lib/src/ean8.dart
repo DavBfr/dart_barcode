@@ -87,7 +87,12 @@ class BarcodeEan8 extends BarcodeEan {
 
   @override
   double marginLeft(
-      bool drawText, double width, double height, double fontHeight) {
+    bool drawText,
+    double width,
+    double height,
+    double fontHeight,
+    double textPadding,
+  ) {
     if (!drawText || !drawSpacers) {
       return 0;
     }
@@ -97,7 +102,12 @@ class BarcodeEan8 extends BarcodeEan {
 
   @override
   double marginRight(
-      bool drawText, double width, double height, double fontHeight) {
+    bool drawText,
+    double width,
+    double height,
+    double fontHeight,
+    double textPadding,
+  ) {
     if (!drawText || !drawSpacers) {
       return 0;
     }
@@ -112,28 +122,43 @@ class BarcodeEan8 extends BarcodeEan {
     double width,
     double height,
     double fontHeight,
+    double textPadding,
     bool drawText,
   ) {
     if (!drawText) {
-      return super.getHeight(index, count, width, height, fontHeight, drawText);
+      return super.getHeight(
+        index,
+        count,
+        width,
+        height,
+        fontHeight,
+        textPadding,
+        drawText,
+      );
     }
 
-    final h = height - fontHeight;
+    final h = height - fontHeight - textPadding;
 
     if (index + count < 4 || (index > 31 && index + count < 36) || index > 63) {
-      return h + fontHeight / 2;
+      return h + fontHeight / 2 + textPadding;
     }
 
     return h;
   }
 
   @override
-  Iterable<BarcodeElement> makeText(String data, double width, double height,
-      double fontHeight, double lineWidth) sync* {
+  Iterable<BarcodeElement> makeText(
+    String data,
+    double width,
+    double height,
+    double fontHeight,
+    double textPadding,
+    double lineWidth,
+  ) sync* {
     data = checkLength(data, maxLength);
     final w = lineWidth * 7;
-    final left = marginLeft(true, width, height, fontHeight);
-    final right = marginRight(true, width, height, fontHeight);
+    final left = marginLeft(true, width, height, fontHeight, textPadding);
+    final right = marginRight(true, width, height, fontHeight, textPadding);
     var offset = left + lineWidth * 3;
 
     for (var i = 0; i < data.length; i++) {

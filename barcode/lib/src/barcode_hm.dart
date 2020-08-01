@@ -51,12 +51,14 @@ abstract class BarcodeHM extends Barcode1D {
     @required double height,
     bool drawText = false,
     double fontHeight,
+    double textPadding,
   }) sync* {
     assert(data != null);
     assert(width != null && width > 0);
     assert(height != null && height > 0);
     assert(!drawText || fontHeight != null);
     fontHeight ??= 0;
+    textPadding ??= Barcode1D.defaultTextPadding;
 
     final text = utf8.decoder.convert(data);
     final bars = convertHM(text).toList();
@@ -65,13 +67,31 @@ abstract class BarcodeHM extends Barcode1D {
       return;
     }
 
-    final top = marginTop(drawText, width, height, fontHeight);
-    final left = marginLeft(drawText, width, height, fontHeight);
-    final right = marginRight(drawText, width, height, fontHeight);
+    final top = marginTop(
+      drawText,
+      width,
+      height,
+      fontHeight,
+      textPadding,
+    );
+    final left = marginLeft(
+      drawText,
+      width,
+      height,
+      fontHeight,
+      textPadding,
+    );
+    final right = marginRight(
+      drawText,
+      width,
+      height,
+      fontHeight,
+      textPadding,
+    );
     final lineWidth = (width - left - right) / (bars.length * 2 - 1);
     var index = 0;
 
-    final barHeight = height - fontHeight - top;
+    final barHeight = height - (drawText ? fontHeight + textPadding : 0) - top;
     final tracker = barHeight * _tracker;
 
     for (final bar in bars) {
@@ -118,7 +138,7 @@ abstract class BarcodeHM extends Barcode1D {
     }
 
     if (drawText) {
-      yield* makeText(text, width, height, fontHeight, lineWidth);
+      yield* makeText(text, width, height, fontHeight, textPadding, lineWidth);
     }
   }
 

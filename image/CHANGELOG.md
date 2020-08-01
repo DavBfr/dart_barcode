@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.2.0
+
+- Add textPadding parameter
+
 ## 1.1.0
 
 - Allow Uint8List data barcodes

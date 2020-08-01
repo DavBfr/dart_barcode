@@ -31,6 +31,7 @@ class BarcodePainter extends LeafRenderObjectWidget {
     this.color,
     this.drawText,
     this.style,
+    this.textPadding,
   ) : super();
 
   /// The Data to include in the barcode
@@ -48,6 +49,9 @@ class BarcodePainter extends LeafRenderObjectWidget {
   /// Text style to use
   final TextStyle style;
 
+  /// Padding to add between the text and the barcode
+  final double textPadding;
+
   @override
   RenderObject createRenderObject(BuildContext context) {
     return _RenderBarcode(
@@ -56,6 +60,7 @@ class BarcodePainter extends LeafRenderObjectWidget {
       Paint()..color = color,
       drawText,
       style,
+      textPadding,
     );
   }
 
@@ -66,7 +71,8 @@ class BarcodePainter extends LeafRenderObjectWidget {
         renderObject.barcode != barcode ||
         renderObject.barStyle.color != color ||
         renderObject.drawText != drawText ||
-        renderObject.style != style) {
+        renderObject.style != style ||
+        renderObject.textPadding != textPadding) {
       renderObject
         ..data = data
         ..barcode = barcode
@@ -74,7 +80,8 @@ class BarcodePainter extends LeafRenderObjectWidget {
           ..color = color
           ..isAntiAlias = false)
         ..drawText = drawText
-        ..style = style;
+        ..style = style
+        ..textPadding = textPadding;
       renderObject.markNeedsPaint();
     }
   }
@@ -87,6 +94,7 @@ class _RenderBarcode extends RenderBox {
     this.barStyle,
     this.drawText,
     this.style,
+    this.textPadding,
   );
 
   Uint8List data;
@@ -98,6 +106,8 @@ class _RenderBarcode extends RenderBox {
   bool drawText;
 
   TextStyle style;
+
+  double textPadding;
 
   @override
   bool get sizedByParent => true;
@@ -189,6 +199,7 @@ class _RenderBarcode extends RenderBox {
         height: size.height,
         drawText: drawText,
         fontHeight: style.fontSize,
+        textPadding: textPadding,
       )) {
         if (element is BarcodeBar) {
           paintBar(context, offset, element);

@@ -69,11 +69,11 @@ abstract class Barcode2D extends Barcode {
     @required double height,
     bool drawText = false,
     double fontHeight,
+    double textPadding,
   }) sync* {
     assert(data != null);
     assert(width != null && width > 0);
     assert(height != null && height > 0);
-    assert(!drawText || fontHeight != null);
 
     final matrix = convert(data);
 

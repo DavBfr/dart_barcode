@@ -79,6 +79,7 @@ void drawBarcode(
   int width,
   int height,
   BitmapFont font,
+  int textPadding,
   int color = 0xff000000,
 }) {
   drawBarcodeBytes(
@@ -90,6 +91,7 @@ void drawBarcode(
     width: width,
     height: height,
     font: font,
+    textPadding: textPadding,
     color: color,
   );
 }
@@ -104,10 +106,12 @@ void drawBarcodeBytes(
   int width,
   int height,
   BitmapFont font,
+  int textPadding,
   int color = 0xff000000,
 }) {
   width ??= image.width;
   height ??= image.height;
+  textPadding ??= 0;
 
   // Draw the barcode
   for (var elem in barcode.makeBytes(
@@ -116,6 +120,7 @@ void drawBarcodeBytes(
     height: height.toDouble(),
     drawText: font != null,
     fontHeight: font?.lineHeight?.toDouble(),
+    textPadding: textPadding.toDouble(),
   )) {
     if (elem is BarcodeBar) {
       if (elem.black) {

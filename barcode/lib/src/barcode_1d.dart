@@ -27,6 +27,9 @@ abstract class Barcode1D extends Barcode {
   /// Create a [Barcode1D] object
   const Barcode1D();
 
+  /// Default padding between text and barcode
+  static const defaultTextPadding = 0.0;
+
   @override
   Iterable<BarcodeElement> makeBytes(
     Uint8List data, {
@@ -34,12 +37,14 @@ abstract class Barcode1D extends Barcode {
     @required double height,
     bool drawText = false,
     double fontHeight,
+    double textPadding,
   }) sync* {
     assert(data != null);
     assert(width != null && width > 0);
     assert(height != null && height > 0);
     assert(!drawText || fontHeight != null);
     fontHeight ??= 0;
+    textPadding ??= defaultTextPadding;
 
     final text = utf8.decoder.convert(data);
     final bits = convert(text).toList();
@@ -48,9 +53,9 @@ abstract class Barcode1D extends Barcode {
       return;
     }
 
-    final top = marginTop(drawText, width, height, fontHeight);
-    final left = marginLeft(drawText, width, height, fontHeight);
-    final right = marginRight(drawText, width, height, fontHeight);
+    final top = marginTop(drawText, width, height, fontHeight, textPadding);
+    final left = marginLeft(drawText, width, height, fontHeight, textPadding);
+    final right = marginRight(drawText, width, height, fontHeight, textPadding);
     final lineWidth = (width - left - right) / bits.length;
 
     var color = bits.first;
@@ -72,6 +77,7 @@ abstract class Barcode1D extends Barcode {
           width,
           height - top,
           fontHeight,
+          textPadding,
           drawText,
         ),
         black: color,
@@ -92,13 +98,14 @@ abstract class Barcode1D extends Barcode {
         width,
         height - top,
         fontHeight,
+        textPadding,
         drawText,
       ),
       black: color,
     );
 
     if (drawText) {
-      yield* makeText(text, width, height, fontHeight, lineWidth);
+      yield* makeText(text, width, height, fontHeight, textPadding, lineWidth);
     }
   }
 
@@ -110,9 +117,10 @@ abstract class Barcode1D extends Barcode {
     double width,
     double height,
     double fontHeight,
+    double textPadding,
     bool drawText,
   ) {
-    return height - (drawText ? fontHeight : 0);
+    return height - (drawText ? fontHeight + textPadding : 0);
   }
 
   /// Margin at the top of the barcode
@@ -122,6 +130,7 @@ abstract class Barcode1D extends Barcode {
     double width,
     double height,
     double fontHeight,
+    double textPadding,
   ) =>
       0;
 
@@ -132,6 +141,7 @@ abstract class Barcode1D extends Barcode {
     double width,
     double height,
     double fontHeight,
+    double textPadding,
   ) =>
       0;
 
@@ -142,6 +152,7 @@ abstract class Barcode1D extends Barcode {
     double width,
     double height,
     double fontHeight,
+    double textPadding,
   ) =>
       0;
 
@@ -153,6 +164,7 @@ abstract class Barcode1D extends Barcode {
     double width,
     double height,
     double fontHeight,
+    double textPadding,
     double lineWidth,
   ) sync* {
     yield BarcodeText(
@@ -199,7 +211,7 @@ abstract class Barcode1D extends Barcode {
   String getText(String data) {
     final result = StringBuffer();
 
-    for (final elem in makeText(data, 200, 200, 10, 10)) {
+    for (final elem in makeText(data, 200, 200, 10, 5, 10)) {
       if (elem is BarcodeText) {
         result.write(elem.text);
       }

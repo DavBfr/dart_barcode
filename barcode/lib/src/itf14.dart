@@ -19,6 +19,7 @@ import 'dart:typed_data';
 
 import 'package:meta/meta.dart';
 
+import 'barcode_1d.dart';
 import 'barcode_operations.dart';
 import 'itf.dart';
 
@@ -82,6 +83,7 @@ class BarcodeItf14 extends BarcodeItf {
     double width,
     double height,
     double fontHeight,
+    double textPadding,
   ) {
     return drawBorder ? _getBorderWidth(width) : 0;
   }
@@ -92,13 +94,19 @@ class BarcodeItf14 extends BarcodeItf {
     double width,
     double height,
     double fontHeight,
+    double textPadding,
   ) {
     return drawBorder ? _getBorderWidth(width) + _getQuietWidth(width) : 0;
   }
 
   @override
   double marginRight(
-      bool drawText, double width, double height, double fontHeight) {
+    bool drawText,
+    double width,
+    double height,
+    double fontHeight,
+    double textPadding,
+  ) {
     return drawBorder ? _getBorderWidth(width) + _getQuietWidth(width) : 0;
   }
 
@@ -109,9 +117,18 @@ class BarcodeItf14 extends BarcodeItf {
     double width,
     double height,
     double fontHeight,
+    double textPadding,
     bool drawText,
   ) {
-    return super.getHeight(index, count, width, height, fontHeight, drawText) -
+    return super.getHeight(
+          index,
+          count,
+          width,
+          height,
+          fontHeight,
+          textPadding,
+          drawText,
+        ) -
         (drawBorder ? _getBorderWidth(width) : 0);
   }
 
@@ -122,20 +139,32 @@ class BarcodeItf14 extends BarcodeItf {
     @required double height,
     bool drawText = false,
     double fontHeight,
+    double textPadding,
   }) sync* {
-    yield* super.makeBytes(data,
-        width: width,
-        height: height,
-        drawText: drawText,
-        fontHeight: fontHeight);
+    assert(data != null);
+    assert(width != null && width > 0);
+    assert(height != null && height > 0);
+    assert(!drawText || fontHeight != null);
+    fontHeight ??= 0;
+    textPadding ??= Barcode1D.defaultTextPadding;
+
+    yield* super.makeBytes(
+      data,
+      width: width,
+      height: height,
+      drawText: drawText,
+      fontHeight: fontHeight,
+      textPadding: textPadding,
+    );
 
     final bw = _getBorderWidth(width);
+    final hp = drawText ? fontHeight + textPadding : 0;
 
     if (drawBorder) {
       yield BarcodeBar(left: 0, top: 0, width: width, height: bw, black: true);
       yield BarcodeBar(
           left: 0,
-          top: height - fontHeight - bw,
+          top: height - hp - bw,
           width: width,
           height: bw,
           black: true);
@@ -143,13 +172,13 @@ class BarcodeItf14 extends BarcodeItf {
           left: 0,
           top: bw,
           width: bw,
-          height: height - fontHeight - bw * 2,
+          height: height - hp - bw * 2,
           black: true);
       yield BarcodeBar(
           left: width - bw,
           top: bw,
           width: bw,
-          height: height - fontHeight - bw * 2,
+          height: height - hp - bw * 2,
           black: true);
     }
   }
@@ -160,6 +189,7 @@ class BarcodeItf14 extends BarcodeItf {
     double width,
     double height,
     double fontHeight,
+    double textPadding,
     double lineWidth,
   ) {
     data = checkLength(data, maxLength);
@@ -172,6 +202,13 @@ class BarcodeItf14 extends BarcodeItf {
         data.substring(8, 13) +
         ' ' +
         data.substring(13, 14);
-    return super.makeText(data, width, height, fontHeight, lineWidth);
+    return super.makeText(
+      data,
+      width,
+      height,
+      fontHeight,
+      textPadding,
+      lineWidth,
+    );
   }
 }
