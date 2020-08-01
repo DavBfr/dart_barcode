@@ -109,7 +109,7 @@ class BarcodeWidget extends StatelessWidget {
   /// Height of the barcode with padding
   final double height;
 
-  /// Wether to draw the text with the barcode
+  /// Whether to draw the text with the barcode
   final bool drawText;
 
   /// Text style to use to draw the text
