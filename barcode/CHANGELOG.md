@@ -3,6 +3,7 @@
 ## 1.16.0
 
 - Add textPadding parameter
+- Update dependencies
 
 ## 1.15.0
 

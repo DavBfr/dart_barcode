@@ -24,7 +24,7 @@ dependency_overrides:
 dev_dependencies:
   test:
   crypto:
-  pedantic: 1.9.0
+  pedantic: 1.9.2
   pubspec_extract: ^1.3.1
 
 executables:
