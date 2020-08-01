@@ -389,9 +389,10 @@ class BarcodeCode128 extends Barcode1D {
 
   @override
   void verifyBytes(Uint8List data) {
-    final text = adaptData(utf8.decoder.convert(data));
-    data = utf8.encoder.convert(text);
-    shortestCode(text.codeUnits);
-    super.verifyBytes(data);
+    final text = Uint8List.fromList(
+      adaptData(utf8.decoder.convert(data)).codeUnits,
+    );
+    shortestCode(text);
+    super.verifyBytes(text);
   }
 }

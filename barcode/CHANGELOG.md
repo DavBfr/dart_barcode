@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.16.1
+
+- Fix GS1-128 barcode
+
 ## 1.16.0
 
 - Add textPadding parameter
