@@ -36,6 +36,9 @@ void main() {
     final BarcodeEan ean2 = Barcode.ean2();
     expect(ean2.normalize('34'), equals('34'));
 
+    final BarcodeEan itf = Barcode.itf(addChecksum: true);
+    expect(itf.normalize('987'), equals('9874'));
+
     final BarcodeEan itf14 = Barcode.itf14();
     expect(itf14.normalize('9872349874432'), equals('98723498744328'));
 
@@ -45,5 +48,28 @@ void main() {
     final BarcodeEan upce = Barcode.upcE(fallback: true);
     expect(upce.normalize('18740000915'), equals('87419'));
     expect(upce.normalize('48347295752'), equals('483472957520'));
+  });
+
+  test('Barcode EAN normalize zeros', () {
+    final BarcodeEan ean13 = Barcode.ean13();
+    expect(ean13.normalize('4'), equals('4000000000006'));
+
+    final BarcodeEan ean8 = Barcode.ean8();
+    expect(ean8.normalize('2'), equals('20000004'));
+
+    final BarcodeEan ean2 = Barcode.ean2();
+    expect(ean2.normalize('1'), equals('10'));
+
+    final BarcodeEan ean5 = Barcode.ean5();
+    expect(ean5.normalize('5'), equals('50000'));
+
+    final BarcodeEan itf14 = Barcode.itf14();
+    expect(itf14.normalize('7'), equals('70000000000009'));
+
+    final BarcodeEan upca = Barcode.upcA();
+    expect(upca.normalize('3'), equals('300000000001'));
+
+    final BarcodeEan upce = Barcode.upcE(fallback: true);
+    expect(upce.normalize('1'), equals('100000000007'));
   });
 }

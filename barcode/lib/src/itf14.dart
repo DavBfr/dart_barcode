@@ -211,4 +211,8 @@ class BarcodeItf14 extends BarcodeItf {
       lineWidth,
     );
   }
+
+  @override
+  String normalize(String data) => checkLength(
+      data.padRight(minLength, '0').substring(0, minLength), maxLength);
 }

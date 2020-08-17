@@ -110,5 +110,6 @@ class BarcodeEan2 extends BarcodeEan {
   }
 
   @override
-  String normalize(String data) => data;
+  String normalize(String data) =>
+      data.padRight(minLength, '0').substring(0, minLength);
 }

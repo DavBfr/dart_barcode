@@ -135,4 +135,17 @@ class BarcodeItf extends BarcodeEan {
 
     super.verifyBytes(utf8.encoder.convert(text));
   }
+
+  @override
+  String normalize(String data) {
+    if (zeroPrepend && ((data.length % 2 != 0) != addChecksum)) {
+      data = '0$data';
+    }
+
+    if (addChecksum) {
+      data += checkSumModulo10(data);
+    }
+
+    return data;
+  }
 }

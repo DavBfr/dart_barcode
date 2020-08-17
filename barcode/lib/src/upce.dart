@@ -370,7 +370,7 @@ class BarcodeUpcE extends BarcodeEan {
       return upcaToUpce(data);
     } on BarcodeException {
       if (fallback) {
-        return checkLength(data.substring(0, 11), maxLength);
+        return checkLength(data.padRight(11, '0').substring(0, 11), maxLength);
       }
 
       rethrow;
