@@ -17,7 +17,6 @@
 import 'dart:convert';
 import 'dart:typed_data';
 
-import 'package:barcode/src/pdf417.dart';
 import 'package:meta/meta.dart';
 
 import 'aztec.dart';
@@ -36,6 +35,7 @@ import 'ean8.dart';
 import 'isbn.dart';
 import 'itf.dart';
 import 'itf14.dart';
+import 'pdf417.dart';
 import 'qrcode.dart';
 import 'rm4scc.dart';
 import 'telepen.dart';

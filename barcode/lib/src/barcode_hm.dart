@@ -17,9 +17,9 @@
 import 'dart:convert';
 import 'dart:typed_data';
 
-import 'package:barcode/src/barcode_1d.dart';
 import 'package:meta/meta.dart';
 
+import 'barcode_1d.dart';
 import 'barcode_operations.dart';
 
 /// The bar modulation type

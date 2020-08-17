@@ -14,11 +14,10 @@
  * limitations under the License.
  */
 
-import 'package:barcode/src/barcode_operations.dart';
-
 import 'barcode_1d.dart';
 import 'barcode_exception.dart';
 import 'barcode_maps.dart';
+import 'barcode_operations.dart';
 
 /// Code 39 [Barcode]
 ///
