@@ -33,7 +33,7 @@ class BarcodeView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     try {
-      conf.barcode.verify(conf.data);
+      conf.barcode.verify(conf.normalizedData);
     } on BarcodeException catch (error) {
       return BarcodeError(message: error.message);
     }
@@ -46,7 +46,7 @@ class BarcodeView extends StatelessWidget {
             children: [
               BarcodeWidget(
                 barcode: conf.barcode,
-                data: conf.data,
+                data: conf.normalizedData,
                 width: conf.width,
                 height: conf.height,
                 style: GoogleFonts.sourceCodePro(

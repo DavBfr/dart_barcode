@@ -48,7 +48,7 @@ class Download extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if (!conf.barcode.isValid(conf.data)) {
+    if (!conf.barcode.isValid(conf.normalizedData)) {
       return const SizedBox();
     }
 
@@ -82,7 +82,7 @@ class Download extends StatelessWidget {
           pw.Spacer(),
           pw.BarcodeWidget(
             barcode: bc,
-            data: conf.data,
+            data: conf.normalizedData,
             width: conf.width * PdfPageFormat.mm / scale,
             height: conf.height * PdfPageFormat.mm / scale,
             textStyle: pw.TextStyle(
@@ -127,7 +127,7 @@ class Download extends StatelessWidget {
     final bc = conf.barcode;
     final image = im.Image(conf.width.toInt() * 2, conf.height.toInt() * 2);
     im.fill(image, im.getColor(255, 255, 255));
-    drawBarcode(image, bc, conf.data, font: im.arial_48);
+    drawBarcode(image, bc, conf.normalizedData, font: im.arial_48);
     final data = im.encodePng(image);
 
     share(
@@ -141,7 +141,7 @@ class Download extends StatelessWidget {
     final bc = conf.barcode;
 
     final data = bc.toSvg(
-      conf.data,
+      conf.normalizedData,
       width: conf.width,
       height: conf.height,
       fontHeight: conf.fontSize,

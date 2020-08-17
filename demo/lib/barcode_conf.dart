@@ -32,6 +32,15 @@ class BarcodeConf extends ChangeNotifier {
     notifyListeners();
   }
 
+  String get normalizedData {
+    if (barcode is BarcodeEan && barcode.name != 'UPC E') {
+      final BarcodeEan ean = barcode;
+      return ean.normalize(data);
+    }
+
+    return data;
+  }
+
   String _defaultData = 'HELLO';
 
   Barcode _barcode;

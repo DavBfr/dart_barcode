@@ -35,7 +35,7 @@ class _CodeState extends State<Code> {
 
   @override
   Widget build(BuildContext context) {
-    final data = jsonEncode(widget.conf.data);
+    final data = jsonEncode(widget.conf.normalizedData);
 
     return Container(
       margin: const EdgeInsets.all(10).copyWith(top: 30),
