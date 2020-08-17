@@ -15,7 +15,7 @@
  */
 
 import 'package:barcode/barcode.dart';
-import 'package:barcode/src/ean.dart';
+
 import 'package:test/test.dart';
 
 void main() {
@@ -24,5 +24,26 @@ void main() {
 
     expect(bc.checkSumModulo10('987234'), equals('9'));
     expect(bc.checkSumModulo11('987234'), equals('5'));
+  });
+
+  test('Barcode EAN normalize', () {
+    final BarcodeEan ean13 = Barcode.ean13();
+    expect(ean13.normalize('453987234345'), equals('4539872343459'));
+
+    final BarcodeEan ean8 = Barcode.ean8();
+    expect(ean8.normalize('90834824'), equals('90834820'));
+
+    final BarcodeEan ean2 = Barcode.ean2();
+    expect(ean2.normalize('34'), equals('34'));
+
+    final BarcodeEan itf14 = Barcode.itf14();
+    expect(itf14.normalize('9872349874432'), equals('98723498744328'));
+
+    final BarcodeEan upca = Barcode.upcA();
+    expect(upca.normalize('98345987562'), equals('983459875620'));
+
+    final BarcodeEan upce = Barcode.upcE(fallback: true);
+    expect(upce.normalize('18740000915'), equals('87419'));
+    expect(upce.normalize('48347295752'), equals('483472957520'));
   });
 }

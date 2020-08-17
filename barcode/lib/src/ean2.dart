@@ -108,4 +108,7 @@ class BarcodeEan2 extends BarcodeEan {
       align: BarcodeTextAlign.center,
     );
   }
+
+  @override
+  String normalize(String data) => data;
 }

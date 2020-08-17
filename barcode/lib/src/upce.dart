@@ -363,4 +363,17 @@ class BarcodeUpcE extends BarcodeEan {
       align: BarcodeTextAlign.left,
     );
   }
+
+  @override
+  String normalize(String data) {
+    try {
+      return upcaToUpce(data);
+    } on BarcodeException {
+      if (fallback) {
+        return checkLength(data.substring(0, 11), maxLength);
+      }
+
+      rethrow;
+    }
+  }
 }

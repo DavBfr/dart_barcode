@@ -1,5 +1,10 @@
 # Changelog
 
+
+## 1.17.0
+
+- Implement BarcodeEan.normalize to return the barcode with the correct checksum
+
 ## 1.16.1
 
 - Fix GS1-128 barcode

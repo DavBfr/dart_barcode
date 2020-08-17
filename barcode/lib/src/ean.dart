@@ -84,4 +84,8 @@ abstract class BarcodeEan extends Barcode1D {
     }
     return String.fromCharCode(11 - (sum % 11) + 0x30);
   }
+
+  /// Returns the barcode string with the correct checksum
+  String normalize(String data) =>
+      checkLength(data.substring(0, minLength), maxLength);
 }
