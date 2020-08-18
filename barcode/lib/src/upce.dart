@@ -366,14 +366,24 @@ class BarcodeUpcE extends BarcodeEan {
 
   @override
   String normalize(String data) {
+    if (data.length <= 8) {
+      // Try to convert UPC-E to UPC-A
+      data = upceToUpca(data.padRight(6, '0'));
+    }
+
+    data = checkLength(data, maxLength);
+    final first = data.substring(0, 1);
+    final last = data.substring(11, 12);
+
     try {
-      return upcaToUpce(data);
+      data = upcaToUpce(data);
     } on BarcodeException {
       if (fallback) {
-        return checkLength(data.padRight(11, '0').substring(0, 11), maxLength);
+        return data;
       }
-
       rethrow;
     }
+
+    return '$first$data$last';
   }
 }

@@ -46,8 +46,9 @@ void main() {
     expect(upca.normalize('98345987562'), equals('983459875620'));
 
     final BarcodeEan upce = Barcode.upcE(fallback: true);
-    expect(upce.normalize('18740000915'), equals('87419'));
+    expect(upce.normalize('18740000015'), equals('18741538'));
     expect(upce.normalize('48347295752'), equals('483472957520'));
+    expect(upce.normalize('555555'), equals('05555550'));
   });
 
   test('Barcode EAN normalize zeros', () {
@@ -70,6 +71,6 @@ void main() {
     expect(upca.normalize('3'), equals('300000000001'));
 
     final BarcodeEan upce = Barcode.upcE(fallback: true);
-    expect(upce.normalize('1'), equals('100000000007'));
+    expect(upce.normalize('1'), equals('010000000009'));
   });
 }
