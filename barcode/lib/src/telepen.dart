@@ -47,7 +47,7 @@ class BarcodeTelepen extends Barcode1D {
             'Unable to encode "${String.fromCharCode(code)}" to $name Barcode');
       }
       yield* add(codeValue, BarcodeMaps.telepenLen);
-      checksum += codeValue;
+      checksum += code;
     }
 
     // Checksum
