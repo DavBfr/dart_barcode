@@ -22,7 +22,7 @@ void main() {
   test('Barcode Telepen', () {
     final Barcode1D bc = Barcode.telepen();
 
-    expect(bc.toHex('z'), 'aae23aa2aae2b8aa');
+    expect(bc.toHex('z'), 'aae2eeb8aae2b8aa');
   });
 
   test('Barcode Telepen limits', () {

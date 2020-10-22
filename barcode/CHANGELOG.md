@@ -1,6 +1,10 @@
 # Changelog
 
 
+## 1.17.1
+
+- Fix telepen barcode checksum [chrishsieh]
+
 ## 1.17.0
 
 - Implement BarcodeEan.normalize to return the barcode with the correct checksum
