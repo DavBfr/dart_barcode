@@ -20,7 +20,11 @@ import 'package:test/test.dart';
 
 void main() {
   test('Barcode ITF', () {
-    final Barcode1D bc = Barcode.itf();
+    final bc = Barcode.itf();
+    if (bc is! Barcode1D) {
+      throw Exception('bc is not a Barcode1D');
+    }
+
     expect(bc.toHex('00'), equals('5d1c575'));
     expect(bc.toHex('10'), equals('dd11755'));
     expect(bc.toHex('42'), equals('1dd7515'));
@@ -45,19 +49,35 @@ void main() {
   });
 
   test('Barcode ITF addChecksum and zeroPrepend', () {
-    final Barcode1D bc1 = Barcode.itf(addChecksum: false, zeroPrepend: false);
+    final bc1 = Barcode.itf(addChecksum: false, zeroPrepend: false);
+    if (bc1 is! Barcode1D) {
+      throw Exception('bc1 is not a Barcode1D');
+    }
+
     expect(bc1.isValid('1'), isFalse);
     expect(bc1.toHex('0451'), '1d7571745c15');
 
-    final Barcode1D bc2 = Barcode.itf(addChecksum: true, zeroPrepend: false);
+    final bc2 = Barcode.itf(addChecksum: true, zeroPrepend: false);
+    if (bc2 is! Barcode1D) {
+      throw Exception('bc2 is not a Barcode1D');
+    }
+
     expect(bc2.isValid('1'), isTrue);
     expect(bc2.toHex('045'), '1d7571745c15');
 
-    final Barcode1D bc3 = Barcode.itf(addChecksum: false, zeroPrepend: true);
+    final bc3 = Barcode.itf(addChecksum: false, zeroPrepend: true);
+    if (bc3 is! Barcode1D) {
+      throw Exception('bc3 is not a Barcode1D');
+    }
+
     expect(bc3.isValid('1'), isTrue);
     expect(bc3.toHex('451'), '1d7571745c15');
 
-    final Barcode1D bc4 = Barcode.itf(addChecksum: true, zeroPrepend: true);
+    final bc4 = Barcode.itf(addChecksum: true, zeroPrepend: true);
+    if (bc4 is! Barcode1D) {
+      throw Exception('bc4 is not a Barcode1D');
+    }
+
     expect(bc4.isValid('1'), isTrue);
     expect(bc4.toHex('45'), '1d7571745c15');
   });

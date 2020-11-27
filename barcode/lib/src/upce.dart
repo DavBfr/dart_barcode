@@ -81,11 +81,11 @@ class BarcodeUpcE extends BarcodeEan {
 
     final left = match.group(1);
     final right = match.group(3);
-    String last;
+    String? last;
 
     switch (match.group(2)) {
       case '00000':
-        if (left.length == 2) {
+        if (left!.length == 2) {
           last = '0';
         } else if (left.length == 3) {
           last = '3';
@@ -120,7 +120,7 @@ class BarcodeUpcE extends BarcodeEan {
       throw BarcodeException('Unable to convert "$data" to $name Barcode');
     }
 
-    return left + right + last;
+    return left! + right! + last;
   }
 
   /// Convert a short version UPC-E barcode to a full length UPC-A
@@ -133,7 +133,7 @@ class BarcodeUpcE extends BarcodeEan {
     }
 
     var first = '0';
-    String checksum;
+    String? checksum;
 
     switch (data.length) {
       case 8:
@@ -211,7 +211,7 @@ class BarcodeUpcE extends BarcodeEan {
     yield* add(BarcodeMaps.eanStartEnd, 3);
 
     final parityRow = BarcodeMaps.upce[last];
-    final parity = first == 0x30 ? parityRow : parityRow ^ 0x3f;
+    final parity = first == 0x30 ? parityRow : parityRow! ^ 0x3f;
 
     var index = 0;
     for (var code in data.codeUnits) {
@@ -222,7 +222,7 @@ class BarcodeUpcE extends BarcodeEan {
             'Unable to encode "${String.fromCharCode(code)}" to $name Barcode');
       }
 
-      yield* add(codes[(parity >> index) & 1 == 0 ? 1 : 0], 7);
+      yield* add(codes[(parity! >> index) & 1 == 0 ? 1 : 0], 7);
       index++;
     }
 

@@ -26,7 +26,7 @@ class ReedSolomonEncoder {
   }
 
   GaloisField gf;
-  List<GFPoly> polynomes;
+  late List<GFPoly> polynomes;
 
   GFPoly getPolynomial(int degree) {
     if (degree >= polynomes.length) {
@@ -76,8 +76,8 @@ class GaloisField {
 
   int size;
   int base;
-  List<int> aLogTbl;
-  List<int> logTbl;
+  late List<int> aLogTbl;
+  late List<int> logTbl;
 
   GFPoly zero() {
     return GFPoly(this, <int>[0]);

@@ -28,8 +28,8 @@ import 'share_vm.dart' if (dart.library.js) 'share_js.dart';
 
 class Download extends StatelessWidget {
   const Download({
-    Key key,
-    @required this.conf,
+    Key? key,
+    required this.conf,
   }) : super(key: key);
 
   final BarcodeConf conf;

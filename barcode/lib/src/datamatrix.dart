@@ -33,7 +33,7 @@ class BarcodeDataMatrix extends Barcode2D {
   Barcode2DMatrix convert(Uint8List data) {
     var text = _encodeText(data);
 
-    _CodeSize size;
+    _CodeSize? size;
     for (final s in _CodeSize.codeSizes) {
       if (s.dataCodewords() >= text.length) {
         size = s;
@@ -47,15 +47,13 @@ class BarcodeDataMatrix extends Barcode2D {
     text = _addPadding(text, size.dataCodewords());
     text = _ErrorCorrection.ec.calcECC(text, size);
     final code = _render(text, size);
-    if (code != null) {
-      return Barcode2DMatrix(
-        size.columns,
-        size.rows,
-        1,
-        code,
-      );
-    }
-    throw const BarcodeException('Unable to render barcode');
+
+    return Barcode2DMatrix(
+      size.columns,
+      size.rows,
+      1,
+      code,
+    );
   }
 
   @override
@@ -121,8 +119,8 @@ class _CodeLayout {
     occupy = List<bool>.filled(size.matrixColumns() * size.matrixRows(), false);
   }
 
-  List<bool> matrix;
-  List<bool> occupy;
+  late List<bool> matrix;
+  late List<bool> occupy;
   final _CodeSize size;
 
   bool occupied(int row, int col) {
@@ -410,7 +408,7 @@ class _ErrorCorrection {
     rs = ReedSolomonEncoder(gf);
   }
 
-  ReedSolomonEncoder rs;
+  late ReedSolomonEncoder rs;
 
   static final ec = _ErrorCorrection();
 

@@ -17,8 +17,6 @@
 import 'dart:convert';
 import 'dart:typed_data';
 
-import 'package:meta/meta.dart';
-
 import 'barcode_1d.dart';
 import 'barcode_operations.dart';
 import 'itf.dart';
@@ -35,17 +33,16 @@ class BarcodeItf14 extends BarcodeItf {
     this.drawBorder,
     this.borderWidth,
     this.quietWidth,
-  )   : assert(drawBorder != null),
-        super(false, false);
+  ) : super(false, false);
 
   /// Draw a black border around the barcode
   final bool drawBorder;
 
   /// Width of the border around the barcode
-  final double borderWidth;
+  final double? borderWidth;
 
   /// width of the quiet zone before and after the barcode, inside the border
-  final double quietWidth;
+  final double? quietWidth;
 
   @override
   String get name => 'ITF 14';
@@ -135,15 +132,14 @@ class BarcodeItf14 extends BarcodeItf {
   @override
   Iterable<BarcodeElement> makeBytes(
     Uint8List data, {
-    @required double width,
-    @required double height,
+    required double width,
+    required double height,
     bool drawText = false,
-    double fontHeight,
-    double textPadding,
+    double? fontHeight,
+    double? textPadding,
   }) sync* {
-    assert(data != null);
-    assert(width != null && width > 0);
-    assert(height != null && height > 0);
+    assert(width > 0);
+    assert(height > 0);
     assert(!drawText || fontHeight != null);
     fontHeight ??= 0;
     textPadding ??= Barcode1D.defaultTextPadding;

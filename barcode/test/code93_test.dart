@@ -21,7 +21,11 @@ import 'package:test/test.dart';
 
 void main() {
   test('Barcode CODE 93 full alphabet', () {
-    final Barcode1D bc = Barcode.code93();
+    final bc = Barcode.code93();
+    if (bc is! Barcode1D) {
+      throw Exception('bc is not a Barcode1D');
+    }
+
     expect(bc.toHex(r'0'), equals('bd52a448d12b'));
     expect(bc.toHex(r'1'), equals('bda458ad42b'));
     expect(bc.toHex(r'2'), equals('bd8a244ad42b'));
@@ -91,7 +95,11 @@ void main() {
   });
 
   test('Barcode CODE 93 > 15 chars', () {
-    final Barcode1D bc = Barcode.code93();
+    final bc = Barcode.code93();
+    if (bc is! Barcode1D) {
+      throw Exception('bc is not a Barcode1D');
+    }
+
     expect(
       bc.toHex('EXACTLY 14 CHR'),
       equals('bd32852a9bac68e928914ab789d5b468d466257b5'),

@@ -121,32 +121,32 @@ class BarcodeCode128 extends Barcode1D {
     final result = <int>[];
 
     void addFrom(List<int> data, int start) {
-      Map<int, int> t;
+      Map<int, int>? t;
       if (table & 4 != 0 && digitCount & 1 == 0 /*&& digitCount > 0*/) {
         // New data from table C
         t = BarcodeMaps.code128C;
         if (lastTable == 1) {
-          result.add(t[BarcodeMaps.code128CodeA]);
+          result.add(t[BarcodeMaps.code128CodeA]!);
         } else if (lastTable == 2) {
-          result.add(t[BarcodeMaps.code128CodeB]);
+          result.add(t[BarcodeMaps.code128CodeB]!);
         }
         lastTable = 3;
       } else if (table & 1 != 0) {
         // New data from table A
         t = BarcodeMaps.code128A;
         if (lastTable == 2) {
-          result.add(t[BarcodeMaps.code128CodeB]);
+          result.add(t[BarcodeMaps.code128CodeB]!);
         } else if (lastTable == 3) {
-          result.add(t[BarcodeMaps.code128CodeC]);
+          result.add(t[BarcodeMaps.code128CodeC]!);
         }
         lastTable = 1;
       } else if (table & 2 != 0) {
         // New data from table B
         t = BarcodeMaps.code128B;
         if (lastTable == 1) {
-          result.add(t[BarcodeMaps.code128CodeA]);
+          result.add(t[BarcodeMaps.code128CodeA]!);
         } else if (lastTable == 3) {
-          result.add(t[BarcodeMaps.code128CodeC]);
+          result.add(t[BarcodeMaps.code128CodeC]!);
         }
         lastTable = 2;
       }
@@ -161,18 +161,18 @@ class BarcodeCode128 extends Barcode1D {
         // Encode Code 128C $digitCount
         for (var i = start + length - 1; i >= start; i--) {
           if (data[i] == BarcodeMaps.code128FNC1) {
-            result.add(t[BarcodeMaps.code128FNC1]);
+            result.add(t[BarcodeMaps.code128FNC1]!);
           } else {
             final digit = data[i] - 0x30 + (data[i - 1] - 0x30) * 10;
             assert(t[digit] != null);
-            result.add(t[digit]);
+            result.add(t[digit]!);
             i--;
           }
         }
       } else {
         for (final c in data.sublist(start, start + length).reversed) {
           assert(t[c] != null);
-          result.add(t[c]);
+          result.add(t[c]!);
         }
       }
     }
@@ -342,7 +342,7 @@ class BarcodeCode128 extends Barcode1D {
     final checksum = <int>[];
 
     for (var codeIndex in shortestCode(data.codeUnits)) {
-      final codeValue = BarcodeMaps.code128[codeIndex];
+      final codeValue = BarcodeMaps.code128[codeIndex]!;
       yield* add(codeValue, BarcodeMaps.code128Len);
       checksum.add(codeIndex);
     }
@@ -355,11 +355,11 @@ class BarcodeCode128 extends Barcode1D {
       sum += code * mul;
     }
     sum = sum % 103;
-    yield* add(BarcodeMaps.code128[sum], BarcodeMaps.code128Len);
+    yield* add(BarcodeMaps.code128[sum]!, BarcodeMaps.code128Len);
 
     // Stop
     yield* add(
-        BarcodeMaps.code128[BarcodeMaps.code128Stop], BarcodeMaps.code128Len);
+        BarcodeMaps.code128[BarcodeMaps.code128Stop]!, BarcodeMaps.code128Len);
 
     // Termination Bars
     yield true;

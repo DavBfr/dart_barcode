@@ -17,7 +17,7 @@
 import 'package:flutter/material.dart';
 
 class BarcodeError extends StatelessWidget {
-  const BarcodeError({Key key, this.message}) : super(key: key);
+  const BarcodeError({Key? key, required this.message}) : super(key: key);
 
   final String message;
 

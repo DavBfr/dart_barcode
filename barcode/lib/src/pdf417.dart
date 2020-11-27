@@ -160,7 +160,7 @@ class BarcodePDF417 extends Barcode2D {
       int rowNum, int rows, int columns, Pdf417SecurityLevel securityLevel) {
     final tableId = rowNum % 3;
 
-    int x;
+    late int x;
 
     switch (tableId) {
       case 0:
@@ -182,7 +182,7 @@ class BarcodePDF417 extends Barcode2D {
       int rowNum, int rows, int columns, Pdf417SecurityLevel securityLevel) {
     final tableId = rowNum % 3;
 
-    int x;
+    late int x;
 
     switch (tableId) {
       case 0:
@@ -406,7 +406,7 @@ class BarcodePDF417 extends Barcode2D {
 
   _SubMode _encodeText(List<int> text, _SubMode submode, List<int> result) {
     var idx = 0;
-    final tmp = <int>[];
+    final tmp = <int?>[];
 
     while (idx < text.length) {
       final ch = text[idx];
@@ -495,11 +495,11 @@ class BarcodePDF417 extends Barcode2D {
       idx++;
     }
 
-    var h = 0;
+    int? h = 0;
     var i = 0;
     for (final val in tmp) {
       if (i % 2 != 0) {
-        h = (h * 30) + val;
+        h = (h! * 30) + val!;
         result.add(h);
       } else {
         h = val;
@@ -507,7 +507,7 @@ class BarcodePDF417 extends Barcode2D {
       i++;
     }
     if (tmp.length % 2 != 0) {
-      result.add((h * 30) + 29);
+      result.add((h! * 30) + 29);
     }
     return submode;
   }
@@ -542,7 +542,7 @@ class BarcodePDF417 extends Barcode2D {
     var idx = 0;
     // Encode sixpacks
     if (count >= 6) {
-      final words = List<int>(5);
+      final words = List<int>.filled(5, 0);
       while ((count - idx) >= 6) {
         var t = 0;
         for (var i = 0; i < 6; i++) {

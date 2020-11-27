@@ -7,10 +7,10 @@ import 'package:barcode/barcode.dart';
 void buildBarcode(
   Barcode bc,
   String data, {
-  String filename,
-  double width,
-  double height,
-  double fontHeight,
+  String? filename,
+  double? width,
+  double? height,
+  double? fontHeight,
 }) {
   /// Create the Barcode
   final svg = bc.toSvg(

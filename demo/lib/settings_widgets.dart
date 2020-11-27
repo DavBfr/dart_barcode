@@ -20,18 +20,18 @@ import 'package:flutter/material.dart';
 class DropdownPreference<T> extends StatefulWidget {
   /// Create a dropdown
   const DropdownPreference({
-    @required this.title,
+    required this.title,
     this.desc,
-    @required this.values,
-    @required this.onWrite,
-    @required this.onRead,
+    required this.values,
+    required this.onWrite,
+    required this.onRead,
   });
 
   /// The title to display
   final String title;
 
   /// The description
-  final String desc;
+  final String? desc;
 
   /// The values the user can choose
   final Map<T, String> values;
@@ -53,19 +53,19 @@ class _DropdownPreferenceState<T> extends State<DropdownPreference> {
 
     return ListTile(
       title: Text(widget.title),
-      subtitle: widget.desc == null ? null : Text(widget.desc),
+      subtitle: widget.desc == null ? null : Text(widget.desc!),
       trailing: DropdownButton<T>(
         items: widget.values.keys.map<DropdownMenuItem<T>>((dynamic val) {
           return DropdownMenuItem<T>(
             value: val,
             child: Text(
-              widget.values[val],
+              widget.values[val]!,
               textAlign: TextAlign.end,
             ),
           );
         }).toList()
           ..sort((a, b) =>
-              widget.values[a.value].compareTo(widget.values[b.value])),
+              widget.values[a.value]!.compareTo(widget.values[b.value]!)),
         onChanged: (newVal) async {
           widget.onWrite(context, newVal);
         },
@@ -79,11 +79,11 @@ class _DropdownPreferenceState<T> extends State<DropdownPreference> {
 class TextPreference extends StatefulWidget {
   /// Create a text entry setting
   const TextPreference({
-    this.title,
+    required this.title,
     this.desc,
     this.ignoreTileTap = false,
-    this.onWrite,
-    this.onRead,
+    required this.onWrite,
+    required this.onRead,
     this.enabled = true,
   });
 
@@ -91,7 +91,7 @@ class TextPreference extends StatefulWidget {
   final String title;
 
   /// The description
-  final String desc;
+  final String? desc;
 
   /// Ignore user interactions on the title
   final bool ignoreTileTap;
@@ -124,7 +124,7 @@ class _TextPreferenceState extends State<TextPreference> {
           style: widget.enabled
               ? null
               : TextStyle(color: Theme.of(context).disabledColor)),
-      subtitle: widget.desc == null ? null : Text(widget.desc),
+      subtitle: widget.desc == null ? null : Text(widget.desc!),
       title: TextField(
         controller: controller,
         onChanged:

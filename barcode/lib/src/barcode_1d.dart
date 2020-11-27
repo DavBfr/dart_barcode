@@ -33,15 +33,14 @@ abstract class Barcode1D extends Barcode {
   @override
   Iterable<BarcodeElement> makeBytes(
     Uint8List data, {
-    @required double width,
-    @required double height,
+    required double width,
+    required double height,
     bool drawText = false,
-    double fontHeight,
-    double textPadding,
+    double? fontHeight,
+    double? textPadding,
   }) sync* {
-    assert(data != null);
-    assert(width != null && width > 0);
-    assert(height != null && height > 0);
+    assert(width > 0);
+    assert(height > 0);
     assert(!drawText || fontHeight != null);
     fontHeight ??= 0;
     textPadding ??= defaultTextPadding;

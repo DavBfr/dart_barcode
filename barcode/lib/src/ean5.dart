@@ -73,7 +73,7 @@ class BarcodeEan5 extends BarcodeEan2 {
         yield* add(BarcodeMaps.eanCenterEan2, 2);
       }
 
-      yield* add(codes[(pattern >> index) & 1], 7);
+      yield* add(codes[(pattern! >> index) & 1], 7);
       index++;
     }
   }

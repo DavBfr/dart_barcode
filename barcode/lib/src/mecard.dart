@@ -26,19 +26,19 @@ class MeCard {
 
   /// Create a contact MeCard
   factory MeCard.contact({
-    String name,
-    String reading,
-    String tel,
-    List<String> tels,
-    String videophone,
-    String email,
-    List<String> emails,
-    String memo,
-    DateTime birthday,
-    String address,
-    String url,
-    List<String> urls,
-    String nickname,
+    String? name,
+    String? reading,
+    String? tel,
+    List<String>? tels,
+    String? videophone,
+    String? email,
+    List<String>? emails,
+    String? memo,
+    DateTime? birthday,
+    String? address,
+    String? url,
+    List<String>? urls,
+    String? nickname,
   }) {
     final fields = <MeTuple>[];
 
@@ -94,17 +94,16 @@ class MeCard {
   /// Create a WIFI MeCard
   /// type can be WEP or WPA
   factory MeCard.wifi({
-    @required String ssid,
+    required String ssid,
     String type = 'WPA',
-    String password,
+    String? password,
     bool hidden = false,
   }) {
     final fields = <MeTuple>[];
 
-    if (ssid != null) {
-      fields.add(MeTuple('S', ssid));
-    }
-    if (password != null && type != null) {
+    fields.add(MeTuple('S', ssid));
+
+    if (password != null) {
       fields.add(MeTuple('T', type));
       fields.add(MeTuple('P', password));
     }
@@ -138,7 +137,7 @@ class MeCard {
   static String _str(String s) {
     return s.replaceAllMapped(
       RegExp('[;:"]'),
-      (match) => r'\' + match.group(0),
+      (match) => r'\' + match.group(0)!,
     );
   }
 }

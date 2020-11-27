@@ -20,7 +20,11 @@ import 'package:test/test.dart';
 
 void main() {
   test('Barcode QR', () {
-    final Barcode2D bc = Barcode.qrCode();
+    final bc = Barcode.qrCode();
+    if (bc is! Barcode2D) {
+      throw Exception('bc is not a Barcode2D');
+    }
+
     expect(bc.toHex('0').hashCode, equals(1026374156));
     expect(
       bc.toHex(String.fromCharCodes(Iterable.generate(256))).hashCode,
@@ -29,18 +33,29 @@ void main() {
   });
 
   test('Barcode QR High error correction level', () {
-    final Barcode2D bc =
-        Barcode.qrCode(errorCorrectLevel: BarcodeQRCorrectionLevel.high);
+    final bc = Barcode.qrCode(errorCorrectLevel: BarcodeQRCorrectionLevel.high);
+    if (bc is! Barcode2D) {
+      throw Exception('bc is not a Barcode2D');
+    }
+
     expect(bc.toHex('0').hashCode, equals(366615520));
   });
 
   test('Barcode QR manual type', () {
-    final Barcode2D bc = Barcode.qrCode(typeNumber: 2);
+    final bc = Barcode.qrCode(typeNumber: 2);
+    if (bc is! Barcode2D) {
+      throw Exception('bc is not a Barcode2D');
+    }
+
     expect(bc.toHex('0').hashCode, equals(118397412));
   });
 
   test('Barcode QR limits', () {
-    final Barcode2D bc = Barcode.qrCode();
+    final bc = Barcode.qrCode();
+    if (bc is! Barcode2D) {
+      throw Exception('bc is not a Barcode2D');
+    }
+
     expect(bc.charSet, equals(List<int>.generate(256, (e) => e)));
     expect(bc.minLength, equals(1));
     expect(bc.maxLength, greaterThan(1024));

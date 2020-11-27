@@ -14,20 +14,15 @@
  * limitations under the License.
  */
 
-import 'package:meta/meta.dart';
-
 /// [Barcode] drawing operation
 class BarcodeElement {
   /// Create a [Barcode] drawing operation
   const BarcodeElement({
-    @required this.left,
-    @required this.top,
-    @required this.width,
-    @required this.height,
-  })  : assert(left != null),
-        assert(top != null),
-        assert(width != null),
-        assert(height != null);
+    required this.left,
+    required this.top,
+    required this.width,
+    required this.height,
+  });
 
   /// left position of this element
   final double left;
@@ -55,11 +50,11 @@ class BarcodeElement {
 class BarcodeBar extends BarcodeElement {
   /// Create a rectangle drawing operation to draw a white or black unit
   const BarcodeBar({
-    @required double left,
-    @required double top,
-    @required double width,
-    @required double height,
-    @required this.black,
+    required double left,
+    required double top,
+    required double width,
+    required double height,
+    required this.black,
   }) : super(
           left: left,
           top: top,
@@ -91,12 +86,12 @@ enum BarcodeTextAlign {
 class BarcodeText extends BarcodeElement {
   /// Create a ext drawing operation
   const BarcodeText({
-    @required double left,
-    @required double top,
-    @required double width,
-    @required double height,
-    @required this.text,
-    @required this.align,
+    required double left,
+    required double top,
+    required double width,
+    required double height,
+    required this.text,
+    required this.align,
   }) : super(
           left: left,
           top: top,

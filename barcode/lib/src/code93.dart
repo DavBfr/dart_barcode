@@ -75,10 +75,10 @@ class BarcodeCode93 extends Barcode1D {
     }
 
     sumC = sumC % 47;
-    yield* add(BarcodeMaps.code93[keys[sumC]], BarcodeMaps.code93Len);
+    yield* add(BarcodeMaps.code93[keys[sumC]]!, BarcodeMaps.code93Len);
 
     sumK = (sumK + sumC) % 47;
-    yield* add(BarcodeMaps.code93[keys[sumK]], BarcodeMaps.code93Len);
+    yield* add(BarcodeMaps.code93[keys[sumK]]!, BarcodeMaps.code93Len);
 
     // Stop
     yield* add(BarcodeMaps.code93StartStop, BarcodeMaps.code93Len);

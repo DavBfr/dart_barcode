@@ -21,7 +21,11 @@ import 'package:test/test.dart';
 
 void main() {
   test('Barcode CODE 39 full alphabet', () {
-    final Barcode1D bc = Barcode.code39();
+    final bc = Barcode.code39();
+    if (bc is! Barcode1D) {
+      throw Exception('bc is not a Barcode1D');
+    }
+
     expect(bc.toHex(r'0'), equals('da529b6a4b'));
     expect(bc.toHex(r'1'), equals('dad24a6b4b'));
     expect(bc.toHex(r'2'), equals('dad2ca6a4b'));

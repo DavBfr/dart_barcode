@@ -20,8 +20,8 @@ import 'barcode_conf.dart';
 
 class BarcodeInfo extends StatelessWidget {
   const BarcodeInfo({
-    Key key,
-    @required this.conf,
+    Key? key,
+    required this.conf,
   }) : super(key: key);
 
   final BarcodeConf conf;

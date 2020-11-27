@@ -1,5 +1,9 @@
 # Changelog
 
+## 2.0.0-nullsafety
+
+- Opt-in dart null-safety
+
 ## 1.5.0
 
 - Add textPadding parameter

@@ -23,11 +23,6 @@ void main() {
         equals('BarcodeException: message'));
   });
 
-  test('Barcode fromType error', () {
-    expect(() => Barcode.fromType(null),
-        throwsA(const TypeMatcher<AssertionError>()));
-  });
-
   test('Barcode operations', () {
     final bc = Barcode.code39();
     final operations =
@@ -36,28 +31,6 @@ void main() {
     for (var op in operations) {
       expect(op.toString(), const TypeMatcher<String>());
     }
-  });
-
-  test('BarcodeElement assertions', () {
-    expect(
-      () => BarcodeElement(width: null, height: null, left: null, top: null),
-      throwsA(const TypeMatcher<AssertionError>()),
-    );
-
-    expect(
-      () => BarcodeElement(width: null, height: null, left: 1, top: null),
-      throwsA(const TypeMatcher<AssertionError>()),
-    );
-
-    expect(
-      () => BarcodeElement(width: null, height: null, left: 1, top: 1),
-      throwsA(const TypeMatcher<AssertionError>()),
-    );
-
-    expect(
-      () => BarcodeElement(width: 1, height: null, left: 1, top: 1),
-      throwsA(const TypeMatcher<AssertionError>()),
-    );
   });
 
   test('BarcodeElement', () {

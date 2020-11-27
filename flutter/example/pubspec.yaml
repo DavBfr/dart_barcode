@@ -3,18 +3,18 @@ description: BarcodeWidget example
 version: 1.0.0+1
 
 environment:
-  sdk: ">=2.7.0 <3.0.0"
+  sdk: ">=2.12.0-29.10.beta <3.0.0"
 
 dependencies:
+  barcode_widget:
   flutter:
     sdk: flutter
-  barcode_widget:
 
 dependency_overrides:
-  barcode_widget:
-    path: ../
   barcode:
     path: ../../barcode
+  barcode_widget:
+    path: ../
 
 flutter:
   uses-material-design: true

@@ -21,9 +21,9 @@ import 'dart:typed_data';
 import 'package:flutter/foundation.dart';
 
 Future<void> share({
-  @required Uint8List bytes,
-  @required String filename,
-  @required String mimetype,
+  required Uint8List bytes,
+  required String filename,
+  required String mimetype,
 }) async {
   if (!kIsWeb) {
     throw UnimplementedError('Share is only implemented on Web');
@@ -35,7 +35,8 @@ Future<void> share({
   );
   final url = html.Url.createObjectUrl(blob);
   final html.HtmlDocument doc = js.context['document'];
-  final html.AnchorElement link = doc.createElement('a');
+  // ignore: avoid_as
+  final link = doc.createElement('a') as html.AnchorElement;
   link.href = url;
   link.download = filename;
   link.click();

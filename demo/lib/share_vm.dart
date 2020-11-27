@@ -16,15 +16,14 @@
 
 import 'dart:io';
 import 'dart:typed_data';
-import 'package:open_file/open_file.dart';
 
-import 'package:flutter/foundation.dart';
+import 'package:open_file/open_file.dart';
 import 'package:path_provider/path_provider.dart';
 
 Future<void> share({
-  @required Uint8List bytes,
-  @required String filename,
-  @required String mimetype,
+  required Uint8List bytes,
+  required String filename,
+  required String mimetype,
 }) async {
   final tempDir = await getTemporaryDirectory();
   final fn = filename.replaceAll(' ', '-');

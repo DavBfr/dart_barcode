@@ -45,11 +45,10 @@ class BarcodeQR extends Barcode2D {
   const BarcodeQR(
     this.typeNumber,
     this.errorCorrectLevel,
-  )   : assert(typeNumber == null || (typeNumber >= 1 && typeNumber <= 40)),
-        assert(errorCorrectLevel != null);
+  ) : assert(typeNumber == null || (typeNumber >= 1 && typeNumber <= 40));
 
   /// QR code version number 1 to 40
-  final int typeNumber;
+  final int? typeNumber;
 
   /// The QR Code Correction Level
   final BarcodeQRCorrectionLevel errorCorrectLevel;
@@ -60,7 +59,7 @@ class BarcodeQR extends Barcode2D {
 
     final qrCode = typeNumber == null
         ? QrCode.fromUint8List(data: data, errorCorrectLevel: errorLevel)
-        : (QrCode(typeNumber, errorLevel)
+        : (QrCode(typeNumber!, errorLevel)
           ..addByteData(data.buffer.asByteData()));
 
     qrCode.make();

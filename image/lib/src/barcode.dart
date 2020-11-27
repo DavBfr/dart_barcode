@@ -49,7 +49,7 @@ extension BitmapFontMetricsFunctions on BitmapFont {
         continue;
       }
 
-      final ch = characters[c];
+      final ch = characters[c]!;
       width += ch.xadvance;
       if (height < ch.height + ch.yoffset) {
         height = ch.height + ch.yoffset;
@@ -58,7 +58,7 @@ extension BitmapFontMetricsFunctions on BitmapFont {
 
     final c = cu.last;
     if (characters.containsKey(c)) {
-      final ch = characters[c];
+      final ch = characters[c]!;
       width += ch.width;
       if (height < ch.height + ch.yoffset) {
         height = ch.height + ch.yoffset;
@@ -76,10 +76,10 @@ void drawBarcode(
   String data, {
   int x = 0,
   int y = 0,
-  int width,
-  int height,
-  BitmapFont font,
-  int textPadding,
+  int? width,
+  int? height,
+  BitmapFont? font,
+  int? textPadding,
   int color = 0xff000000,
 }) {
   drawBarcodeBytes(
@@ -103,10 +103,10 @@ void drawBarcodeBytes(
   Uint8List bytes, {
   int x = 0,
   int y = 0,
-  int width,
-  int height,
-  BitmapFont font,
-  int textPadding,
+  int? width,
+  int? height,
+  BitmapFont? font,
+  int? textPadding,
   int color = 0xff000000,
 }) {
   width ??= image.width;
@@ -136,9 +136,9 @@ void drawBarcodeBytes(
       }
     } else if (elem is BarcodeText) {
       // Get string dimensions
-      final metrics = font.getMetrics(elem.text);
+      final metrics = font!.getMetrics(elem.text);
       final top = y + elem.top + elem.height - font.size;
-      double left;
+      late double left;
 
       // Center the text
       switch (elem.align) {

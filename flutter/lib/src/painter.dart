@@ -47,7 +47,7 @@ class BarcodePainter extends LeafRenderObjectWidget {
   final bool drawText;
 
   /// Text style to use
-  final TextStyle style;
+  final TextStyle? style;
 
   /// Padding to add between the text and the barcode
   final double textPadding;
@@ -105,7 +105,7 @@ class _RenderBarcode extends RenderBox {
 
   bool drawText;
 
-  TextStyle style;
+  TextStyle? style;
 
   double textPadding;
 
@@ -147,7 +147,7 @@ class _RenderBarcode extends RenderBox {
   }
 
   void paintText(PaintingContext context, Offset offset, BarcodeText element) {
-    TextAlign align;
+    TextAlign? align;
     switch (element.align) {
       case BarcodeTextAlign.left:
         align = TextAlign.left;
@@ -161,13 +161,13 @@ class _RenderBarcode extends RenderBox {
     }
 
     final builder = ui.ParagraphBuilder(
-      style.getParagraphStyle(
+      style!.getParagraphStyle(
           textAlign: align,
           fontSize: element.height,
           maxLines: 1,
           ellipsis: '...'),
     )
-      ..pushStyle(style.getTextStyle())
+      ..pushStyle(style!.getTextStyle())
       ..addText(element.text);
 
     final paragraph = builder.build();
@@ -198,7 +198,7 @@ class _RenderBarcode extends RenderBox {
         width: size.width,
         height: size.height,
         drawText: drawText,
-        fontHeight: style.fontSize,
+        fontHeight: style!.fontSize,
         textPadding: textPadding,
       )) {
         if (element is BarcodeBar) {

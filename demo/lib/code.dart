@@ -22,7 +22,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'barcode_conf.dart';
 
 class Code extends StatefulWidget {
-  const Code({Key key, this.conf}) : super(key: key);
+  const Code({Key? key, required this.conf}) : super(key: key);
 
   final BarcodeConf conf;
 

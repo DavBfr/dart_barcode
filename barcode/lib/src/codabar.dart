@@ -85,7 +85,7 @@ class BarcodeCodabar extends Barcode1D {
     }
 
     // Start
-    yield* add(BarcodeMaps.codabar[_start], BarcodeMaps.codabarLen[_start]);
+    yield* add(BarcodeMaps.codabar[_start]!, BarcodeMaps.codabarLen[_start]!);
 
     // Space between chars
     yield false;
@@ -101,7 +101,7 @@ class BarcodeCodabar extends Barcode1D {
         throw BarcodeException(
             'Unable to encode "${String.fromCharCode(code)}" to $name Barcode');
       }
-      final codeLen = BarcodeMaps.codabarLen[code];
+      final codeLen = BarcodeMaps.codabarLen[code]!;
       yield* add(codeValue, codeLen);
 
       // Space between chars
@@ -109,7 +109,7 @@ class BarcodeCodabar extends Barcode1D {
     }
 
     // Stop
-    yield* add(BarcodeMaps.codabar[_stop], BarcodeMaps.codabarLen[_stop]);
+    yield* add(BarcodeMaps.codabar[_stop]!, BarcodeMaps.codabarLen[_stop]!);
   }
 
   int _getStartStopByte(int value) {

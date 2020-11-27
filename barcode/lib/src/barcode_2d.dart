@@ -65,15 +65,14 @@ abstract class Barcode2D extends Barcode {
   @override
   Iterable<BarcodeElement> makeBytes(
     Uint8List data, {
-    @required double width,
-    @required double height,
+    required double width,
+    required double height,
     bool drawText = false,
-    double fontHeight,
-    double textPadding,
+    double? fontHeight,
+    double? textPadding,
   }) sync* {
-    assert(data != null);
-    assert(width != null && width > 0);
-    assert(height != null && height > 0);
+    assert(width > 0);
+    assert(height > 0);
 
     final matrix = convert(data);
 
@@ -95,7 +94,7 @@ abstract class Barcode2D extends Barcode {
     final offsetY = (height - h) / 2;
 
     var start = 0;
-    bool color;
+    bool? color;
     var x = 0;
     var y = 0;
 

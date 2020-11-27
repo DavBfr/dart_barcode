@@ -20,13 +20,19 @@ import 'package:test/test.dart';
 
 void main() {
   test('Barcode Telepen', () {
-    final Barcode1D bc = Barcode.telepen();
+    final bc = Barcode.telepen();
+    if (bc is! Barcode1D) {
+      throw Exception('bc is not a Barcode1D');
+    }
 
     expect(bc.toHex('z'), 'aae2eeb8aae2b8aa');
   });
 
   test('Barcode Telepen limits', () {
-    final Barcode1D bc = Barcode.telepen();
+    final bc = Barcode.telepen();
+    if (bc is! Barcode1D) {
+      throw Exception('bc is not a Barcode1D');
+    }
 
     expect(bc.charSet, Iterable<int>.generate(128));
   });

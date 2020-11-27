@@ -16,6 +16,7 @@
 
 import 'dart:typed_data';
 
+import '../barcode.dart';
 import 'barcode_2d.dart';
 import 'barcode_exception.dart';
 import 'reedsolomon.dart';
@@ -29,10 +30,8 @@ class BarcodeAztec extends Barcode2D {
   const BarcodeAztec(
     this.minECCPercent,
     this.userSpecifiedLayers,
-  )   : assert(minECCPercent != null &&
-            minECCPercent >= 0 &&
-            minECCPercent <= 100),
-        assert(userSpecifiedLayers != null && userSpecifiedLayers >= 0);
+  )   : assert(minECCPercent >= 0 && minECCPercent <= 100),
+        assert(userSpecifiedLayers >= 0);
 
   /// Default Error correction percent
   static const defaultEcPercent = 33;
@@ -57,10 +56,61 @@ class BarcodeAztec extends Barcode2D {
 
   static bool _initialized = false;
 
+  static late Map<_EncodingMode, List<int?>> _charMap;
+
+  static void _init() {
+    _charMap = <_EncodingMode, List<int?>>{};
+
+    _charMap[_EncodingMode.mode_upper] = List<int?>.filled(256, null);
+    _charMap[_EncodingMode.mode_lower] = List<int?>.filled(256, null);
+    _charMap[_EncodingMode.mode_digit] = List<int?>.filled(256, null);
+    _charMap[_EncodingMode.mode_mixed] = List<int?>.filled(256, null);
+    _charMap[_EncodingMode.mode_punct] = List<int?>.filled(256, null);
+
+    _charMap[_EncodingMode.mode_upper]![0x20] = 1;
+    for (var c = 0x41; c <= 0x5a; c++) {
+      _charMap[_EncodingMode.mode_upper]![c] = c - 0x41 + 2;
+    }
+
+    _charMap[_EncodingMode.mode_lower]![0x20] = 1;
+    for (var c = 0x61; c <= 0x7a; c++) {
+      _charMap[_EncodingMode.mode_lower]![c] = c - 0x61 + 2;
+    }
+    _charMap[_EncodingMode.mode_digit]![0x20] = 1;
+    for (var c = 0x30; c <= 0x39; c++) {
+      _charMap[_EncodingMode.mode_digit]![c] = c - 0x30 + 2;
+    }
+    _charMap[_EncodingMode.mode_digit]![0x2c] = 12;
+    _charMap[_EncodingMode.mode_digit]![0x2e] = 13;
+
+    final mixedTable = <int>[
+      0, 0x20, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 27, 28, 29, 30, 31, //
+      0x40, 0x5c, 0x5e, 0x5f, 0x60, 0x7c, 0x7e, 127,
+    ];
+    for (var i = 0; i < mixedTable.length; i++) {
+      final v = mixedTable[i];
+      _charMap[_EncodingMode.mode_mixed]![v] = i;
+    }
+
+    const punctTable = <int>[
+      0, 0xd, 0, 0, 0, 0, 0x21, 0x27, 0x23, 0x24, 0x25, 0x26, 0x27, 0x28,
+      0x29, //
+      0x2a, 0x2b, 0x2c, 0x2d, 0x2e, 0x2f, 0x3a, 0x3b, 0x3c, 0x3d, 0x3e, 0x3f,
+      0x5b, 0x5d, 0x7b, 0x7d,
+    ];
+
+    for (var i = 0; i < punctTable.length; i++) {
+      final v = punctTable[i];
+      if (v > 0) {
+        _charMap[_EncodingMode.mode_punct]![v] = i;
+      }
+    }
+  }
+
   @override
   Barcode2DMatrix convert(Uint8List data) {
     if (!_initialized) {
-      _State.init();
+      _init();
       _initialized = true;
     }
 
@@ -84,7 +134,7 @@ class BarcodeAztec extends Barcode2D {
   int get maxLength => 2335;
 
   List<int> _bitsToWords(List<bool> stuffedBits, int wordSize, int wordCount) {
-    final message = List<int>(wordCount);
+    final message = List<int>.filled(wordCount, 0);
 
     for (var i = 0; i < wordCount; i++) {
       var value = 0;
@@ -135,7 +185,7 @@ class BarcodeAztec extends Barcode2D {
       case 12:
         return GaloisField(0x1069, 4096, 1);
       default:
-        return null;
+        throw const BarcodeException('Unable to find the Galois field');
     }
   }
 
@@ -170,8 +220,8 @@ class BarcodeAztec extends Barcode2D {
         states = _updateStateListForChar(states, data, index);
       }
     }
-    int minBitCnt;
-    _State result;
+    int? minBitCnt;
+    _State? result;
     for (final s in states) {
       if (minBitCnt == null || s.bitCount < minBitCnt) {
         minBitCnt = s.bitCount;
@@ -231,11 +281,11 @@ class BarcodeAztec extends Barcode2D {
   List<_State> _updateStateForChar(_State s, List<int> data, int index) {
     final result = <_State>[];
     final ch = data[index];
-    final charInCurrentTable = _charMap[s.mode][ch] != null;
+    final charInCurrentTable = _charMap[s.mode]![ch] != null;
 
-    _State stateNoBinary;
+    _State? stateNoBinary;
     for (var mode in _EncodingMode.values) {
-      final charInMode = _charMap[mode][ch];
+      final charInMode = _charMap[mode]![ch];
       if (charInMode != null) {
         // Only create stateNoBinary the first time it's required.
         stateNoBinary ??= s.endBinaryShift(index);
@@ -254,7 +304,7 @@ class BarcodeAztec extends Barcode2D {
 
         if (!charInCurrentTable &&
             _shiftTable[s.mode] != null &&
-            _shiftTable[s.mode][mode] != null) {
+            _shiftTable[s.mode]![mode] != null) {
           // It never makes sense to temporarily shift to another mode if the
           // character exists in the current mode.  That can never save bits.
           final res = stateNoBinary.shiftAndAppend(mode, charInMode);
@@ -262,7 +312,7 @@ class BarcodeAztec extends Barcode2D {
         }
       }
     }
-    if (s.bShiftByteCount > 0 || _charMap[s.mode][ch] == null) {
+    if (s.bShiftByteCount > 0 || _charMap[s.mode]![ch] == null) {
       // It's never worthwhile to go into binary shift mode if you're not already
       // in binary shift mode, and the character exists in your current mode.
       // That can never save bits over just outputting the char in the current mode.
@@ -277,7 +327,7 @@ class BarcodeAztec extends Barcode2D {
 // non-optimal states.
   List<_State> _updateStateListForPair(
       List<_State> states, List<int> data, int index, int pairCode) {
-    List<_State> result;
+    final result = <_State>[];
     for (final s in states) {
       final r = _updateStateForPair(s, data, index, pairCode);
       if (r.isNotEmpty) {
@@ -289,7 +339,7 @@ class BarcodeAztec extends Barcode2D {
 
   List<_State> _updateStateForPair(
       _State s, List<int> data, int index, int pairCode) {
-    List<_State> result;
+    final result = <_State>[];
     final stateNoBinary = s.endBinaryShift(index);
     // Possibility 1.  Latch to MODE_PUNCT, and then append this code
     result
@@ -428,7 +478,7 @@ class BarcodeAztec extends Barcode2D {
     int wordSize;
     int totalBitsInLayer;
     bool compact;
-    List<bool> stuffedBits;
+    List<bool>? stuffedBits;
     if (userSpecifiedLayers != defaultLayers) {
       compact = userSpecifiedLayers < 0;
       if (compact) {
@@ -478,11 +528,11 @@ class BarcodeAztec extends Barcode2D {
         }
         final usableBitsInLayers =
             totalBitsInLayer - (totalBitsInLayer % wordSize);
-        if (compact && stuffedBits.length > wordSize * 64) {
+        if (compact && stuffedBits!.length > wordSize * 64) {
           // Compact format only allows 64 data words, though C4 can hold more words than that
           continue;
         }
-        if (stuffedBits.length + eccBits <= usableBitsInLayers) {
+        if (stuffedBits!.length + eccBits <= usableBitsInLayers) {
           break;
         }
       }
@@ -500,7 +550,7 @@ class BarcodeAztec extends Barcode2D {
     } else {
       baseMatrixSize = 14 + layers * 4;
     }
-    final alignmentMap = List<int>(baseMatrixSize);
+    final alignmentMap = List<int>.filled(baseMatrixSize, 0);
     int matrixSize;
 
     if (compact) {
@@ -580,13 +630,13 @@ class BarcodeAztec extends Barcode2D {
 abstract class _Token {
   _Token(this.prev);
 
-  final _Token prev;
+  final _Token? prev;
 
   void appendTo(List<bool> bits, List<int> text);
 }
 
 class _SimpleToken extends _Token {
-  _SimpleToken(_Token prev, this.value, this.bitCount) : super(prev);
+  _SimpleToken(_Token? prev, this.value, this.bitCount) : super(prev);
 
   final int value;
   final int bitCount;
@@ -598,7 +648,7 @@ class _SimpleToken extends _Token {
 }
 
 class _BinaryShiftToken extends _Token {
-  _BinaryShiftToken(_Token prev, this.bShiftStart, this.bShiftByteCnt)
+  _BinaryShiftToken(_Token? prev, this.bShiftStart, this.bShiftByteCnt)
       : super(prev);
 
   final int bShiftStart;
@@ -645,8 +695,6 @@ enum _EncodingMode {
   mode_punct, // 5 bits
 }
 
-Map<_EncodingMode, List<int>> _charMap;
-
 // A map showing the available shift codes.  (The shifts to BINARY are not shown)
 const _shiftTable = <_EncodingMode, Map<_EncodingMode, int>>{
   _EncodingMode.mode_upper: {
@@ -666,7 +714,12 @@ const _shiftTable = <_EncodingMode, Map<_EncodingMode, int>>{
 };
 
 class _State {
-  const _State({this.mode, this.tokens, this.bShiftByteCount, this.bitCount});
+  const _State({
+    required this.mode,
+    this.tokens,
+    required this.bShiftByteCount,
+    required this.bitCount,
+  });
 
   static const initialState = _State(
     mode: _EncodingMode.mode_upper,
@@ -676,7 +729,7 @@ class _State {
   );
 
   final _EncodingMode mode;
-  final _Token tokens;
+  final _Token? tokens;
   final int bShiftByteCount;
   final int bitCount;
 
@@ -730,7 +783,7 @@ class _State {
     var tokens = this.tokens;
 
     if (mode != this.mode) {
-      final latch = latchTable[this.mode][mode];
+      final latch = latchTable[this.mode]![mode]!;
       tokens = _SimpleToken(tokens, latch & 0xFFFF, latch >> 16);
       bitCount += latch >> 16;
     }
@@ -750,7 +803,7 @@ class _State {
 
     // Shifts exist only to UPPER and PUNCT, both with tokens size 5.
     tokens = _SimpleToken(
-        tokens, _shiftTable[this.mode][mode], _bitCount(this.mode));
+        tokens, _shiftTable[this.mode]![mode]!, _bitCount(this.mode));
     tokens = _SimpleToken(tokens, value, 5);
 
     return _State(
@@ -769,7 +822,7 @@ class _State {
     var bitCnt = bitCount;
     if (this.mode == _EncodingMode.mode_punct ||
         this.mode == _EncodingMode.mode_digit) {
-      final latch = latchTable[this.mode][_EncodingMode.mode_upper];
+      final latch = latchTable[this.mode]![_EncodingMode.mode_upper]!;
       tokens = _SimpleToken(tokens, latch & 0xFFFF, latch >> 16);
       bitCnt += latch >> 16;
       mode = _EncodingMode.mode_upper;
@@ -813,7 +866,7 @@ class _State {
 // Returns true if "this" state is better (or equal) to be in than "that"
 // state under all possible circumstances.
   bool isBetterThanOrEqualTo(_State other) {
-    var mySize = bitCount + (latchTable[mode][other.mode] >> 16);
+    var mySize = bitCount + (latchTable[mode]![other.mode]! >> 16);
 
     if (other.bShiftByteCount > 0 &&
         (bShiftByteCount == 0 || bShiftByteCount > other.bShiftByteCount)) {
@@ -834,55 +887,6 @@ class _State {
       tokens[i].appendTo(res, text);
     }
     return res;
-  }
-
-  static void init() {
-    _charMap = <_EncodingMode, List<int>>{};
-
-    _charMap[_EncodingMode.mode_upper] = List<int>(256);
-    _charMap[_EncodingMode.mode_lower] = List<int>(256);
-    _charMap[_EncodingMode.mode_digit] = List<int>(256);
-    _charMap[_EncodingMode.mode_mixed] = List<int>(256);
-    _charMap[_EncodingMode.mode_punct] = List<int>(256);
-
-    _charMap[_EncodingMode.mode_upper][0x20] = 1;
-    for (var c = 0x41; c <= 0x5a; c++) {
-      _charMap[_EncodingMode.mode_upper][c] = c - 0x41 + 2;
-    }
-
-    _charMap[_EncodingMode.mode_lower][0x20] = 1;
-    for (var c = 0x61; c <= 0x7a; c++) {
-      _charMap[_EncodingMode.mode_lower][c] = c - 0x61 + 2;
-    }
-    _charMap[_EncodingMode.mode_digit][0x20] = 1;
-    for (var c = 0x30; c <= 0x39; c++) {
-      _charMap[_EncodingMode.mode_digit][c] = c - 0x30 + 2;
-    }
-    _charMap[_EncodingMode.mode_digit][0x2c] = 12;
-    _charMap[_EncodingMode.mode_digit][0x2e] = 13;
-
-    final mixedTable = <int>[
-      0, 0x20, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 27, 28, 29, 30, 31, //
-      0x40, 0x5c, 0x5e, 0x5f, 0x60, 0x7c, 0x7e, 127,
-    ];
-    for (var i = 0; i < mixedTable.length; i++) {
-      final v = mixedTable[i];
-      _charMap[_EncodingMode.mode_mixed][v] = i;
-    }
-
-    const punctTable = <int>[
-      0, 0xd, 0, 0, 0, 0, 0x21, 0x27, 0x23, 0x24, 0x25, 0x26, 0x27, 0x28,
-      0x29, //
-      0x2a, 0x2b, 0x2c, 0x2d, 0x2e, 0x2f, 0x3a, 0x3b, 0x3c, 0x3d, 0x3e, 0x3f,
-      0x5b, 0x5d, 0x7b, 0x7d,
-    ];
-
-    for (var i = 0; i < punctTable.length; i++) {
-      final v = punctTable[i];
-      if (v > 0) {
-        _charMap[_EncodingMode.mode_punct][v] = i;
-      }
-    }
   }
 }
 

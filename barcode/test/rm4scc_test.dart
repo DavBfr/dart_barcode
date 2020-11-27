@@ -20,7 +20,10 @@ import 'package:test/test.dart';
 
 void main() {
   test('Barcode RM4SCC full alphabet', () {
-    final Barcode1D bc = Barcode.rm4scc();
+    final bc = Barcode.rm4scc();
+    if (bc is! Barcode1D) {
+      throw Exception('bc is not a Barcode1D');
+    }
 
     expect(bc.toHex(r'0'), equals('43c3f'));
     expect(bc.toHex(r'1'), equals('49c9f'));

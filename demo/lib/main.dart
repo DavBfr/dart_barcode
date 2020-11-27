@@ -14,6 +14,8 @@
  * limitations under the License.
  */
 
+// @dart=2.9
+
 import 'package:flutter/material.dart';
 
 import 'barcode.dart';

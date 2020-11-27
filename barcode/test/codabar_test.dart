@@ -20,7 +20,11 @@ import 'package:test/test.dart';
 
 void main() {
   test('Barcode CODABAR full alphabet', () {
-    final Barcode1D bc = Barcode.codabar();
+    final bc = Barcode.codabar();
+    if (bc is! Barcode1D) {
+      throw Exception('bc is not a Barcode1D');
+    }
+
     expect(bc.toHex(r'0'), equals('4b9a2a59'));
     expect(bc.toHex(r'1'), equals('4bca2a59'));
     expect(bc.toHex(r'2'), equals('4b5a2a59'));
@@ -47,10 +51,14 @@ void main() {
     ];
 
     for (var n = 0; n < 16; n++) {
-      final Barcode1D bc = Barcode.codabar(
+      final bc = Barcode.codabar(
         start: BarcodeCodabarStartStop.values[n % 4],
         stop: BarcodeCodabarStartStop.values[n ~/ 4],
       );
+      if (bc is! Barcode1D) {
+        throw Exception('bc is not a Barcode1D');
+      }
+
       expect(bc.toHex(r'5'), equals(results[n]));
     }
   });
@@ -62,9 +70,12 @@ void main() {
   });
 
   test('Barcode CODABAR explicit Start Stop', () {
-    final Barcode1D bc = Barcode.codabar(
+    final bc = Barcode.codabar(
       explicitStartStop: true,
     );
+    if (bc is! Barcode1D) {
+      throw Exception('bc is not a Barcode1D');
+    }
 
     expect(bc.isValid(r'B5C'), isTrue);
     expect(bc.toHex(r'B5C'), equals('934a6d49'));
@@ -72,22 +83,42 @@ void main() {
   });
 
   test('Barcode CODABAR text', () {
-    Barcode1D bc = Barcode.codabar();
-    expect(bc.getText(r'32983'), equals('32983'));
+    final bc1 = Barcode.codabar();
+    if (bc1 is! Barcode1D) {
+      throw Exception('bc is not a Barcode1D');
+    }
 
-    bc = Barcode.codabar(explicitStartStop: true);
-    expect(bc.getText(r'N987562*'), equals('987562'));
+    expect(bc1.getText(r'32983'), equals('32983'));
 
-    bc = Barcode.codabar(printStartStop: true);
-    expect(bc.getText(r'6346368'), equals('A6346368B'));
+    final bc2 = Barcode.codabar(explicitStartStop: true);
+    if (bc2 is! Barcode1D) {
+      throw Exception('bc is not a Barcode1D');
+    }
 
-    bc = Barcode.codabar(
+    expect(bc2.getText(r'N987562*'), equals('987562'));
+
+    final bc3 = Barcode.codabar(printStartStop: true);
+    if (bc3 is! Barcode1D) {
+      throw Exception('bc is not a Barcode1D');
+    }
+
+    expect(bc3.getText(r'6346368'), equals('A6346368B'));
+
+    final bc4 = Barcode.codabar(
         printStartStop: true,
         start: BarcodeCodabarStartStop.B,
         stop: BarcodeCodabarStartStop.D);
-    expect(bc.getText(r'923985'), equals('B923985D'));
+    if (bc4 is! Barcode1D) {
+      throw Exception('bc is not a Barcode1D');
+    }
 
-    bc = Barcode.codabar(printStartStop: true, explicitStartStop: true);
-    expect(bc.getText(r'N0923765*'), equals('N0923765*'));
+    expect(bc4.getText(r'923985'), equals('B923985D'));
+
+    final bc5 = Barcode.codabar(printStartStop: true, explicitStartStop: true);
+    if (bc5 is! Barcode1D) {
+      throw Exception('bc is not a Barcode1D');
+    }
+
+    expect(bc5.getText(r'N0923765*'), equals('N0923765*'));
   });
 }

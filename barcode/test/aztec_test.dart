@@ -20,7 +20,11 @@ import 'package:test/test.dart';
 
 void main() {
   test('Barcode Aztec', () {
-    final Barcode2D bc = Barcode.aztec();
+    final bc = Barcode.aztec();
+    if (bc is! Barcode2D) {
+      throw Exception('bc is not a Barcode2D');
+    }
+
     expect(bc.toHex('0').hashCode, equals(940267438));
     expect(
       bc.toHex(String.fromCharCodes(Iterable.generate(256))).hashCode,
@@ -29,17 +33,29 @@ void main() {
   });
 
   test('Barcode Aztec High error correction level', () {
-    final Barcode2D bc = Barcode.aztec(minECCPercent: 80);
+    final bc = Barcode.aztec(minECCPercent: 80);
+    if (bc is! Barcode2D) {
+      throw Exception('bc is not a Barcode2D');
+    }
+
     expect(bc.toHex('0').hashCode, equals(940267438));
   });
 
   test('Barcode Aztec manual type', () {
-    final Barcode2D bc = Barcode.aztec(userSpecifiedLayers: 5);
+    final bc = Barcode.aztec(userSpecifiedLayers: 5);
+    if (bc is! Barcode2D) {
+      throw Exception('bc is not a Barcode2D');
+    }
+
     expect(bc.toHex('0').hashCode, equals(594744203));
   });
 
   test('Barcode Aztec limits', () {
-    final Barcode2D bc = Barcode.aztec();
+    final bc = Barcode.aztec();
+    if (bc is! Barcode2D) {
+      throw Exception('bc is not a Barcode2D');
+    }
+
     expect(bc.charSet, equals(List<int>.generate(256, (e) => e)));
     expect(bc.minLength, equals(1));
     expect(bc.maxLength, greaterThan(1024));

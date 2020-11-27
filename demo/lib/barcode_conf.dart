@@ -23,7 +23,7 @@ class BarcodeConf extends ChangeNotifier {
     type = initialType;
   }
 
-  String _data;
+  String? _data;
 
   /// Data to encode
   String get data => _data ?? _defaultData;
@@ -34,7 +34,8 @@ class BarcodeConf extends ChangeNotifier {
 
   String get normalizedData {
     if (barcode is BarcodeEan && barcode.name != 'UPC E') {
-      final BarcodeEan ean = barcode;
+      // ignore: avoid_as
+      final ean = barcode as BarcodeEan;
       return ean.normalize(data);
     }
 
@@ -43,13 +44,13 @@ class BarcodeConf extends ChangeNotifier {
 
   String _defaultData = 'HELLO';
 
-  Barcode _barcode;
+  late Barcode _barcode;
 
-  String _desc;
+  late String _desc;
 
-  String _method;
+  late String _method;
 
-  BarcodeType _type;
+  late BarcodeType _type;
 
   /// Size of the font
   double fontSize = 30;

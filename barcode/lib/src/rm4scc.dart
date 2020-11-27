@@ -55,7 +55,7 @@ class BarcodeRm4scc extends BarcodeHM {
     }
 
     final crc = ((sumTop - 1) % 6) * 6 + (sumBottom - 1) % 6;
-    yield* addHW(BarcodeMaps.rm4scc[keys[crc]], BarcodeMaps.rm4sccLen);
+    yield* addHW(BarcodeMaps.rm4scc[keys[crc]]!, BarcodeMaps.rm4sccLen);
 
     yield fromBits(BarcodeMaps.rm4sccStop);
   }

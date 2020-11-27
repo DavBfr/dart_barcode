@@ -56,8 +56,6 @@ abstract class Barcode {
   /// * Barcode.code128()
   /// * ...
   factory Barcode.fromType(BarcodeType type) {
-    assert(type != null);
-
     switch (type) {
       case BarcodeType.Code39:
         return Barcode.code39();
@@ -216,8 +214,8 @@ abstract class Barcode {
   /// the barcode, inside the border
   static Barcode itf14({
     bool drawBorder = true,
-    double borderWidth,
-    double quietWidth,
+    double? borderWidth,
+    double? quietWidth,
   }) =>
       BarcodeItf14(drawBorder, borderWidth, quietWidth);
 
@@ -342,7 +340,7 @@ abstract class Barcode {
   ///
   /// [errorCorrectLevel] is the QR Code Correction Level
   static Barcode qrCode(
-          {int typeNumber,
+          {int? typeNumber,
           BarcodeQRCorrectionLevel errorCorrectLevel =
               BarcodeQRCorrectionLevel.low}) =>
       BarcodeQR(typeNumber, errorCorrectLevel);
@@ -438,11 +436,11 @@ abstract class Barcode {
   @nonVirtual
   Iterable<BarcodeElement> make(
     String data, {
-    @required double width,
-    @required double height,
+    required double width,
+    required double height,
     bool drawText = false,
-    double fontHeight,
-    double textPadding,
+    double? fontHeight,
+    double? textPadding,
   }) =>
       makeBytes(
         utf8.encoder.convert(data),
@@ -457,11 +455,11 @@ abstract class Barcode {
   /// Uint8List data.
   Iterable<BarcodeElement> makeBytes(
     Uint8List data, {
-    @required double width,
-    @required double height,
+    required double width,
+    required double height,
     bool drawText = false,
-    double fontHeight,
-    double textPadding,
+    double? fontHeight,
+    double? textPadding,
   });
 
   /// Check if the Barcode is valid
@@ -533,8 +531,8 @@ abstract class Barcode {
     double height = 80,
     bool drawText = true,
     String fontFamily = 'monospace',
-    double fontHeight,
-    double textPadding,
+    double? fontHeight,
+    double? textPadding,
     int color = 0x000000,
     bool fullSvg = true,
     double baseline = .75,
@@ -563,21 +561,12 @@ abstract class Barcode {
     double height = 80,
     bool drawText = true,
     String fontFamily = 'monospace',
-    double fontHeight,
-    double textPadding,
+    double? fontHeight,
+    double? textPadding,
     int color = 0x000000,
     bool fullSvg = true,
     double baseline = .75,
   }) {
-    assert(data != null);
-    assert(x != null);
-    assert(y != null);
-    assert(width != null);
-    assert(height != null);
-    assert(fontFamily != null);
-    assert(color != null);
-    assert(baseline != null);
-
     fontHeight ??= height * 0.2;
     textPadding ??= height * 0.05;
 
@@ -604,7 +593,7 @@ abstract class Barcode {
       } else if (elem is BarcodeText) {
         final _y = y + elem.top + elem.height * baseline;
 
-        double _x;
+        late double _x;
         String anchor;
         switch (elem.align) {
           case BarcodeTextAlign.left:

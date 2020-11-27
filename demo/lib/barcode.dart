@@ -24,8 +24,8 @@ import 'download.dart';
 
 class BarcodeView extends StatelessWidget {
   const BarcodeView({
-    Key key,
-    @required this.conf,
+    Key? key,
+    required this.conf,
   }) : super(key: key);
 
   final BarcodeConf conf;

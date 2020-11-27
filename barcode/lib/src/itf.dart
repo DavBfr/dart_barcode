@@ -33,7 +33,7 @@ class BarcodeItf extends BarcodeEan {
   const BarcodeItf(
     this.addChecksum,
     this.zeroPrepend,
-  ) : assert(addChecksum != null);
+  );
 
   /// Add Modulo 10 checksum
   final bool addChecksum;
@@ -64,7 +64,7 @@ class BarcodeItf extends BarcodeEan {
 
     final cu = data.codeUnits;
     for (var i = 0; i < cu.length / 2; i++) {
-      final tuple = <int>[
+      final tuple = <int?>[
         BarcodeMaps.itf[cu[i * 2]],
         BarcodeMaps.itf[cu[i * 2 + 1]]
       ];
@@ -75,7 +75,7 @@ class BarcodeItf extends BarcodeEan {
       }
 
       for (var n = 0; n < 10; n++) {
-        final v = (tuple[n % 2] >> (n ~/ 2)) & 1;
+        final v = (tuple[n % 2]! >> (n ~/ 2)) & 1;
         final c = n % 2 == 0;
         yield c;
         if (v != 0) {

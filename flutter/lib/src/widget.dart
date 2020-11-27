@@ -23,6 +23,7 @@ import 'package:flutter/widgets.dart';
 
 import 'painter.dart';
 
+/// Error builder callback
 typedef BarcodeErrorBuilder = Widget Function(
     BuildContext context, String error);
 
@@ -30,19 +31,19 @@ typedef BarcodeErrorBuilder = Widget Function(
 class BarcodeWidget extends StatelessWidget {
   /// Draw a barcode on screen
   factory BarcodeWidget({
-    @required String data,
-    @required Barcode barcode,
+    required String data,
+    required Barcode barcode,
     Color color = Colors.black,
-    Color backgroundColor,
-    Decoration decoration,
-    EdgeInsetsGeometry margin,
-    EdgeInsetsGeometry padding,
-    double width,
-    double height,
+    Color? backgroundColor,
+    Decoration? decoration,
+    EdgeInsetsGeometry? margin,
+    EdgeInsetsGeometry? padding,
+    double? width,
+    double? height,
     bool drawText = true,
-    TextStyle style,
+    TextStyle? style,
     double textPadding = 5,
-    BarcodeErrorBuilder errorBuilder,
+    BarcodeErrorBuilder? errorBuilder,
   }) =>
       BarcodeWidget.fromBytes(
         data: utf8.encoder.convert(data),
@@ -62,8 +63,8 @@ class BarcodeWidget extends StatelessWidget {
 
   /// Draw a barcode on screen using Uint8List data
   const BarcodeWidget.fromBytes({
-    @required this.data,
-    @required this.barcode,
+    required this.data,
+    required this.barcode,
     this.color = Colors.black,
     this.backgroundColor,
     this.decoration,
@@ -75,9 +76,7 @@ class BarcodeWidget extends StatelessWidget {
     this.style,
     this.textPadding = 5,
     this.errorBuilder,
-  })  : assert(data != null),
-        assert(barcode != null),
-        assert(textPadding != null);
+  });
 
   /// The barcode data to display
   final Uint8List data;
@@ -95,40 +94,40 @@ class BarcodeWidget extends StatelessWidget {
 
   /// The background color.
   /// this should be white or really light color
-  final Color backgroundColor;
+  final Color? backgroundColor;
 
   /// Padding to apply
-  final EdgeInsetsGeometry padding;
+  final EdgeInsetsGeometry? padding;
 
   /// Margin to apply
-  final EdgeInsetsGeometry margin;
+  final EdgeInsetsGeometry? margin;
 
   /// Width of the barcode with padding
-  final double width;
+  final double? width;
 
   /// Height of the barcode with padding
-  final double height;
+  final double? height;
 
   /// Whether to draw the text with the barcode
   final bool drawText;
 
   /// Text style to use to draw the text
-  final TextStyle style;
+  final TextStyle? style;
 
   /// Padding to add between the text and the barcode
   final double textPadding;
 
   /// Decoration to apply to the barcode
-  final Decoration decoration;
+  final Decoration? decoration;
 
   /// Displays a custom widget in case of error with the barcode.
-  final BarcodeErrorBuilder errorBuilder;
+  final BarcodeErrorBuilder? errorBuilder;
 
   @override
   Widget build(BuildContext context) {
     final defaultTextStyle = DefaultTextStyle.of(context);
     var effectiveTextStyle = style;
-    if (style == null || style.inherit) {
+    if (style == null || style!.inherit) {
       effectiveTextStyle = defaultTextStyle.style.merge(style);
     }
 
@@ -145,17 +144,17 @@ class BarcodeWidget extends StatelessWidget {
       try {
         barcode.verifyBytes(data);
       } catch (e) {
-        child = errorBuilder(context, e.toString());
+        child = errorBuilder!(context, e.toString());
       }
     }
 
     if (padding != null) {
-      child = Padding(padding: padding, child: child);
+      child = Padding(padding: padding!, child: child);
     }
 
     if (decoration != null) {
       child = DecoratedBox(
-        decoration: decoration,
+        decoration: decoration!,
         child: child,
       );
     } else if (backgroundColor != null) {
@@ -170,7 +169,7 @@ class BarcodeWidget extends StatelessWidget {
     }
 
     if (margin != null) {
-      child = Padding(padding: margin, child: child);
+      child = Padding(padding: margin!, child: child);
     }
 
     return child;

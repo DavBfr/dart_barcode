@@ -3,30 +3,30 @@ description: BarcodeWidget example
 version: 1.0.0+1
 
 environment:
-  sdk: ">=2.7.0 <3.0.0"
+  sdk: '>=2.12.0-29.10.beta <3.0.0'
 
 dependencies:
-  flutter:
-    sdk: flutter
   barcode_image:
   barcode_widget:
+  flutter:
+    sdk: flutter
   google_fonts:
   open_file:
   path_provider:
   pdf:
 
 dependency_overrides:
-  barcode_widget:
-    path: ../flutter
-  barcode_image:
-    path: ../image
   barcode:
     path: ../barcode
+  barcode_image:
+    path: ../image
+  barcode_widget:
+    path: ../flutter
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  pedantic: ^1.8.0
+  pedantic: ^1.10.0-nullsafety
 
 flutter:
   uses-material-design: true
