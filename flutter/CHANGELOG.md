@@ -1,5 +1,9 @@
 # Changelog
 
+## 2.0.0-nullsafety.1
+
+- Fix Flutter dependency
+
 ## 2.0.0-nullsafety
 
 - Opt-in dart null-safety
