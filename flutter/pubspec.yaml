@@ -8,13 +8,12 @@ issue_tracker: https://github.com/DavBfr/dart_barcode/issues
 version: 2.0.0-nullsafety
 
 environment:
-  sdk: '>=2.12.0-29.10.beta <3.0.0'
+  sdk: ">=2.12.0-29.10.beta <3.0.0"
 
 dependencies:
-  barcode: ^1.16.0
+  barcode: ^2.0.0-nullsafety
   flutter:
     sdk: flutter
-  meta: ^1.1.8
 
 dependency_overrides:
   barcode:

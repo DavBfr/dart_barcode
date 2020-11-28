@@ -40,7 +40,7 @@ class Pubspec {
 
   static const Map<dynamic, dynamic> dependencies = <dynamic, dynamic>{
     'args': '^1.5.0',
-    'barcode': '^1.16.0',
+    'barcode': '^2.0.0-nullsafety',
     'image': '^2.1.0',
     'meta': '^1.1.8',
   };
