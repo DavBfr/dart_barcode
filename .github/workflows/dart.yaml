@@ -1,0 +1,29 @@
+name: Dart CI
+
+on:
+  push:
+    branches: [master]
+  pull_request:
+    branches: [master]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+      - uses: subosito/flutter-action@v1
+        with:
+          channel: dev
+      - name: Install utils
+        run: sudo apt install poppler-utils imagemagick lcov
+      - name: Run analysis barcode
+        run: make analyze-barcode
+      - name: Run analysis image
+        run: make analyze-image
+      - name: Run tests
+        run: make test
+      - name: Verify that nothing changed
+        run: test -z "$(git status --porcelain)"
+      - name: Push to codecov
+        run: bash <(curl -s https://codecov.io/bash)

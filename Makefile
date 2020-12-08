@@ -81,7 +81,7 @@ publish-image: format clean
 	git tag $(shell grep version image/pubspec.yaml | sed 's/version\s*:\s*/barcode_image-/g')
 
 .pana:
-	which pana || pub global activate pana
+	dart pub global activate pana
 	touch $@
 
 analyze-barcode: .pana
