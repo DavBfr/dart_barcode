@@ -1,6 +1,7 @@
 name: example
 description: BarcodeWidget example
 version: 1.0.0+1
+publish_to: none
 
 environment:
   sdk: ">=2.12.0-0 <3.0.0"
@@ -11,8 +12,9 @@ dependencies:
   barcode_widget:
   flutter:
     sdk: flutter
-  google_fonts:
+  google_fonts: 2.0.0-nullsafety.0
   open_file:
+    git: https://github.com/rsixel/open_file
   path_provider: ">=2.0.0-0"
   pdf: ">=3.0.0-0"
 
