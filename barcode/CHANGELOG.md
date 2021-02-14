@@ -1,5 +1,9 @@
 # Changelog
 
+## 2.0.0-nullsafety.1
+
+- Add ITF-16 Barcode
+
 ## 2.0.0-nullsafety
 
 - Opt-in dart null-safety

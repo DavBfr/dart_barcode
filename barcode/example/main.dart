@@ -65,6 +65,11 @@ void main() {
   );
 
   buildBarcode(
+    Barcode.itf16(),
+    '154001412887678',
+  );
+
+  buildBarcode(
     Barcode.ean13(drawEndChar: true),
     '590123412345',
   );

@@ -35,6 +35,7 @@ import 'ean8.dart';
 import 'isbn.dart';
 import 'itf.dart';
 import 'itf14.dart';
+import 'itf16.dart';
 import 'pdf417.dart';
 import 'qrcode.dart';
 import 'rm4scc.dart';
@@ -69,6 +70,8 @@ abstract class Barcode {
         return Barcode.itf();
       case BarcodeType.CodeITF14:
         return Barcode.itf14();
+      case BarcodeType.CodeITF16:
+        return Barcode.itf16();
       case BarcodeType.CodeEAN13:
         return Barcode.ean13();
       case BarcodeType.CodeEAN8:
@@ -219,6 +222,28 @@ abstract class Barcode {
   }) =>
       BarcodeItf14(drawBorder, borderWidth, quietWidth);
 
+  /// ITF-16 Barcode
+  ///
+  /// ITF-16 is a standardized version of the Interleaved 2 of 5 barcode,
+  /// also known as UPC Shipping Container Symbol. It is used to mark cartons,
+  /// cases, or pallets that contain products. It containins 16 digits, the last
+  /// being a check digit.
+  ///
+  /// <img width="300" alt="ITF 14" src="https://raw.githubusercontent.com/DavBfr/dart_barcode/master/img/itf-16.svg?sanitize=true">
+  ///
+  /// [drawBorder] draws a black border around the barcode
+  ///
+  /// [borderWidth] specify the width of the border around the barcode
+  ///
+  /// [quietWidth] defines the width of the quiet zone before and after
+  /// the barcode, inside the border
+  static Barcode itf16({
+    bool drawBorder = true,
+    double? borderWidth,
+    double? quietWidth,
+  }) =>
+      BarcodeItf16(drawBorder, borderWidth, quietWidth);
+
   /// 2 of 5 Barcode
   ///
   /// Interleaved 2 of 5 (ITF) is a continuous two-width barcode symbology
@@ -231,11 +256,26 @@ abstract class Barcode {
   /// [addChecksum] add Modulo 10 checksum
   ///
   /// [zeroPrepend] Prepend with a '0' if the length is not odd
+  ///
+  /// [drawBorder] draws a black border around the barcode
+  ///
+  /// [borderWidth] specify the width of the border around the barcode
+  ///
+  /// [quietWidth] defines the width of the quiet zone before and after
+  /// the barcode, inside the border
+  ///
+  /// [fixedLength] defines the barcode length if the length is to be fixed.
+  /// Set to null for not fixed length.
   static Barcode itf({
     bool addChecksum = false,
     bool zeroPrepend = false,
+    bool drawBorder = false,
+    double? borderWidth,
+    double? quietWidth,
+    int? fixedLength,
   }) =>
-      BarcodeItf(addChecksum, zeroPrepend);
+      BarcodeItf(addChecksum, zeroPrepend, drawBorder, borderWidth, quietWidth,
+          fixedLength);
 
   /// EAN 13 Barcode
   ///

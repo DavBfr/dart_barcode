@@ -17,6 +17,7 @@
 import 'dart:convert';
 import 'dart:typed_data';
 
+import 'barcode_1d.dart';
 import 'barcode_exception.dart';
 import 'barcode_maps.dart';
 import 'barcode_operations.dart';
@@ -33,7 +34,11 @@ class BarcodeItf extends BarcodeEan {
   const BarcodeItf(
     this.addChecksum,
     this.zeroPrepend,
-  );
+    this.drawBorder,
+    this.borderWidth,
+    this.quietWidth,
+    this.fixedLength,
+  ) : assert(fixedLength == null || fixedLength % 2 == 0);
 
   /// Add Modulo 10 checksum
   final bool addChecksum;
@@ -41,22 +46,107 @@ class BarcodeItf extends BarcodeEan {
   /// Prepend with a '0' if the length is not odd
   final bool zeroPrepend;
 
+  /// Draw a black border around the barcode
+  final bool drawBorder;
+
+  /// Width of the border around the barcode
+  final double? borderWidth;
+
+  /// width of the quiet zone before and after the barcode, inside the border
+  final double? quietWidth;
+
+  /// The Barcode length if fixed length
+  final int? fixedLength;
+
   @override
   String get name => 'ITF';
 
   @override
+  int get minLength => fixedLength != null ? fixedLength! - 1 : super.minLength;
+
+  @override
+  int get maxLength => fixedLength != null ? fixedLength! : super.maxLength;
+
+  double _getBorderWidth(double width) {
+    return borderWidth ?? width * .015;
+  }
+
+  double _getQuietWidth(double width) {
+    return quietWidth ?? width * .07;
+  }
+
+  @override
+  double marginTop(
+    bool drawText,
+    double width,
+    double height,
+    double fontHeight,
+    double textPadding,
+  ) {
+    return drawBorder ? _getBorderWidth(width) : 0;
+  }
+
+  @override
+  double marginLeft(
+    bool drawText,
+    double width,
+    double height,
+    double fontHeight,
+    double textPadding,
+  ) {
+    return drawBorder ? _getBorderWidth(width) + _getQuietWidth(width) : 0;
+  }
+
+  @override
+  double marginRight(
+    bool drawText,
+    double width,
+    double height,
+    double fontHeight,
+    double textPadding,
+  ) {
+    return drawBorder ? _getBorderWidth(width) + _getQuietWidth(width) : 0;
+  }
+
+  @override
+  double getHeight(
+    int index,
+    int count,
+    double width,
+    double height,
+    double fontHeight,
+    double textPadding,
+    bool drawText,
+  ) {
+    return super.getHeight(
+          index,
+          count,
+          width,
+          height,
+          fontHeight,
+          textPadding,
+          drawText,
+        ) -
+        (drawBorder ? _getBorderWidth(width) : 0);
+  }
+
+  @override
   Iterable<bool> convert(String data) sync* {
-    if (zeroPrepend && ((data.length % 2 != 0) != addChecksum)) {
-      data = '0$data';
-    }
+    if (fixedLength != null) {
+      data = checkLength(data, fixedLength!);
+    } else {
+      if (zeroPrepend && ((data.length % 2 != 0) != addChecksum)) {
+        data = '0$data';
+      }
 
-    if (addChecksum) {
-      data += checkSumModulo10(data);
-    }
+      if (addChecksum) {
+        data += checkSumModulo10(data);
+      }
 
-    if (data.length % 2 != 0) {
-      throw BarcodeException(
-          '$name barcode can only encode an even number of digits.');
+      if (data.length % 2 != 0) {
+        throw BarcodeException(
+            '$name barcode can only encode an even number of digits.');
+      }
     }
 
     // Start
@@ -90,6 +180,56 @@ class BarcodeItf extends BarcodeEan {
   }
 
   @override
+  Iterable<BarcodeElement> makeBytes(
+    Uint8List data, {
+    required double width,
+    required double height,
+    bool drawText = false,
+    double? fontHeight,
+    double? textPadding,
+  }) sync* {
+    assert(width > 0);
+    assert(height > 0);
+    assert(!drawText || fontHeight != null);
+    fontHeight ??= 0;
+    textPadding ??= Barcode1D.defaultTextPadding;
+
+    yield* super.makeBytes(
+      data,
+      width: width,
+      height: height,
+      drawText: drawText,
+      fontHeight: fontHeight,
+      textPadding: textPadding,
+    );
+
+    if (drawBorder) {
+      final bw = _getBorderWidth(width);
+      final hp = drawText ? fontHeight + textPadding : 0;
+
+      yield BarcodeBar(left: 0, top: 0, width: width, height: bw, black: true);
+      yield BarcodeBar(
+          left: 0,
+          top: height - hp - bw,
+          width: width,
+          height: bw,
+          black: true);
+      yield BarcodeBar(
+          left: 0,
+          top: bw,
+          width: bw,
+          height: height - hp - bw * 2,
+          black: true);
+      yield BarcodeBar(
+          left: width - bw,
+          top: bw,
+          width: bw,
+          height: height - hp - bw * 2,
+          black: true);
+    }
+  }
+
+  @override
   Iterable<BarcodeElement> makeText(
     String data,
     double width,
@@ -98,12 +238,15 @@ class BarcodeItf extends BarcodeEan {
     double textPadding,
     double lineWidth,
   ) {
-    if (zeroPrepend && ((data.length % 2 != 0) != addChecksum)) {
-      data = '0$data';
-    }
+    if (fixedLength != null) {
+    } else {
+      if (zeroPrepend && ((data.length % 2 != 0) != addChecksum)) {
+        data = '0$data';
+      }
 
-    if (addChecksum) {
-      data += checkSumModulo10(data);
+      if (addChecksum) {
+        data += checkSumModulo10(data);
+      }
     }
 
     return super.makeText(
@@ -120,12 +263,16 @@ class BarcodeItf extends BarcodeEan {
   void verifyBytes(Uint8List data) {
     var text = utf8.decoder.convert(data);
 
-    if (zeroPrepend && ((text.length % 2 != 0) != addChecksum)) {
-      text = '0$text';
-    }
+    if (fixedLength != null) {
+      data = utf8.encoder.convert(checkLength(text, maxLength));
+    } else {
+      if (zeroPrepend && ((text.length % 2 != 0) != addChecksum)) {
+        text = '0$text';
+      }
 
-    if (addChecksum) {
-      text += checkSumModulo10(text);
+      if (addChecksum) {
+        text += checkSumModulo10(text);
+      }
     }
 
     if (text.length % 2 != 0) {
@@ -138,6 +285,14 @@ class BarcodeItf extends BarcodeEan {
 
   @override
   String normalize(String data) {
+    if (fixedLength != null) {
+      return checkLength(
+          zeroPrepend
+              ? data.padRight(minLength, '0').substring(0, minLength)
+              : data,
+          maxLength);
+    }
+
     if (zeroPrepend && ((data.length % 2 != 0) != addChecksum)) {
       data = '0$data';
     }

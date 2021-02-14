@@ -65,6 +65,13 @@ void main() {
 
     expect(itf14.normalize('9872349874432'), equals('98723498744328'));
 
+    final itf16 = Barcode.itf16();
+    if (itf16 is! BarcodeEan) {
+      throw Exception('itf16 is not a BarcodeEan');
+    }
+
+    expect(itf16.normalize('987234987443225'), equals('9872349874432251'));
+
     final upca = Barcode.upcA();
     if (upca is! BarcodeEan) {
       throw Exception('upca is not a BarcodeEan');

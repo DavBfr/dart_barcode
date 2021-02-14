@@ -6,7 +6,7 @@ author: David PHAM-VAN <dev.nfet.net@gmail.com>
 homepage: https://github.com/DavBfr/dart_barcode/tree/master/barcode
 repository: https://github.com/DavBfr/dart_barcode
 issue_tracker: https://github.com/DavBfr/dart_barcode/issues
-version: 2.0.0-nullsafety
+version: 2.0.0-nullsafety.1
 
 environment:
   sdk: '>=2.12.0-29.10.beta <3.0.0'

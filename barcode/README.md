@@ -92,6 +92,10 @@ The following barcode images are SVG. The proper rendering, especially text, dep
 
 <img width="300" alt="ITF 14" src="https://raw.githubusercontent.com/DavBfr/dart_barcode/master/img/itf-14.svg?sanitize=true">
 
+#### ITF-16
+
+<img width="300" alt="ITF 14" src="https://raw.githubusercontent.com/DavBfr/dart_barcode/master/img/itf-16.svg?sanitize=true">
+
 #### EAN 13
 
 <img width="200" alt="EAN 13" src="https://raw.githubusercontent.com/DavBfr/dart_barcode/master/img/ean-13.svg?sanitize=true">

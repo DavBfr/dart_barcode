@@ -16,6 +16,9 @@
 
 /// Supported barcode types
 enum BarcodeType {
+  /// ITF16 Barcode
+  CodeITF16,
+
   /// ITF14 Barcode
   CodeITF14,
 
