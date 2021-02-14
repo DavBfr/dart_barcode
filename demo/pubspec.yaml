@@ -3,7 +3,8 @@ description: BarcodeWidget example
 version: 1.0.0+1
 
 environment:
-  sdk: '>=2.12.0-29.10.beta <3.0.0'
+  sdk: ">=2.12.0-0 <3.0.0"
+  flutter: ">=1.16.0"
 
 dependencies:
   barcode_image:
@@ -12,8 +13,8 @@ dependencies:
     sdk: flutter
   google_fonts:
   open_file:
-  path_provider:
-  pdf:
+  path_provider: ">=2.0.0-0"
+  pdf: ">=3.0.0-0"
 
 dependency_overrides:
   barcode:
@@ -26,7 +27,7 @@ dependency_overrides:
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  pedantic: ^1.10.0-nullsafety
+  pedantic: ">=1.10.0"
 
 flutter:
   uses-material-design: true

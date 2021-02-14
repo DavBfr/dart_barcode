@@ -86,6 +86,15 @@ class BarcodeConf extends ChangeNotifier {
         _method = 'itf(zeroPrepend: true)';
         _barcode = Barcode.itf(zeroPrepend: true);
         break;
+      case BarcodeType.CodeITF16:
+        fontSize = 25;
+        height = 140;
+        _defaultData = '1234567890123452';
+        _desc =
+            'ITF-16 is a standardized version of the Interleaved 2 of 5 barcode, also known as UPC Shipping Container Symbol. It is used to mark cartons, cases, or pallets that contain products. It containins 16 digits, the last being a check digit.';
+        _method = 'itf16()';
+        _barcode = Barcode.itf16();
+        break;
       case BarcodeType.CodeITF14:
         fontSize = 25;
         height = 140;

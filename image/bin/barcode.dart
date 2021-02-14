@@ -149,8 +149,10 @@ int makeBarcode(ArgResults argResults) {
   );
 
   // Save the image to a file
-  File(argResults['output'])
-      .writeAsBytesSync(encodeNamedImage(image, argResults['output']));
+  final img = encodeNamedImage(image, argResults['output']);
+  if (img != null) {
+    File(argResults['output']).writeAsBytesSync(img);
+  }
 
   return 0;
 }

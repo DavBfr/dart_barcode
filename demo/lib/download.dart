@@ -35,15 +35,16 @@ class Download extends StatelessWidget {
   final BarcodeConf conf;
 
   Widget _button(IconData icon, String text, VoidCallback onPressed) {
-    return RaisedButton(
-        child: Row(
-          children: [
-            Icon(icon),
-            const SizedBox(width: 8),
-            Text(text),
-          ],
-        ),
-        onPressed: onPressed);
+    return ElevatedButton(
+      child: Row(
+        children: [
+          Icon(icon),
+          const SizedBox(width: 8),
+          Text(text),
+        ],
+      ),
+      onPressed: onPressed,
+    );
   }
 
   @override
@@ -65,7 +66,7 @@ class Download extends StatelessWidget {
     );
   }
 
-  void _exportPdf() {
+  Future<void> _exportPdf() async {
     final bc = conf.barcode;
     final pdf = pw.Document(
       author: 'David PHAM-VAN',
@@ -116,8 +117,8 @@ class Download extends StatelessWidget {
       ),
     ));
 
-    share(
-      bytes: pdf.save(),
+    await share(
+      bytes: await pdf.save(),
       filename: '${bc.name}.pdf',
       mimetype: 'application/pdf',
     );

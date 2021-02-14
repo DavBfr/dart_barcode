@@ -27,7 +27,7 @@ Future<void> share({
 }) async {
   final tempDir = await getTemporaryDirectory();
   final fn = filename.replaceAll(' ', '-');
-  final name = '${tempDir.path}/$fn';
+  final name = '${tempDir!.path}/$fn';
   final file = File(name);
   await file.writeAsBytes(bytes);
   await OpenFile.open(name, type: mimetype, uti: filename);

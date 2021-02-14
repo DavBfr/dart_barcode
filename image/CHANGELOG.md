@@ -1,5 +1,9 @@
 # Changelog
 
+## 2.0.0
+
+- Update dependencies
+
 ## 2.0.0-nullsafety
 
 - Opt-in dart null-safety

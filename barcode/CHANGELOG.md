@@ -1,6 +1,6 @@
 # Changelog
 
-## 2.0.0-nullsafety.1
+## 2.1.0
 
 - Add ITF-16 Barcode
 

@@ -119,7 +119,7 @@ void drawBarcodeBytes(
     width: width.toDouble(),
     height: height.toDouble(),
     drawText: font != null,
-    fontHeight: font?.lineHeight?.toDouble(),
+    fontHeight: font?.lineHeight.toDouble(),
     textPadding: textPadding.toDouble(),
   )) {
     if (elem is BarcodeBar) {
