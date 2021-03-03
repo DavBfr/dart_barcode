@@ -81,4 +81,31 @@ void main() {
     expect(bc4.isValid('1'), isTrue);
     expect(bc4.toHex('45'), '1d7571745c15');
   });
+
+  test('Barcode ITF14', () {
+    final bc1 = Barcode.itf14();
+    if (bc1 is! Barcode1D) {
+      throw Exception('bc1 is not a Barcode1D');
+    }
+
+    expect(bc1.isValid('1'), isFalse);
+
+    expect(bc1.isValid('1212121212121'), isTrue);
+    expect(bc1.isValid('12121212121217'), isTrue);
+    expect(bc1.isValid('12121212121214'), isFalse);
+  });
+
+  test('Barcode ITF16', () {
+    final bc1 = Barcode.itf16();
+    if (bc1 is! Barcode1D) {
+      throw Exception('bc1 is not a Barcode1D');
+    }
+
+    expect(bc1.isValid('1'), isFalse);
+
+    expect(bc1.isValid('121212121212121'), isTrue);
+
+    expect(bc1.isValid('1212121212121212'), isTrue);
+    expect(bc1.isValid('1212121212121213'), isFalse);
+  });
 }

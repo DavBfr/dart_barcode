@@ -264,7 +264,7 @@ class BarcodeItf extends BarcodeEan {
     var text = utf8.decoder.convert(data);
 
     if (fixedLength != null) {
-      data = utf8.encoder.convert(checkLength(text, maxLength));
+      text = checkLength(text, maxLength);
     } else {
       if (zeroPrepend && ((text.length % 2 != 0) != addChecksum)) {
         text = '0$text';
