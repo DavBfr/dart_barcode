@@ -40,11 +40,11 @@ void main() {
     await tester.pumpWidget(
       MaterialApp(
         home: GestureDetector(
+          onTap: () => tapped = true,
           child: BarcodeWidget(
             barcode: Barcode.aztec(),
             data: 'Hello Flutter',
           ),
-          onTap: () => tapped = true,
         ),
       ),
     );

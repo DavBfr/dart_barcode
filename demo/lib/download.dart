@@ -36,6 +36,7 @@ class Download extends StatelessWidget {
 
   Widget _button(IconData icon, String text, VoidCallback onPressed) {
     return ElevatedButton(
+      onPressed: onPressed,
       child: Row(
         children: [
           Icon(icon),
@@ -43,7 +44,6 @@ class Download extends StatelessWidget {
           Text(text),
         ],
       ),
-      onPressed: onPressed,
     );
   }
 

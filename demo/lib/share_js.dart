@@ -35,9 +35,8 @@ Future<void> share({
   );
   final url = html.Url.createObjectUrl(blob);
   final html.HtmlDocument doc = js.context['document'];
-  // ignore: avoid_as
-  final link = doc.createElement('a') as html.AnchorElement;
-  link.href = url;
+  final link = html.AnchorElement(href: url);
+  doc.append(link);
   link.download = filename;
   link.click();
 }
