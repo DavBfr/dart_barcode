@@ -1,5 +1,9 @@
 # Changelog
 
+## 2.0.1
+
+- Implement computeDryLayout [yinhf]
+
 ## 2.0.0
 
 - Update dependencies
