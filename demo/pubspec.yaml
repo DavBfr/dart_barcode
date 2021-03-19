@@ -10,10 +10,10 @@ environment:
 dependencies:
   barcode_image:
   barcode_widget:
+  file_selector:
   flutter:
     sdk: flutter
   google_fonts:
-  open_file:
   path_provider:
   pdf:
 

@@ -18,13 +18,13 @@ import 'dart:convert' show utf8;
 import 'dart:typed_data';
 
 import 'package:barcode_image/barcode_image.dart';
+import 'package:file_selector/file_selector.dart';
 import 'package:flutter/material.dart';
 import 'package:image/image.dart' as im;
 import 'package:pdf/pdf.dart';
 import 'package:pdf/widgets.dart' as pw;
 
 import 'barcode_conf.dart';
-import 'share_vm.dart' if (dart.library.js) 'share_js.dart';
 
 class Download extends StatelessWidget {
   const Download({
@@ -117,28 +117,36 @@ class Download extends StatelessWidget {
       ),
     ));
 
-    await share(
-      bytes: await pdf.save(),
-      filename: '${bc.name}.pdf',
-      mimetype: 'application/pdf',
-    );
+    final path = await getSavePath();
+    if (path != null) {
+      final file = XFile.fromData(
+        await pdf.save(),
+        name: '${bc.name}.pdf',
+        mimeType: 'application/pdf',
+      );
+      await file.saveTo(path);
+    }
   }
 
-  void _exportPng() {
+  Future<void> _exportPng() async {
     final bc = conf.barcode;
     final image = im.Image(conf.width.toInt() * 2, conf.height.toInt() * 2);
     im.fill(image, im.getColor(255, 255, 255));
     drawBarcode(image, bc, conf.normalizedData, font: im.arial_48);
     final data = im.encodePng(image);
 
-    share(
-      bytes: Uint8List.fromList(data),
-      filename: '${bc.name}.png',
-      mimetype: 'image/png',
-    );
+    final path = await getSavePath();
+    if (path != null) {
+      final file = XFile.fromData(
+        Uint8List.fromList(data),
+        name: '${bc.name}.png',
+        mimeType: 'image/png',
+      );
+      await file.saveTo(path);
+    }
   }
 
-  void _exportSvg() {
+  Future<void> _exportSvg() async {
     final bc = conf.barcode;
 
     final data = bc.toSvg(
@@ -148,10 +156,14 @@ class Download extends StatelessWidget {
       fontHeight: conf.fontSize,
     );
 
-    share(
-      bytes: Uint8List.fromList(utf8.encode(data)),
-      filename: '${bc.name}.svg',
-      mimetype: 'image/svg+xml',
-    );
+    final path = await getSavePath();
+    if (path != null) {
+      final file = XFile.fromData(
+        Uint8List.fromList(utf8.encode(data)),
+        name: '${bc.name}.svg',
+        mimeType: 'image/svg+xml',
+      );
+      await file.saveTo(path);
+    }
   }
 }
