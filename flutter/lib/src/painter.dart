@@ -112,8 +112,7 @@ class _RenderBarcode extends RenderBox {
   @override
   bool get sizedByParent => true;
 
-  @override
-  void performResize() {
+  Size _computeSize(BoxConstraints constraints) {
     var _size = constraints.biggest;
 
     if (_size.width >= double.infinity) {
@@ -126,8 +125,17 @@ class _RenderBarcode extends RenderBox {
     if (_size.height >= double.infinity) {
       _size = Size(_size.width, _size.width / 2);
     }
+    return _size;
+  }
 
-    size = _size;
+  @override
+  Size computeDryLayout(BoxConstraints constraints) {
+    return _computeSize(constraints);
+  }
+
+  @override
+  void performResize() {
+    size = _computeSize(constraints);
   }
 
   void paintBar(PaintingContext context, Offset offset, BarcodeBar element) {
