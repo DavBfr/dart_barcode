@@ -18,6 +18,8 @@ import 'package:barcode/barcode.dart';
 import 'package:barcode/src/barcode_2d.dart';
 import 'package:test/test.dart';
 
+import 'golden_utils.dart';
+
 void main() {
   test('Barcode QR', () {
     final bc = Barcode.qrCode();
@@ -25,10 +27,10 @@ void main() {
       throw Exception('bc is not a Barcode2D');
     }
 
-    expect(bc.toHex('0').hashCode, equals(1026374156));
+    expect(bc.toSvg('0'), matchesGoldenString('qr/0.svg'));
     expect(
-      bc.toHex(String.fromCharCodes(Iterable.generate(256))).hashCode,
-      equals(999908717),
+      bc.toSvg(String.fromCharCodes(Iterable.generate(256))),
+      matchesGoldenString('qr/256.svg'),
     );
   });
 
@@ -38,7 +40,7 @@ void main() {
       throw Exception('bc is not a Barcode2D');
     }
 
-    expect(bc.toHex('0').hashCode, equals(366615520));
+    expect(bc.toSvg('0'), matchesGoldenString('qr/0_high_error_level.svg'));
   });
 
   test('Barcode QR manual type', () {
@@ -47,7 +49,7 @@ void main() {
       throw Exception('bc is not a Barcode2D');
     }
 
-    expect(bc.toHex('0').hashCode, equals(118397412));
+    expect(bc.toSvg('0'), matchesGoldenString('qr/0_manual.svg'));
   });
 
   test('Barcode QR limits', () {

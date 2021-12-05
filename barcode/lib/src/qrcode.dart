@@ -62,13 +62,13 @@ class BarcodeQR extends Barcode2D {
         : (QrCode(typeNumber!, errorLevel)
           ..addByteData(data.buffer.asByteData()));
 
-    qrCode.make();
+    final qrImage = QrImage(qrCode);
 
     return Barcode2DMatrix.fromXY(
       qrCode.moduleCount,
       qrCode.moduleCount,
       1,
-      qrCode.isDark,
+      qrImage.isDark,
     );
   }
 

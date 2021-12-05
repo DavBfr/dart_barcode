@@ -1,5 +1,9 @@
 # Changelog
 
+## 2.2.0
+
+- Allow the latest version of `package:qr`.
+
 ## 2.1.0
 
 - Add ITF-16 Barcode

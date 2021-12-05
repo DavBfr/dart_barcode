@@ -22,6 +22,8 @@ import 'package:barcode/src/barcode_2d.dart';
 import 'package:convert/convert.dart';
 import 'package:test/test.dart';
 
+import 'golden_utils.dart';
+
 void main() {
   test('Barcode Aztec', () {
     final bc = Barcode.aztec();
@@ -29,10 +31,10 @@ void main() {
       throw Exception('bc is not a Barcode2D');
     }
 
-    expect(bc.toHex('0').hashCode, equals(940267438));
+    expect(bc.toSvg('0'), matchesGoldenString('aztec/0.svg'));
     expect(
-      bc.toHex(String.fromCharCodes(Iterable.generate(256))).hashCode,
-      equals(57204309),
+      bc.toSvg(String.fromCharCodes(Iterable.generate(256))),
+      matchesGoldenString('aztec/256.svg'),
     );
   });
 
@@ -42,7 +44,7 @@ void main() {
       throw Exception('bc is not a Barcode2D');
     }
 
-    expect(bc.toHex('0').hashCode, equals(940267438));
+    expect(bc.toSvg('0'), matchesGoldenString('aztec/high_error_level.svg'));
   });
 
   test('Barcode Aztec manual type', () {
@@ -51,7 +53,7 @@ void main() {
       throw Exception('bc is not a Barcode2D');
     }
 
-    expect(bc.toHex('0').hashCode, equals(594744203));
+    expect(bc.toSvg('0'), matchesGoldenString('aztec/manual.svg'));
   });
 
   test('Barcode Aztec limits', () {
