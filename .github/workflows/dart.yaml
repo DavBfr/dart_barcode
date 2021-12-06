@@ -24,6 +24,6 @@ jobs:
       - name: Run tests
         run: make test
       - name: Verify that nothing changed
-        run: test -z "$(git status --porcelain)"
+        run: test -z "$(git status --porcelain | tee /dev/stderr)"
       - name: Push to codecov
         run: bash <(curl -s https://codecov.io/bash)
