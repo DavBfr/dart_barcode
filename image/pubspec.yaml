@@ -6,26 +6,26 @@ _author: David PHAM-VAN <dev.nfet.net@gmail.com>
 homepage: https://github.com/DavBfr/dart_barcode/tree/master/image
 repository: https://github.com/DavBfr/dart_barcode
 issue_tracker: https://github.com/DavBfr/dart_barcode/issues
-version: 2.0.0
+version: 2.0.1
 
 environment:
   sdk: ">=2.12.0-0 <3.0.0"
 
 dependencies:
-  args: ^2.0.0
-  barcode: ^2.1.0
-  image: ^3.0.1
-  meta: ^1.3.0
+  args: ^2.3.0
+  barcode: ^2.2.0
+  image: ^3.1.0
+  meta: ^1.7.0
 
 dependency_overrides:
   barcode:
     path: ../barcode
 
 dev_dependencies:
-  crypto:
+  crypto: ^3.0.0
   flutter_lints: ^1.0.0
   pubspec_extract: ^2.0.2
-  test: ^1.16.0
+  test: ^1.19.0
 
 executables:
   barcode:

@@ -16,3 +16,4 @@ main.dart.js.map
 node_modules
 package-lock.json
 pubspec.lock
+package.json

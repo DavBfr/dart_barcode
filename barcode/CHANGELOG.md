@@ -3,6 +3,7 @@
 ## 2.2.0
 
 - Allow the latest version of `package:qr`.
+- Update dependencies
 
 ## 2.1.0
 
