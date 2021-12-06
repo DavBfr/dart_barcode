@@ -1,5 +1,9 @@
 # Changelog
 
+## 2.2.1
+
+- Update Dart version number
+
 ## 2.2.0
 
 - Allow the latest version of `package:qr`.

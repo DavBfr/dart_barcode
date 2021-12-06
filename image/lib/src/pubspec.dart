@@ -36,7 +36,7 @@ class Pubspec {
   static const versionIsPreRelease = false;
 
   static const environment = <dynamic, dynamic>{
-    'sdk': '>=2.12.0-0 <3.0.0',
+    'sdk': '>=2.12.0 <3.0.0',
   };
 
   static const dependencies = <dynamic, dynamic>{
