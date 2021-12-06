@@ -20,12 +20,13 @@ import 'package:flutter/material.dart';
 class DropdownPreference<T> extends StatefulWidget {
   /// Create a dropdown
   const DropdownPreference({
+    Key? key,
     required this.title,
     this.desc,
     required this.values,
     required this.onWrite,
     required this.onRead,
-  });
+  }) : super(key: key);
 
   /// The title to display
   final String title;
@@ -79,13 +80,14 @@ class _DropdownPreferenceState<T> extends State<DropdownPreference> {
 class TextPreference extends StatefulWidget {
   /// Create a text entry setting
   const TextPreference({
+    Key? key,
     required this.title,
     this.desc,
     this.ignoreTileTap = false,
     required this.onWrite,
     required this.onRead,
     this.enabled = true,
-  });
+  }) : super(key: key);
 
   /// The title
   final String title;

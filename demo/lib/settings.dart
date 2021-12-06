@@ -23,7 +23,7 @@ import 'settings_widgets.dart';
 /// Settings widget
 class Settings extends StatelessWidget {
   /// Manage the barcode settings
-  const Settings(this.conf);
+  const Settings({Key? key, required this.conf}) : super(key: key);
 
   /// Barcode configuration
   final BarcodeConf conf;

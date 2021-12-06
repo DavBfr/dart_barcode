@@ -20,9 +20,9 @@ import 'dart:io';
 
 import 'package:barcode/barcode.dart';
 import 'package:barcode_image/barcode_image.dart';
+import 'package:crypto/crypto.dart';
 import 'package:image/image.dart' as img;
 import 'package:test/test.dart';
-import 'package:crypto/crypto.dart';
 
 void main() {
   test('Image Barcode 1D', () {

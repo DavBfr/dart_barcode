@@ -64,7 +64,7 @@ class BarcodeView extends StatelessWidget {
                 decoration: BoxDecoration(
                   color: Colors.white,
                   border: Border.all(
-                    color: Theme.of(context).accentColor,
+                    color: Theme.of(context).colorScheme.secondary,
                   ),
                 ),
               ),

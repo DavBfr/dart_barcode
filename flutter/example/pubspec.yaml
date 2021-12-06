@@ -16,5 +16,8 @@ dependency_overrides:
   barcode_widget:
     path: ../
 
+dev_dependencies:
+  flutter_lints:
+
 flutter:
   uses-material-design: true

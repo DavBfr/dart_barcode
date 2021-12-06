@@ -270,9 +270,9 @@ class _CodeLayout {
   List<bool> merge() {
     final result = List<bool>.filled(size.rows * size.columns, false);
 
-    final setXY = (int x, int y, bool v) {
+    void setXY(int x, int y, bool v) {
       result[x + y * size.columns] = v;
-    };
+    }
 
     //dotted horizontal lines
     for (var r = 0; r < size.rows; r += size.regionRows() + 2) {

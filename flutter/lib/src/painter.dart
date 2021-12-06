@@ -31,8 +31,9 @@ class BarcodePainter extends LeafRenderObjectWidget {
     this.color,
     this.drawText,
     this.style,
-    this.textPadding,
-  ) : super();
+    this.textPadding, {
+    Key? key,
+  }) : super(key: key);
 
   /// The Data to include in the barcode
   final Uint8List data;

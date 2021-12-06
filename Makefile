@@ -105,8 +105,8 @@ analyze-image: .pana
 
 analyze: analyze-barcode analyze-flutter analyze-image
 
-# image/lib/src/pubspec.dart: image/pubspec.yaml
-# 	cd image; $(DART_BIN) run pubspec_extract -s "../$<" -d "../$@"
+image/lib/src/pubspec.dart: image/pubspec.yaml
+	cd image; $(DART_BIN) run pubspec_extract -s "../$<" -d "../$@"
 
 .dartfix:
 	which dartfix || $(DART_BIN) pub global activate dartfix

@@ -78,7 +78,7 @@ class _HomeState extends State<_Home> {
         child: width < 800
             ? ListView(
                 children: <Widget>[
-                  Settings(conf),
+                  Settings(conf: conf),
                   BarcodeView(conf: conf),
                   BarcodeInfo(conf: conf),
                   Code(conf: conf),
@@ -90,7 +90,7 @@ class _HomeState extends State<_Home> {
                     width: 400,
                     child: Column(
                       children: [
-                        Settings(conf),
+                        Settings(conf: conf),
                         Code(conf: conf),
                       ],
                     ),

@@ -63,6 +63,7 @@ class BarcodeWidget extends StatelessWidget {
 
   /// Draw a barcode on screen using Uint8List data
   const BarcodeWidget.fromBytes({
+    Key? key,
     required this.data,
     required this.barcode,
     this.color = Colors.black,
@@ -76,7 +77,7 @@ class BarcodeWidget extends StatelessWidget {
     this.style,
     this.textPadding = 5,
     this.errorBuilder,
-  });
+  }) : super(key: key);
 
   /// The barcode data to display
   final Uint8List data;
