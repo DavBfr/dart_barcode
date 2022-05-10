@@ -3,7 +3,7 @@
 // ignore_for_file: public_member_api_docs, constant_identifier_names, avoid_classes_with_only_static_members
 
 class Pubspec {
-  static final buildDate = DateTime.utc(2021, 12, 6, 12, 12, 4);
+  static final buildDate = DateTime.utc(2022, 5, 10, 10, 7, 26);
 
   static const name = 'barcode_image';
 
@@ -31,7 +31,7 @@ class Pubspec {
 
   static const versionBuild = 0;
 
-  static const String? versionPreRelease = '';
+  static const versionPreRelease = '';
 
   static const versionIsPreRelease = false;
 
