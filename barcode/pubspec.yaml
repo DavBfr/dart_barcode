@@ -15,5 +15,6 @@ dependencies:
   qr: ^3.0.0
 
 dev_dependencies:
+  convert: ^3.0.1
   flutter_lints: ^1.0.0
   test: ^1.19.0
