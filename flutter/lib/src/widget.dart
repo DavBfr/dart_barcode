@@ -46,7 +46,7 @@ class BarcodeWidget extends StatelessWidget {
     BarcodeErrorBuilder? errorBuilder,
   }) =>
       BarcodeWidget.fromBytes(
-        data: utf8.encoder.convert(data),
+        data: Uint8List.fromList(data.codeUnits),
         barcode: barcode,
         color: color,
         backgroundColor: backgroundColor,

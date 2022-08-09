@@ -78,22 +78,27 @@ class BarcodeDataMatrix extends Barcode2D {
       final c = input[i];
       i++;
 
-      if (c >= 0x30 &&
-          c <= 0x39 &&
-          i < input.length &&
-          input[i] >= 0x30 &&
-          input[i] <= 0x39) {
-        // two numbers...
-        final c2 = input[i];
-        i++;
-        final cw = ((c - 0x30) * 10 + (c2 - 0x30)) + 130;
-        result.add(cw);
-      } else if (c > 127) {
-        // not correct... needs to be redone later...
-        result.add(235);
-        result.add(c - 127);
+      // allow GS1 <FNC1> (char 232) to pass-through
+      if (c == 232) {
+        result.add(c);
       } else {
-        result.add(c + 1);
+        if (c >= 0x30 &&
+            c <= 0x39 &&
+            i < input.length &&
+            input[i] >= 0x30 &&
+            input[i] <= 0x39) {
+          // two numbers...
+          final c2 = input[i];
+          i++;
+          final cw = ((c - 0x30) * 10 + (c2 - 0x30)) + 130;
+          result.add(cw);
+        } else if (c > 127) {
+          // not correct... needs to be redone later...
+          result.add(235);
+          result.add(c - 127);
+        } else {
+          result.add(c + 1);
+        }
       }
     }
     return result;

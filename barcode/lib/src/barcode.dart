@@ -504,7 +504,7 @@ abstract class Barcode {
 
   /// Check if the Barcode is valid
   @nonVirtual
-  bool isValid(String data) => isValidBytes(utf8.encoder.convert(data));
+  bool isValid(String data) => isValidBytes(Uint8List.fromList(data.codeUnits));
 
   /// Check if the Barcode is valid
   @nonVirtual
@@ -521,7 +521,7 @@ abstract class Barcode {
   /// Check if the Barcode is valid. Throws [BarcodeException] with a proper
   /// message in case of error
   @nonVirtual
-  void verify(String data) => verifyBytes(utf8.encoder.convert(data));
+  void verify(String data) => verifyBytes(Uint8List.fromList(data.codeUnits));
 
   /// Check if the Barcode is valid. Throws [BarcodeException] with a proper
   /// message in case of error
