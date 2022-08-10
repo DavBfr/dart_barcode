@@ -14,7 +14,6 @@
  * limitations under the License.
  */
 
-import 'dart:convert';
 import 'dart:typed_data';
 
 import 'package:barcode/barcode.dart';
@@ -82,18 +81,20 @@ void drawBarcode(
   int? textPadding,
   int color = 0xff000000,
 }) {
-  drawBarcodeBytes(
-    image,
-    barcode,
-    utf8.encoder.convert(data),
-    x: x,
-    y: y,
-    width: width,
-    height: height,
-    font: font,
-    textPadding: textPadding,
-    color: color,
+  width ??= image.width;
+  height ??= image.height;
+  textPadding ??= 0;
+
+  final recipe = barcode.make(
+    data,
+    width: width.toDouble(),
+    height: height.toDouble(),
+    drawText: font != null,
+    fontHeight: font?.lineHeight.toDouble(),
+    textPadding: textPadding.toDouble(),
   );
+
+  _drawBarcode(image, recipe, x, y, font, color);
 }
 
 /// Create a Barcode
@@ -113,15 +114,28 @@ void drawBarcodeBytes(
   height ??= image.height;
   textPadding ??= 0;
 
-  // Draw the barcode
-  for (var elem in barcode.makeBytes(
+  final recipe = barcode.makeBytes(
     bytes,
     width: width.toDouble(),
     height: height.toDouble(),
     drawText: font != null,
     fontHeight: font?.lineHeight.toDouble(),
     textPadding: textPadding.toDouble(),
-  )) {
+  );
+
+  _drawBarcode(image, recipe, x, y, font, color);
+}
+
+void _drawBarcode(
+  Image image,
+  Iterable<BarcodeElement> recipe,
+  int x,
+  int y,
+  BitmapFont? font,
+  int color,
+) {
+  // Draw the barcode
+  for (var elem in recipe) {
     if (elem is BarcodeBar) {
       if (elem.black) {
         // Draw one black bar

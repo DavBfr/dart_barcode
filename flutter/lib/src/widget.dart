@@ -19,7 +19,6 @@ import 'dart:typed_data';
 
 import 'package:barcode/barcode.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 
 import 'painter.dart';
 
@@ -30,41 +29,9 @@ typedef BarcodeErrorBuilder = Widget Function(
 /// Flutter widget to draw a [Barcode] on screen.
 class BarcodeWidget extends StatelessWidget {
   /// Draw a barcode on screen
-  factory BarcodeWidget({
-    required String data,
-    required Barcode barcode,
-    Color color = Colors.black,
-    Color? backgroundColor,
-    Decoration? decoration,
-    EdgeInsetsGeometry? margin,
-    EdgeInsetsGeometry? padding,
-    double? width,
-    double? height,
-    bool drawText = true,
-    TextStyle? style,
-    double textPadding = 5,
-    BarcodeErrorBuilder? errorBuilder,
-  }) =>
-      BarcodeWidget.fromBytes(
-        data: utf8.encoder.convert(data),
-        barcode: barcode,
-        color: color,
-        backgroundColor: backgroundColor,
-        decoration: decoration,
-        margin: margin,
-        padding: padding,
-        width: width,
-        height: height,
-        drawText: drawText,
-        style: style,
-        textPadding: textPadding,
-        errorBuilder: errorBuilder,
-      );
-
-  /// Draw a barcode on screen using Uint8List data
-  const BarcodeWidget.fromBytes({
+  const BarcodeWidget({
     Key? key,
-    required this.data,
+    required String data,
     required this.barcode,
     this.color = Colors.black,
     this.backgroundColor,
@@ -77,10 +44,37 @@ class BarcodeWidget extends StatelessWidget {
     this.style,
     this.textPadding = 5,
     this.errorBuilder,
-  }) : super(key: key);
+  })  : _dataBytes = null,
+        _dataString = data,
+        super(key: key);
+
+  /// Draw a barcode on screen using Uint8List data
+  const BarcodeWidget.fromBytes({
+    Key? key,
+    required Uint8List data,
+    required this.barcode,
+    this.color = Colors.black,
+    this.backgroundColor,
+    this.decoration,
+    this.margin,
+    this.padding,
+    this.width,
+    this.height,
+    this.drawText = true,
+    this.style,
+    this.textPadding = 5,
+    this.errorBuilder,
+  })  : _dataBytes = data,
+        _dataString = null,
+        super(key: key);
 
   /// The barcode data to display
-  final Uint8List data;
+  final Uint8List? _dataBytes;
+  final String? _dataString;
+  Uint8List get data => _dataBytes ?? utf8.encoder.convert(_dataString!);
+
+  /// Is this raw bytes
+  bool get isBytes => _dataBytes != null;
 
   /// The type of barcode to use.
   /// use:
@@ -132,18 +126,31 @@ class BarcodeWidget extends StatelessWidget {
       effectiveTextStyle = defaultTextStyle.style.merge(style);
     }
 
-    Widget child = BarcodePainter(
-      data,
-      barcode,
-      color,
-      drawText,
-      effectiveTextStyle,
-      textPadding,
-    );
+    Widget child = isBytes
+        ? BarcodePainter.fromBytes(
+            _dataBytes,
+            barcode,
+            color,
+            drawText,
+            effectiveTextStyle,
+            textPadding,
+          )
+        : BarcodePainter(
+            _dataString,
+            barcode,
+            color,
+            drawText,
+            effectiveTextStyle,
+            textPadding,
+          );
 
     if (errorBuilder != null) {
       try {
-        barcode.verifyBytes(data);
+        if (isBytes) {
+          barcode.verifyBytes(_dataBytes!);
+        } else {
+          barcode.verify(_dataString!);
+        }
       } catch (e) {
         child = errorBuilder!(context, e.toString());
       }

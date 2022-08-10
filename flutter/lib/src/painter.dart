@@ -14,6 +14,7 @@
  * limitations under the License.
  */
 
+import 'dart:convert';
 import 'dart:typed_data';
 import 'dart:ui' as ui;
 
@@ -26,17 +27,34 @@ import 'package:flutter/widgets.dart';
 class BarcodePainter extends LeafRenderObjectWidget {
   /// Create a Barcode renderer
   const BarcodePainter(
-    this.data,
+    this._dataString,
     this.barcode,
     this.color,
     this.drawText,
     this.style,
     this.textPadding, {
     Key? key,
-  }) : super(key: key);
+  })  : _dataBytes = null,
+        super(key: key);
+
+  const BarcodePainter.fromBytes(
+    this._dataBytes,
+    this.barcode,
+    this.color,
+    this.drawText,
+    this.style,
+    this.textPadding, {
+    Key? key,
+  })  : _dataString = null,
+        super(key: key);
 
   /// The Data to include in the barcode
-  final Uint8List data;
+  final Uint8List? _dataBytes;
+  final String? _dataString;
+  Uint8List get data => _dataBytes ?? utf8.encoder.convert(_dataString!);
+
+  /// Is this raw bytes
+  bool get isBytes => _dataBytes != null;
 
   /// The barcode rendering object
   final Barcode barcode;
@@ -56,7 +74,8 @@ class BarcodePainter extends LeafRenderObjectWidget {
   @override
   RenderObject createRenderObject(BuildContext context) {
     return _RenderBarcode(
-      data,
+      _dataBytes,
+      _dataString,
       barcode,
       Paint()..color = color,
       drawText,
@@ -68,14 +87,16 @@ class BarcodePainter extends LeafRenderObjectWidget {
   @override
   void updateRenderObject(
       BuildContext context, covariant _RenderBarcode renderObject) {
-    if (renderObject.data != data ||
+    if (renderObject.dataBytes != _dataBytes ||
+        renderObject.dataString != _dataString ||
         renderObject.barcode != barcode ||
         renderObject.barStyle.color != color ||
         renderObject.drawText != drawText ||
         renderObject.style != style ||
         renderObject.textPadding != textPadding) {
       renderObject
-        ..data = data
+        ..dataBytes = _dataBytes
+        ..dataString = _dataString
         ..barcode = barcode
         ..barStyle = (Paint()
           ..color = color
@@ -90,7 +111,8 @@ class BarcodePainter extends LeafRenderObjectWidget {
 
 class _RenderBarcode extends RenderBox {
   _RenderBarcode(
-    this.data,
+    this.dataBytes,
+    this.dataString,
     this.barcode,
     this.barStyle,
     this.drawText,
@@ -98,7 +120,12 @@ class _RenderBarcode extends RenderBox {
     this.textPadding,
   );
 
-  Uint8List data;
+  Uint8List? dataBytes;
+
+  String? dataString;
+
+  /// Is this raw bytes
+  bool get isBytes => dataBytes != null;
 
   Barcode barcode;
 
@@ -202,14 +229,24 @@ class _RenderBarcode extends RenderBox {
   @override
   void paint(PaintingContext context, Offset offset) {
     try {
-      for (var element in barcode.makeBytes(
-        data,
-        width: size.width,
-        height: size.height,
-        drawText: drawText,
-        fontHeight: style!.fontSize,
-        textPadding: textPadding,
-      )) {
+      final recipe = isBytes
+          ? barcode.makeBytes(
+              dataBytes!,
+              width: size.width,
+              height: size.height,
+              drawText: drawText,
+              fontHeight: style!.fontSize,
+              textPadding: textPadding,
+            )
+          : barcode.make(
+              dataString!,
+              width: size.width,
+              height: size.height,
+              drawText: drawText,
+              fontHeight: style!.fontSize,
+              textPadding: textPadding,
+            );
+      for (var element in recipe) {
         if (element is BarcodeBar) {
           paintBar(context, offset, element);
         } else if (element is BarcodeText) {

@@ -473,7 +473,6 @@ abstract class Barcode {
   ///   print(op);
   /// }
   /// ```
-  @nonVirtual
   Iterable<BarcodeElement> make(
     String data, {
     required double width,
@@ -504,7 +503,15 @@ abstract class Barcode {
 
   /// Check if the Barcode is valid
   @nonVirtual
-  bool isValid(String data) => isValidBytes(utf8.encoder.convert(data));
+  bool isValid(String data) {
+    try {
+      verify(data);
+    } catch (_) {
+      return false;
+    }
+
+    return true;
+  }
 
   /// Check if the Barcode is valid
   @nonVirtual
@@ -520,12 +527,10 @@ abstract class Barcode {
 
   /// Check if the Barcode is valid. Throws [BarcodeException] with a proper
   /// message in case of error
-  @nonVirtual
   void verify(String data) => verifyBytes(utf8.encoder.convert(data));
 
   /// Check if the Barcode is valid. Throws [BarcodeException] with a proper
   /// message in case of error
-  @mustCallSuper
   void verifyBytes(Uint8List data) {
     if (data.length > maxLength) {
       throw BarcodeException(
@@ -547,20 +552,6 @@ abstract class Barcode {
     }
   }
 
-  String _d(double d) {
-    assert(d != double.infinity);
-    return d.toStringAsFixed(5);
-  }
-
-  String _s(String s) {
-    const esc = HtmlEscape();
-    return esc.convert(s);
-  }
-
-  String _c(int c) {
-    return '#' + (c & 0xffffff).toRadixString(16).padLeft(6, '0');
-  }
-
   /// Create an SVG file with this Barcode from String data
   @nonVirtual
   String toSvg(
@@ -576,23 +567,22 @@ abstract class Barcode {
     int color = 0x000000,
     bool fullSvg = true,
     double baseline = .75,
-  }) =>
-      toSvgBytes(
-        utf8.encoder.convert(data),
-        x: x,
-        y: y,
-        width: width,
-        height: height,
-        drawText: drawText,
-        fontFamily: fontFamily,
-        fontHeight: fontHeight,
-        textPadding: textPadding,
-        color: color,
-        fullSvg: fullSvg,
-        baseline: baseline,
-      );
+  }) {
+    final recipe = make(
+      data,
+      width: width.toDouble(),
+      height: height.toDouble(),
+      drawText: drawText,
+      fontHeight: fontHeight,
+      textPadding: textPadding,
+    );
+
+    return _toSvg(recipe, x, y, width, height, fontFamily, fontHeight,
+        textPadding, color, fullSvg, baseline);
+  }
 
   /// Create an SVG file with this Barcode from Uint8List data
+  @nonVirtual
   String toSvgBytes(
     Uint8List data, {
     double x = 0,
@@ -607,21 +597,54 @@ abstract class Barcode {
     bool fullSvg = true,
     double baseline = .75,
   }) {
-    fontHeight ??= height * 0.2;
-    textPadding ??= height * 0.05;
-
-    final path = StringBuffer();
-    final tspan = StringBuffer();
-
-    // Draw the barcode
-    for (var elem in makeBytes(
+    final recipe = makeBytes(
       data,
       width: width.toDouble(),
       height: height.toDouble(),
       drawText: drawText,
       fontHeight: fontHeight,
       textPadding: textPadding,
-    )) {
+    );
+
+    return _toSvg(recipe, x, y, width, height, fontFamily, fontHeight,
+        textPadding, color, fullSvg, baseline);
+  }
+
+  String _d(double d) {
+    assert(d != double.infinity);
+    return d.toStringAsFixed(5);
+  }
+
+  String _s(String s) {
+    const esc = HtmlEscape();
+    return esc.convert(s);
+  }
+
+  String _c(int c) {
+    return '#' + (c & 0xffffff).toRadixString(16).padLeft(6, '0');
+  }
+
+  String _toSvg(
+    Iterable<BarcodeElement> recipe,
+    double x,
+    double y,
+    double width,
+    double height,
+    String fontFamily,
+    double? fontHeight,
+    double? textPadding,
+    int color,
+    bool fullSvg,
+    double baseline,
+  ) {
+    fontHeight ??= height * 0.2;
+    textPadding ??= height * 0.05;
+
+    final path = StringBuffer();
+    final tSpan = StringBuffer();
+
+    // Draw the barcode
+    for (var elem in recipe) {
       if (elem is BarcodeBar) {
         if (elem.black) {
           path.write('M ${_d(x + elem.left)} ${_d(y + elem.top)} ');
@@ -650,7 +673,7 @@ abstract class Barcode {
             break;
         }
 
-        tspan.write(
+        tSpan.write(
             '<tspan style="text-anchor: $anchor" x="${_d(_x)}" y="${_d(_y)}">${_s(elem.text)}</tspan>');
       }
     }
@@ -663,7 +686,7 @@ abstract class Barcode {
 
     output.write('<path d="$path" style="fill: ${_c(color)}"/>');
     output.write(
-        '<text style="fill: ${_c(color)}; font-family: &quot;${_s(fontFamily)}&quot;; font-size: ${_d(fontHeight)}px" x="${_d(x)}" y="${_d(y)}">$tspan</text>');
+        '<text style="fill: ${_c(color)}; font-family: &quot;${_s(fontFamily)}&quot;; font-size: ${_d(fontHeight)}px" x="${_d(x)}" y="${_d(y)}">$tSpan</text>');
 
     if (fullSvg) {
       output.write('</svg>');
