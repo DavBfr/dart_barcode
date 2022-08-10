@@ -41,11 +41,11 @@ class BarcodeTelepen extends Barcode1D {
     var checksum = 0;
 
     for (var code in data.codeUnits) {
-      final int? codeValue = BarcodeMaps.telepen[code];
-      if (codeValue == null) {
+      if (!BarcodeMaps.telepen.contains(code)) {
         throw BarcodeException(
             'Unable to encode "${String.fromCharCode(code)}" to $name Barcode');
       }
+      final codeValue = BarcodeMaps.telepen[code];
       yield* add(codeValue, BarcodeMaps.telepenLen);
       checksum += code;
     }

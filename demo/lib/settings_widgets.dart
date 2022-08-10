@@ -44,10 +44,10 @@ class DropdownPreference<T> extends StatefulWidget {
   final T Function(BuildContext context) onRead;
 
   @override
-  _DropdownPreferenceState createState() => _DropdownPreferenceState<T>();
+  DropdownPreferenceState createState() => DropdownPreferenceState<T>();
 }
 
-class _DropdownPreferenceState<T> extends State<DropdownPreference> {
+class DropdownPreferenceState<T> extends State<DropdownPreference> {
   @override
   Widget build(BuildContext context) {
     final T value = widget.onRead(context);
@@ -108,10 +108,10 @@ class TextPreference extends StatefulWidget {
   final String Function(BuildContext context) onRead;
 
   @override
-  _TextPreferenceState createState() => _TextPreferenceState();
+  TextPreferenceState createState() => TextPreferenceState();
 }
 
-class _TextPreferenceState extends State<TextPreference> {
+class TextPreferenceState extends State<TextPreference> {
   final controller = TextEditingController();
 
   @override

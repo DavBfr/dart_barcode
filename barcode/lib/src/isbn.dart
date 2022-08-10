@@ -64,11 +64,8 @@ class BarcodeIsbn extends BarcodeEan13 {
     );
 
     if (drawIsbn) {
-      final isbn = data.substring(0, 3) +
-          '-' +
-          data.substring(3, 12) +
-          '-' +
-          data.substring(12, 13);
+      final isbn =
+          '${data.substring(0, 3)}-${data.substring(3, 12)}-${data.substring(12, 13)}';
 
       yield BarcodeText(
         left: 0,

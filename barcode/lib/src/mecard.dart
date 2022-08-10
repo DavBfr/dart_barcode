@@ -124,10 +124,10 @@ class MeCard {
   @override
   String toString() {
     final result = StringBuffer();
-    result.write(_str(type) + ':');
+    result.write('${_str(type)}:');
 
     for (final field in fields) {
-      result.write(_str(field.key) + ':' + _str(field.val) + ';');
+      result.write('${_str(field.key)}:${_str(field.val)};');
     }
 
     result.write(';');

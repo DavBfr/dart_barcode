@@ -351,7 +351,7 @@ class BarcodePDF417 extends Barcode2D {
       }
       final chunk = digits.sublist(start, end);
 
-      var chunkNum = BigInt.parse('1' + String.fromCharCodes(chunk), radix: 10);
+      var chunkNum = BigInt.parse('1${String.fromCharCodes(chunk)}', radix: 10);
 
       final cws = <int>[];
 

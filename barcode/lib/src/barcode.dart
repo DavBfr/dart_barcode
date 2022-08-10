@@ -621,7 +621,7 @@ abstract class Barcode {
   }
 
   String _c(int c) {
-    return '#' + (c & 0xffffff).toRadixString(16).padLeft(6, '0');
+    return '#${(c & 0xffffff).toRadixString(16).padLeft(6, '0')}';
   }
 
   String _toSvg(
@@ -654,27 +654,27 @@ abstract class Barcode {
           path.write('z ');
         }
       } else if (elem is BarcodeText) {
-        final _y = y + elem.top + elem.height * baseline;
+        final lY = y + elem.top + elem.height * baseline;
 
-        late double _x;
+        final double lX;
         String anchor;
         switch (elem.align) {
           case BarcodeTextAlign.left:
-            _x = x + elem.left;
+            lX = x + elem.left;
             anchor = 'start';
             break;
           case BarcodeTextAlign.center:
-            _x = x + elem.left + elem.width / 2;
+            lX = x + elem.left + elem.width / 2;
             anchor = 'middle';
             break;
           case BarcodeTextAlign.right:
-            _x = x + elem.left + elem.width;
+            lX = x + elem.left + elem.width;
             anchor = 'end';
             break;
         }
 
         tSpan.write(
-            '<tspan style="text-anchor: $anchor" x="${_d(_x)}" y="${_d(_y)}">${_s(elem.text)}</tspan>');
+            '<tspan style="text-anchor: $anchor" x="${_d(lX)}" y="${_d(lY)}">${_s(elem.text)}</tspan>');
       }
     }
 

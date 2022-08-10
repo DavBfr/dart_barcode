@@ -33,9 +33,9 @@ class BarcodeInfo extends StatelessWidget {
     final charset = StringBuffer();
     for (var c in bc.charSet) {
       if (c > 0x20) {
-        charset.write(String.fromCharCode(c) + ' ');
+        charset.write('${String.fromCharCode(c)} ');
       } else {
-        charset.write('0x' + c.toRadixString(16) + ' ');
+        charset.write('0x${c.toRadixString(16)} ');
       }
     }
 

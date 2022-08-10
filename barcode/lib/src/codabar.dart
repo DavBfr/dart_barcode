@@ -75,17 +75,17 @@ class BarcodeCodabar extends Barcode1D {
   Iterable<bool> convert(String data) sync* {
     final startStop = <int>[0x41, 0x42, 0x43, 0x44];
 
-    var _start = startStop[start.index];
-    var _stop = startStop[stop.index];
+    var lStart = startStop[start.index];
+    var lStop = startStop[stop.index];
 
     if (explicitStartStop) {
-      _start = _getStartStopByte(data.codeUnitAt(0));
-      _stop = _getStartStopByte(data.codeUnitAt(data.length - 1));
+      lStart = _getStartStopByte(data.codeUnitAt(0));
+      lStop = _getStartStopByte(data.codeUnitAt(data.length - 1));
       data = data.substring(1, data.length - 1);
     }
 
     // Start
-    yield* add(BarcodeMaps.codabar[_start]!, BarcodeMaps.codabarLen[_start]!);
+    yield* add(BarcodeMaps.codabar[lStart]!, BarcodeMaps.codabarLen[lStart]!);
 
     // Space between chars
     yield false;
@@ -109,7 +109,7 @@ class BarcodeCodabar extends Barcode1D {
     }
 
     // Stop
-    yield* add(BarcodeMaps.codabar[_stop]!, BarcodeMaps.codabarLen[_stop]!);
+    yield* add(BarcodeMaps.codabar[lStop]!, BarcodeMaps.codabarLen[lStop]!);
   }
 
   int _getStartStopByte(int value) {

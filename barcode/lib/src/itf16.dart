@@ -44,17 +44,8 @@ class BarcodeItf16 extends BarcodeItf {
     double lineWidth,
   ) {
     data = checkLength(data, maxLength);
-    data = data.substring(0, 1) +
-        ' ' +
-        data.substring(1, 3) +
-        ' ' +
-        data.substring(3, 5) +
-        ' ' +
-        data.substring(5, 10) +
-        ' ' +
-        data.substring(10, 15) +
-        ' ' +
-        data.substring(15, 16);
+    data =
+        '${data.substring(0, 1)} ${data.substring(1, 3)} ${data.substring(3, 5)} ${data.substring(5, 10)} ${data.substring(10, 15)} ${data.substring(15, 16)}';
     return super.makeText(
       data,
       width,

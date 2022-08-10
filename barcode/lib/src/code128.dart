@@ -27,16 +27,16 @@ import 'barcode_operations.dart';
 /// Functions available in [BarcodeCode128] used for special purposes
 class BarcodeCode128Fnc {
   /// FNC1 at the beginning of a bar code indicates a GS1-128 bar code
-  /// avaiable in Code128A, Code128B, and Code128C
+  /// available in Code128A, Code128B, and Code128C
   static const fnc1 = BarcodeMaps.code128FNC1String;
 
-  /// Function 2 avaiable in Code128A and Code128B
+  /// Function 2 available in Code128A and Code128B
   static const fnc2 = BarcodeMaps.code128FNC2String;
 
-  /// Function 3 avaiable in Code128A and Code128B
+  /// Function 3 available in Code128A and Code128B
   static const fnc3 = BarcodeMaps.code128FNC3String;
 
-  /// Function 4 avaiable in Code128A and Code128B
+  /// Function 4 available in Code128A and Code128B
   static const fnc4 = BarcodeMaps.code128FNC4String;
 }
 

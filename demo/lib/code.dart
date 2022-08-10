@@ -27,12 +27,10 @@ class Code extends StatefulWidget {
   final BarcodeConf conf;
 
   @override
-  _CodeState createState() => _CodeState();
+  CodeState createState() => CodeState();
 }
 
-class _CodeState extends State<Code> {
-  final controller = ScrollController();
-
+class CodeState extends State<Code> {
   @override
   Widget build(BuildContext context) {
     final data = jsonEncode(widget.conf.normalizedData);

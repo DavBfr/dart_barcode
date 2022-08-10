@@ -4,14 +4,14 @@ description: >-
 homepage: https://github.com/DavBfr/dart_barcode/tree/master/flutter
 repository: https://github.com/DavBfr/dart_barcode
 issue_tracker: https://github.com/DavBfr/dart_barcode/issues
-version: 2.0.2
+version: 2.0.3
 
 environment:
   sdk: ">=2.12.0 <3.0.0"
   flutter: ">=1.16.0"
 
 dependencies:
-  barcode: ^2.2.0
+  barcode: ^2.2.2
   flutter:
     sdk: flutter
 
@@ -20,7 +20,7 @@ dependency_overrides:
     path: ../barcode
 
 dev_dependencies:
-  flutter_lints: ^1.0.0
+  flutter_lints: ^2.0.1
   flutter_test:
     sdk: flutter
 

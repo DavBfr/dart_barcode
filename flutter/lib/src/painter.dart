@@ -73,7 +73,7 @@ class BarcodePainter extends LeafRenderObjectWidget {
 
   @override
   RenderObject createRenderObject(BuildContext context) {
-    return _RenderBarcode(
+    return RenderBarcode(
       _dataBytes,
       _dataString,
       barcode,
@@ -86,7 +86,7 @@ class BarcodePainter extends LeafRenderObjectWidget {
 
   @override
   void updateRenderObject(
-      BuildContext context, covariant _RenderBarcode renderObject) {
+      BuildContext context, covariant RenderBarcode renderObject) {
     if (renderObject.dataBytes != _dataBytes ||
         renderObject.dataString != _dataString ||
         renderObject.barcode != barcode ||
@@ -109,8 +109,8 @@ class BarcodePainter extends LeafRenderObjectWidget {
   }
 }
 
-class _RenderBarcode extends RenderBox {
-  _RenderBarcode(
+class RenderBarcode extends RenderBox {
+  RenderBarcode(
     this.dataBytes,
     this.dataString,
     this.barcode,
@@ -141,19 +141,19 @@ class _RenderBarcode extends RenderBox {
   bool get sizedByParent => true;
 
   Size _computeSize(BoxConstraints constraints) {
-    var _size = constraints.biggest;
+    var size = constraints.biggest;
 
-    if (_size.width >= double.infinity) {
-      if (_size.height >= double.infinity) {
-        _size = const Size(200, 100);
+    if (size.width >= double.infinity) {
+      if (size.height >= double.infinity) {
+        size = const Size(200, 100);
       } else {
-        _size = Size(_size.height * 2, _size.height);
+        size = Size(size.height * 2, size.height);
       }
     }
-    if (_size.height >= double.infinity) {
-      _size = Size(_size.width, _size.width / 2);
+    if (size.height >= double.infinity) {
+      size = Size(size.width, size.width / 2);
     }
-    return _size;
+    return size;
   }
 
   @override
