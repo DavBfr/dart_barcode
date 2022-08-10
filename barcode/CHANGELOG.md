@@ -3,6 +3,7 @@
 ## 2.2.2
 
 - Avoids mandatory utf8 conversions
+- Update dependencies
 
 ## 2.2.1
 
