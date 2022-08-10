@@ -1,5 +1,9 @@
 # Changelog
 
+## 2.0.3
+
+- Avoids mandatory utf8 conversions
+
 ## 2.0.2
 
 - Update dependencies

@@ -1,5 +1,9 @@
 # Changelog
 
+## 2.2.2
+
+- Avoids mandatory utf8 conversions
+
 ## 2.2.1
 
 - Update Dart version number
