@@ -18,6 +18,7 @@ import 'dart:typed_data';
 
 import 'barcode_2d.dart';
 import 'barcode_exception.dart';
+import 'barcode_operations.dart';
 import 'reedsolomon.dart';
 
 /// Data Matrix
@@ -30,8 +31,28 @@ class BarcodeDataMatrix extends Barcode2D {
   const BarcodeDataMatrix();
 
   @override
+  Iterable<BarcodeElement> make(
+    String data, {
+    required double width,
+    required double height,
+    bool drawText = false,
+    double? fontHeight,
+    double? textPadding,
+  }) {
+    final encoder = DataMatrixEncoder()..ascii(data);
+    return makeBytes(
+      encoder.toBytes(),
+      width: width,
+      height: height,
+      drawText: drawText,
+      fontHeight: fontHeight,
+      textPadding: textPadding,
+    );
+  }
+
+  @override
   Barcode2DMatrix convert(Uint8List data) {
-    var text = _encodeText(data);
+    var text = <int>[...data];
 
     _CodeSize? size;
     for (final s in _CodeSize.codeSizes) {
@@ -71,42 +92,14 @@ class BarcodeDataMatrix extends Barcode2D {
     return cl.merge();
   }
 
-  List<int> _encodeText(List<int> input) {
-    final result = <int>[];
-
-    for (var i = 0; i < input.length;) {
-      final c = input[i];
-      i++;
-
-      if (c >= 0x30 &&
-          c <= 0x39 &&
-          i < input.length &&
-          input[i] >= 0x30 &&
-          input[i] <= 0x39) {
-        // two numbers...
-        final c2 = input[i];
-        i++;
-        final cw = ((c - 0x30) * 10 + (c2 - 0x30)) + 130;
-        result.add(cw);
-      } else if (c > 127) {
-        // not correct... needs to be redone later...
-        result.add(235);
-        result.add(c - 127);
-      } else {
-        result.add(c + 1);
-      }
-    }
-    return result;
-  }
-
   List<int> _addPadding(List<int> data, int toCount) {
     if (data.length < toCount) {
-      data.add(129);
+      data.add(0x81);
     }
 
     while (data.length < toCount) {
       final r = ((149 * (data.length + 1)) % 253) + 1;
-      data.add((129 + r) % 254);
+      data.add((0x81 + r) % 254);
     }
 
     return data;
@@ -445,4 +438,74 @@ class _ErrorCorrection {
 
     return data;
   }
+}
+
+/// Encode DataMatrix messages
+class DataMatrixEncoder {
+  final _data = BytesBuilder();
+
+  /// Add ASCII-encoded Text data
+  void ascii(String data) {
+    final input = data.codeUnits;
+
+    for (var i = 0; i < input.length;) {
+      final c = input[i];
+      i++;
+
+      if (c >= 0x30 &&
+          c <= 0x39 &&
+          i < input.length &&
+          input[i] >= 0x30 &&
+          input[i] <= 0x39) {
+        // two numbers...
+        final c2 = input[i];
+        i++;
+        final cw = ((c - 0x30) * 10 + (c2 - 0x30)) + 0x82;
+        _data.addByte(cw);
+      } else if (c > 0x7f) {
+        // not correct... needs to be redone later...
+        _data.addByte(0xeb);
+        _data.addByte(c - 0x7f);
+      } else {
+        _data.addByte(c + 1);
+      }
+    }
+  }
+
+  /// Add FNC1 sequence
+  void fnc1() {
+    _data.addByte(0xe8);
+  }
+
+  /// Add Structured Append sequence
+  void append() {
+    _data.addByte(0xe9);
+  }
+
+  /// Add Reader Programming sequence
+  void program() {
+    _data.addByte(0xea);
+  }
+
+  /// Add 05 Macro sequence
+  void macro05() {
+    _data.addByte(0xec);
+  }
+
+  /// Add 06 Macro sequence
+  void macro06() {
+    _data.addByte(0xed);
+  }
+
+  /// Add ECI Character
+  void eci() {
+    _data.addByte(0xf1);
+  }
+
+  /// Add GS Character
+  void gs() {
+    _data.addByte(0x1d);
+  }
+
+  Uint8List toBytes() => _data.toBytes();
 }

@@ -445,6 +445,8 @@ abstract class Barcode {
   /// "cells" or modules arranged in either a square or rectangular pattern, also
   /// known as a matrix.
   ///
+  /// Use [DataMatrixEncoder] to generate GS1 codes.
+  ///
   /// <img width="200" alt="Data Matrix" src="https://raw.githubusercontent.com/DavBfr/dart_barcode/master/img/data-matrix.svg?sanitize=true">
   static Barcode dataMatrix() => const BarcodeDataMatrix();
 
