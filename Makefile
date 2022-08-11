@@ -43,12 +43,12 @@ node_modules:
 test-barcode: .coverage
 	cd barcode; $(DART_BIN) pub get
 	cd barcode; $(DART_BIN) run test --coverage=.coverage
-	cd barcode; $(DART_BIN) pub global run coverage:format_coverage --packages=.packages -i .coverage --report-on lib --lcov --out ../lcov-barcode.info
+	cd barcode; $(DART_BIN) pub global run coverage:format_coverage --packages=.dart_tool/package_config.json -i .coverage --report-on lib --lcov --out ../lcov-barcode.info
 
 test-image:
 	cd image; $(DART_BIN) pub get
 	cd image; $(DART_BIN) run test --coverage=.coverage
-	cd image; $(DART_BIN) pub global run coverage:format_coverage --packages=.packages -i .coverage --report-on lib --lcov --out ../lcov-image.info
+	cd image; $(DART_BIN) pub global run coverage:format_coverage --packages=.dart_tool/package_config.json -i .coverage --report-on lib --lcov --out ../lcov-image.info
 
 test-flutter:
 	cd flutter; $(FLUTTER_BIN) pub get
@@ -119,7 +119,7 @@ fix: .dartfix
 barcodes: .coverage
 	cd barcode; $(DART_BIN) pub global run coverage:collect_coverage --port=$(COV_PORT) -o coverage.json --resume-isolates --wait-paused &\
 	$(DART_BIN) --enable-asserts --disable-service-auth-codes --enable-vm-service=$(COV_PORT) --pause-isolates-on-exit example/main.dart
-	cd barcode; $(DART_BIN) pub global run coverage:format_coverage --packages=.packages -i coverage.json --report-on lib --lcov --out ../lcov-example.info
+	cd barcode; $(DART_BIN) pub global run coverage:format_coverage --packages=.dart_tool/package_config.json -i coverage.json --report-on lib --lcov --out ../lcov-example.info
 	mv -f barcode/*.svg img/
 
 icons:
