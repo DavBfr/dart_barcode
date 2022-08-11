@@ -5,6 +5,7 @@
 - Avoids mandatory utf8 conversions
 - Update dependencies
 - Add DataMatrixEncoder
+- Add DataMatrix tests
 
 ## 2.2.1
 
