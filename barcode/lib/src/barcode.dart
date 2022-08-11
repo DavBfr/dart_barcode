@@ -570,6 +570,9 @@ abstract class Barcode {
     bool fullSvg = true,
     double baseline = .75,
   }) {
+    fontHeight ??= height * 0.2;
+    textPadding ??= height * 0.05;
+
     final recipe = make(
       data,
       width: width.toDouble(),
@@ -599,6 +602,9 @@ abstract class Barcode {
     bool fullSvg = true,
     double baseline = .75,
   }) {
+    fontHeight ??= height * 0.2;
+    textPadding ??= height * 0.05;
+
     final recipe = makeBytes(
       data,
       width: width.toDouble(),
@@ -633,15 +639,12 @@ abstract class Barcode {
     double width,
     double height,
     String fontFamily,
-    double? fontHeight,
-    double? textPadding,
+    double fontHeight,
+    double textPadding,
     int color,
     bool fullSvg,
     double baseline,
   ) {
-    fontHeight ??= height * 0.2;
-    textPadding ??= height * 0.05;
-
     final path = StringBuffer();
     final tSpan = StringBuffer();
 
