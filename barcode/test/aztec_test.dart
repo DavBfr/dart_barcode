@@ -41,7 +41,7 @@ void main() {
   test('Barcode Aztec High error correction level', () {
     final bc = Barcode.aztec(minECCPercent: 80);
     if (bc is! Barcode2D) {
-      throw Exception('bc is not a Barcode2D');
+      throw Exception('${bc.name} is not a Barcode2D');
     }
 
     expect(bc.toSvg('0'), matchesGoldenString('aztec/high_error_level.svg'));

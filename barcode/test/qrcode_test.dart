@@ -24,7 +24,7 @@ void main() {
   test('Barcode QR', () {
     final bc = Barcode.qrCode();
     if (bc is! Barcode2D) {
-      throw Exception('bc is not a Barcode2D');
+      throw Exception('${bc.name} is not a Barcode2D');
     }
 
     expect(bc.toSvg('0'), matchesGoldenString('qr/0.svg'));
