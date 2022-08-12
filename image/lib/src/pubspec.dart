@@ -3,7 +3,7 @@
 // ignore_for_file: public_member_api_docs, constant_identifier_names, avoid_classes_with_only_static_members
 
 class Pubspec {
-  static final buildDate = DateTime.utc(2022, 5, 10, 10, 7, 26);
+  static final buildDate = DateTime.utc(2022, 8, 12, 9, 30, 2);
 
   static const name = 'barcode_image';
 
@@ -17,9 +17,9 @@ class Pubspec {
 
   static const issue_tracker = 'https://github.com/DavBfr/dart_barcode/issues';
 
-  static const versionFull = '2.0.1';
+  static const versionFull = '2.0.2';
 
-  static const version = '2.0.1';
+  static const version = '2.0.2';
 
   static const versionSmall = '2.0';
 
@@ -27,7 +27,7 @@ class Pubspec {
 
   static const versionMinor = 0;
 
-  static const versionPatch = 1;
+  static const versionPatch = 2;
 
   static const versionBuild = 0;
 
@@ -41,7 +41,7 @@ class Pubspec {
 
   static const dependencies = <dynamic, dynamic>{
     'args': '^2.3.0',
-    'barcode': '^2.2.0',
+    'barcode': '^2.2.2',
     'image': '^3.1.0',
     'meta': '^1.7.0',
   };
@@ -53,10 +53,10 @@ class Pubspec {
   };
 
   static const dev_dependencies = <dynamic, dynamic>{
-    'crypto': '^3.0.0',
-    'flutter_lints': '^1.0.0',
-    'pubspec_extract': '^2.0.2',
-    'test': '^1.19.0',
+    'crypto': '^3.0.2',
+    'flutter_lints': '^2.0.1',
+    'pubspec_extract': '^2.0.4',
+    'test': '^1.21.4',
   };
 
   static const executables = <dynamic, dynamic>{
