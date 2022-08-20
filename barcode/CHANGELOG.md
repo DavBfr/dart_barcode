@@ -1,5 +1,9 @@
 # Changelog
 
+## 2.2.3
+
+- Fix Code-128 starting with even number of digits
+
 ## 2.2.2
 
 - Avoids mandatory utf8 conversions

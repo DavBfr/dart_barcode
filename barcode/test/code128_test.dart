@@ -22,6 +22,7 @@ import 'package:test/test.dart';
 void main() {
   test('Barcode CODE 128', () {
     final bc = Barcode.code128();
+
     if (bc is BarcodeCode128) {
       expect(bc.shortestCode(<int>[0x04]), equals(<int>[0x67, 0x44]));
 
@@ -46,6 +47,16 @@ void main() {
       );
 
       expect(
+        bc.shortestCode('053172STB'.codeUnits),
+        equals(<int>[105, 5, 31, 72, 101, 51, 52, 34]),
+      );
+
+      expect(
+        bc.shortestCode('0531721STB'.codeUnits),
+        equals(<int>[105, 5, 31, 72, 101, 17, 51, 52, 34]),
+      );
+
+      expect(
         bc.shortestCode('hello\nTEST'.codeUnits),
         equals(<int>[104, 72, 69, 76, 76, 79, 101, 74, 52, 37, 51, 52]),
       );
@@ -63,6 +74,28 @@ void main() {
       expect(
         bc.shortestCode('HELLO12312312312'.codeUnits),
         equals(<int>[103, 40, 37, 44, 44, 47, 99, 12, 31, 23, 12, 31, 101, 18]),
+      );
+    }
+  });
+
+  test('Barcode CODE 128 B+C', () {
+    final bc = Barcode.code128(useCode128A: false);
+
+    if (bc is BarcodeCode128) {
+      expect(
+        bc.shortestCode('053172STB'.codeUnits),
+        equals(<int>[105, 5, 31, 72, 100, 51, 52, 34]),
+      );
+    }
+  });
+
+  test('Barcode CODE 128 B', () {
+    final bc = Barcode.code128(useCode128A: false, useCode128C: false);
+
+    if (bc is BarcodeCode128) {
+      expect(
+        bc.shortestCode('053172STB'.codeUnits),
+        equals(<int>[104, 16, 21, 19, 17, 23, 18, 51, 52, 34]),
       );
     }
   });

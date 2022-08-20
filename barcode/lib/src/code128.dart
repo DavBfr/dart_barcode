@@ -259,11 +259,16 @@ class BarcodeCode128 extends Barcode1D {
       }
     }
 
-    if (digitCount >= 2 && digitCount & 1 != 0) {
-      // Odd number of digits, add the last one
-      length -= digitCount - 1;
-      addFrom(data, digitCount - 1);
-      digitCount--;
+    if (digitCount >= 2) {
+      if (digitCount & 1 != 0) {
+        // Odd number of digits, add the last one
+        length -= digitCount - 1;
+        addFrom(data, digitCount - 1);
+        digitCount--;
+      } else if (length > digitCount) {
+        length -= digitCount;
+        addFrom(data, digitCount);
+      }
       table = 4;
       length = digitCount;
     }
