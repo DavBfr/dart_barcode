@@ -5,7 +5,7 @@ description: >-
 homepage: https://github.com/DavBfr/dart_barcode/tree/master/barcode
 repository: https://github.com/DavBfr/dart_barcode
 issue_tracker: https://github.com/DavBfr/dart_barcode/issues
-version: 2.2.3
+version: 2.2.4
 
 environment:
   sdk: ">=2.12.0 <3.0.0"

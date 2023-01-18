@@ -14,6 +14,7 @@
  * limitations under the License.
  */
 
+import 'dart:convert';
 import 'dart:typed_data';
 
 import 'package:barcode/barcode.dart';
@@ -77,16 +78,18 @@ void main() {
     }
 
     expect(bc.isValidBytes(data), isTrue);
+  });
 
-    // final s = bc.toSvgBytes(data);
-    // File('az.svg').writeAsStringSync(s);
+  test('Barcode Aztec bytes', () {
+    final bc = Barcode.aztec();
+    const sampleString =
+        'eNptUj1oFEEYJdHSTpGkUI4YrLJ3OzszO7uHQi7mRIyKJEHzg8rMt7OXJXe7y87cclp5GDDaKIhYyp2YWFlZWalglUYFmxR2EkVIYWfnXExOMA7Mx8d7fN97b5guT-cPHL0z924deL0mqzMOdUG20tSxHQchB88iQojtLUDE9R7o_AWjQDgMlqOgJZe0TlW5VNIZj1Wkl5rCWs4tpXktimvFnDfrushvNTNZjKUuLcubqiQSYUVKNWVmqagWy6zEiAQqaECwy40C9pGgiDogMMPYYTY0opy7EItwn5n5wUMdY6a9FsCNRnCvA2mg2q0hFzOQtsOYZNIloe-6HiZAqeHrsVS5NVPtQMizZ8Abenh0E6CZwUx1CnKuhwfdDugU2l0ArjkHk22gA1kewWU0aSiTe1cAe2A0XOQjH3uYUd8zdBLtc9kBleT_QXUWtUYZER5BzLE8l4BFREgtQSSxOA2l5wgPMRmadBpa1x1cLpirZM-MLPsIFU7uADpJy4uM2DuHjv3pKPX7nTu2x6JrZmZ81wuZtQlFtr1QMtGMSN4Y6NV4p-qBIDWP2oW6rLXXhQY4P10FnmWtod64hZDVW0DLxCvbdtHsXoBApv-yCPXZONF3RaUiKlVRuSQqV0X1gjg7IaYuQpJKwAiD0ulK1A8S9YP0O7fPIlA5gHkDSCEKlflvdTk3_vbTo--Hz9x_-u1N8uXcldXFx2vTW2sfJuY2R1Ze_Tj48_Sx1eNfX24X9O2Rh6-3Jx_8KrwovP_YfXJqgz3_vHXkxAbPJzj6DczbAps';
+    final bytes = base64Url.decode(base64Url.normalize(sampleString));
 
-    // final d = File('data.bin').readAsBytesSync();
+    if (bc is! BarcodeAztec) {
+      throw Exception('bc is not a BarcodeAztec');
+    }
 
-    // for (var i = 0; i < d.length; i++) {
-    //   if (d[i] != data[i]) {
-    //     print(i);
-    //   }
-    // }
+    expect(bc.isValidBytes(bytes), isTrue);
   });
 }

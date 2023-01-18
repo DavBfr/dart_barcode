@@ -286,7 +286,7 @@ class BarcodeAztec extends Barcode2D {
     _State? stateNoBinary;
     for (var mode in _EncodingMode.values) {
       final charInMode = _charMap[mode]![ch];
-      if (charInMode != null) {
+      if (charInMode != null && charInMode > 0) {
         // Only create stateNoBinary the first time it's required.
         stateNoBinary ??= s.endBinaryShift(index);
         // Try generating the character by latching to its mode

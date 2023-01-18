@@ -1,5 +1,9 @@
 # Changelog
 
+## 2.2.4
+
+- Fix invalid Aztec in some cases [Tobias Eklund]
+
 ## 2.2.3
 
 - Fix Code-128 starting with even number of digits
