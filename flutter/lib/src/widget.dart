@@ -71,7 +71,6 @@ class BarcodeWidget extends StatelessWidget {
   /// The barcode data to display
   final Uint8List? _dataBytes;
   final String? _dataString;
-
   Uint8List get data => _dataBytes ?? utf8.encoder.convert(_dataString!);
 
   /// Is this raw bytes

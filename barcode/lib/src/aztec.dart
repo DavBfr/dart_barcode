@@ -882,6 +882,8 @@ class _State {
     );
   }
 
+// Returns true if "this" state is better (or equal) to be in than "that"
+// state under all possible circumstances.
   bool isBetterThanOrEqualTo(_State other) {
     var mySize = bitCount + (latchTable[mode]![other.mode]! >> 16);
 
@@ -889,7 +891,6 @@ class _State {
         (bShiftByteCount == 0 || bShiftByteCount > other.bShiftByteCount)) {
       mySize += 10; // Cost of entering Binary Shift mode.
     }
-
     return mySize <= other.bitCount;
   }
 
