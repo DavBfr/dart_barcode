@@ -280,20 +280,15 @@ class BarcodeAztec extends Barcode2D {
 // the "result" list.
   List<_State> _updateStateForChar(_State s, List<int> data, int index) {
     final result = <_State>[];
-    final ch = data[index] & 0xff;
+    final ch = data[index];
     final charInCurrentTable = _charMap[s.mode]![ch] != null;
 
     _State? stateNoBinary;
-    var firstTime = true;
-
     for (var mode in _EncodingMode.values) {
       final charInMode = _charMap[mode]![ch];
       if (charInMode != null && charInMode > 0) {
-        if (firstTime) {
-          // Only create stateNoBinary the first time it's required.
-          stateNoBinary ??= s.endBinaryShift(index);
-          firstTime = false;
-        }
+        // Only create stateNoBinary the first time it's required.
+        stateNoBinary ??= s.endBinaryShift(index);
         // Try generating the character by latching to its mode
         if (!charInCurrentTable ||
             mode == s.mode ||
@@ -302,28 +297,22 @@ class BarcodeAztec extends Barcode2D {
           // any other mode except possibly digit (which uses only 4 bits).  Any
           // other latch would be equally successful *after* this character, and
           // so wouldn't save any bits.
-          if (stateNoBinary != null) {
-            final res = stateNoBinary.latchAndAppend(mode, charInMode);
-            result.add(res);
-          }
+          final res = stateNoBinary.latchAndAppend(mode, charInMode);
+          result.add(res);
         }
         // Try generating the character by switching to its mode.
+
         if (!charInCurrentTable &&
             _shiftTable[s.mode] != null &&
-            _shiftTable[s.mode]![mode] != null &&
-            _shiftTable[s.mode]![mode]! >= 0) {
+            _shiftTable[s.mode]![mode] != null) {
           // It never makes sense to temporarily shift to another mode if the
           // character exists in the current mode.  That can never save bits.
-          if (stateNoBinary != null) {
-            final res = stateNoBinary.shiftAndAppend(mode, charInMode);
-            result.add(res);
-          }
+          final res = stateNoBinary.shiftAndAppend(mode, charInMode);
+          result.add(res);
         }
       }
     }
-    if (s.bShiftByteCount > 0 ||
-        _charMap[s.mode]![ch] == null ||
-        _charMap[s.mode]![ch] == 0) {
+    if (s.bShiftByteCount > 0 || _charMap[s.mode]![ch] == null) {
       // It's never worthwhile to go into binary shift mode if you're not already
       // in binary shift mode, and the character exists in your current mode.
       // That can never save bits over just outputting the char in the current mode.
@@ -481,7 +470,7 @@ class BarcodeAztec extends Barcode2D {
   }
 
 // Encode returns an aztec barcode with the given content
-  _AztecCode _encode(Uint8List data) {
+  _AztecCode _encode(List<int> data) {
     final bits = _highlevelEncode(data);
     final eccBits = ((bits.length * minECCPercent) ~/ 100) + 11;
     final totalSizeBits = bits.length + eccBits;
@@ -667,25 +656,26 @@ class _BinaryShiftToken extends _Token {
 
   @override
   void appendTo(List<bool> bits, List<int> text) {
-    if (bShiftByteCnt < 0) {
-      bits.addAll(_addBits(bShiftStart, -bShiftByteCnt));
-    } else {
-      for (var i = 0; i < bShiftByteCnt; i++) {
-        if (i == 0 || (i == 31 && bShiftByteCnt <= 62)) {
-          // We need a header before the first character, and before
-          // character 31 when the total byte code is <= 62
-          bits.addAll(_addBits(31, 5)); // BINARY_SHIFT
-          if (bShiftByteCnt > 62) {
-            bits.addAll(_addBits(bShiftByteCnt - 31, 16));
-          } else if (i == 0) {
-            bits.addAll(_addBits(bShiftByteCnt < 31 ? bShiftByteCnt : 31, 5));
+    for (var i = 0; i < bShiftByteCnt; i++) {
+      if (i == 0 || (i == 31 && bShiftByteCnt <= 62)) {
+        // We need a header before the first character, and before
+        // character 31 when the total byte code is <= 62
+        bits.addAll(_addBits(31, 5)); // BINARY_SHIFT
+        if (bShiftByteCnt > 62) {
+          bits.addAll(_addBits(bShiftByteCnt - 31, 16));
+        } else if (i == 0) {
+          // 1 <= binaryShiftByteCode <= 62
+          if (bShiftByteCnt < 31) {
+            bits.addAll(_addBits(bShiftByteCnt, 5));
           } else {
-            bits.addAll(_addBits(bShiftByteCnt - 31, 5));
+            bits.addAll(_addBits(31, 5));
           }
+        } else {
+          // 32 <= binaryShiftCount <= 62 and i == 31
+          bits.addAll(_addBits(bShiftByteCnt - 31, 5));
         }
-
-        bits.addAll(_addBits(text[bShiftStart + i], 8));
       }
+      bits.addAll(_addBits(text[bShiftStart + i], 8));
     }
   }
 }
@@ -797,17 +787,12 @@ class _State {
       tokens = _SimpleToken(tokens, latch & 0xFFFF, latch >> 16);
       bitCount += latch >> 16;
     }
-
-    var latchMode = mode == _EncodingMode.mode_digit
-        ? _EncodingMode.mode_digit
-        : _EncodingMode.mode_punct;
-
-    tokens = _SimpleToken(tokens, value, _bitCount(latchMode));
+    tokens = _SimpleToken(tokens, value, _bitCount(mode));
     return _State(
       mode: mode,
       tokens: tokens,
       bShiftByteCount: 0,
-      bitCount: bitCount + _bitCount(latchMode),
+      bitCount: bitCount + _bitCount(mode),
     );
   }
 
@@ -815,20 +800,17 @@ class _State {
 // to a different mode to output a single value.
   _State shiftAndAppend(_EncodingMode mode, int value) {
     var tokens = this.tokens;
-    var thisModeBitCount = this.mode == _EncodingMode.mode_digit
-        ? _EncodingMode.mode_digit
-        : _EncodingMode.mode_punct;
 
     // Shifts exist only to UPPER and PUNCT, both with tokens size 5.
     tokens = _SimpleToken(
-        tokens, _shiftTable[this.mode]![mode]!, _bitCount(thisModeBitCount));
+        tokens, _shiftTable[this.mode]![mode]!, _bitCount(this.mode));
     tokens = _SimpleToken(tokens, value, 5);
 
     return _State(
       mode: this.mode,
       tokens: tokens,
       bShiftByteCount: 0,
-      bitCount: bitCount + _bitCount(thisModeBitCount) + 5,
+      bitCount: bitCount + _bitCount(this.mode) + 5,
     );
   }
 
@@ -840,18 +822,17 @@ class _State {
     var bitCnt = bitCount;
     if (this.mode == _EncodingMode.mode_punct ||
         this.mode == _EncodingMode.mode_digit) {
-      final latch = latchTable[mode]![_EncodingMode.mode_upper]!;
+      final latch = latchTable[this.mode]![_EncodingMode.mode_upper]!;
       tokens = _SimpleToken(tokens, latch & 0xFFFF, latch >> 16);
       bitCnt += latch >> 16;
       mode = _EncodingMode.mode_upper;
     }
-
-    var deltaBitCount = (bShiftByteCount == 0 || bShiftByteCount == 31)
-        ? 18
-        : (bShiftByteCount == 62)
-            ? 9
-            : 8;
-
+    var deltaBitCount = 8;
+    if (bShiftByteCount == 0 || bShiftByteCount == 31) {
+      deltaBitCount = 18;
+    } else if (bShiftByteCount == 62) {
+      deltaBitCount = 9;
+    }
     var result = _State(
       mode: mode,
       tokens: tokens,
