@@ -46,6 +46,8 @@ app.*.map.json
 android
 ios
 macos
+windows
+linux
 test
 README.md
 .metadata

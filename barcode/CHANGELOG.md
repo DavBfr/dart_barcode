@@ -3,6 +3,7 @@
 ## 2.2.4
 
 - Fix invalid Aztec in some cases [Tobias Eklund]
+- Fix Dart 3.0 issues
 
 ## 2.2.3
 

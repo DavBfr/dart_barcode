@@ -1,7 +1,5 @@
 // ignore_for_file: always_specify_types
 
-// @dart=2.9
-
 import 'dart:io';
 
 import 'package:barcode_image/barcode_image.dart';

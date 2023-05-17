@@ -1,5 +1,9 @@
 # Changelog
 
+## 2.0.3
+
+- Fix Dart 3.0 issues
+
 ## 2.0.2
 
 - Avoids mandatory utf8 conversions

@@ -44,7 +44,7 @@ class CodeState extends State<Code> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text('Source code:',
-                  style: Theme.of(context).textTheme.headline5),
+                  style: Theme.of(context).textTheme.headlineSmall),
               const SizedBox(height: 5),
               Container(
                 width: double.infinity,

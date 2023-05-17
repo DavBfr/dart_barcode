@@ -47,6 +47,8 @@ android
 ios
 macos
 web
+windows
+linux
 test
 README.md
 .metadata

@@ -31,7 +31,7 @@ class BarcodeError extends StatelessWidget {
           padding: const EdgeInsets.all(20),
           child: Text(
             message,
-            style: TextStyle(color: Theme.of(context).errorColor),
+            style: TextStyle(color: Theme.of(context).colorScheme.error),
           ),
         ),
       ),

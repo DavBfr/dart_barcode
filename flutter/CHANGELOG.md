@@ -1,5 +1,9 @@
 # Changelog
 
+## 2.0.4
+
+- Fix Flutter 3.10 issues
+
 ## 2.0.3
 
 - Avoids mandatory utf8 conversions

@@ -130,9 +130,10 @@ class Download extends StatelessWidget {
 
   Future<void> _exportPng() async {
     final bc = conf.barcode;
-    final image = im.Image(conf.width.toInt() * 2, conf.height.toInt() * 2);
-    im.fill(image, im.getColor(255, 255, 255));
-    drawBarcode(image, bc, conf.normalizedData, font: im.arial_48);
+    final image = im.Image(
+        width: conf.width.toInt() * 2, height: conf.height.toInt() * 2);
+    im.fill(image, color: im.ColorRgb8(255, 255, 255));
+    drawBarcode(image, bc, conf.normalizedData, font: im.arial48);
     final data = im.encodePng(image);
 
     final path = await getSavePath();
