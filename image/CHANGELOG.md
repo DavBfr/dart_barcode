@@ -3,6 +3,7 @@
 ## 2.0.3
 
 - Fix Dart 3.0 issues
+- Update dependencies
 
 ## 2.0.2
 

@@ -7,13 +7,13 @@ import 'package:image/image.dart';
 
 void main() {
   // Create an image
-  final image = Image(600, 350);
+  final image = Image(width: 600, height: 350);
 
   // Fill it with a solid color (white)
-  fill(image, getColor(255, 255, 255));
+  fill(image, color: ColorRgb8(255, 255, 255));
 
   // Draw the barcode
-  drawBarcode(image, Barcode.code128(), 'Test', font: arial_24);
+  drawBarcode(image, Barcode.code128(), 'Test', font: arial24);
 
   // Save the image
   File('barcode.png').writeAsBytesSync(encodePng(image));

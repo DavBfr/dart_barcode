@@ -135,21 +135,22 @@ int makeBarcode(ArgResults argResults) {
   }
 
   // Create an image
-  final image =
-      Image(int.parse(argResults['width']), int.parse(argResults['height']));
+  final image = Image(
+      width: int.parse(argResults['width']),
+      height: int.parse(argResults['height']));
 
   // Fill it with a solid color (white)
-  fill(image, getColor(255, 255, 255));
+  fill(image, color: ColorRgb8(255, 255, 255));
 
   drawBarcode(
     image,
     barcode,
     data,
-    font: text ? arial_24 : null,
+    font: text ? arial24 : null,
   );
 
   // Save the image to a file
-  final img = encodeNamedImage(image, argResults['output']);
+  final img = encodeNamedImage(argResults['output'], image);
   if (img != null) {
     File(argResults['output']).writeAsBytesSync(img);
   }

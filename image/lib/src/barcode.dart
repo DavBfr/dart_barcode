@@ -49,9 +49,9 @@ extension BitmapFontMetricsFunctions on BitmapFont {
       }
 
       final ch = characters[c]!;
-      width += ch.xadvance;
-      if (height < ch.height + ch.yoffset) {
-        height = ch.height + ch.yoffset;
+      width += ch.xAdvance;
+      if (height < ch.height + ch.yOffset) {
+        height = ch.height + ch.yOffset;
       }
     }
 
@@ -59,8 +59,8 @@ extension BitmapFontMetricsFunctions on BitmapFont {
     if (characters.containsKey(c)) {
       final ch = characters[c]!;
       width += ch.width;
-      if (height < ch.height + ch.yoffset) {
-        height = ch.height + ch.yoffset;
+      if (height < ch.height + ch.yOffset) {
+        height = ch.height + ch.yOffset;
       }
     }
 
@@ -134,6 +134,9 @@ void _drawBarcode(
   BitmapFont? font,
   int color,
 ) {
+  final imageColor = ColorRgba8((color >> 16) & 0xff, (color >> 8) & 0xff,
+      color & 0xff, (color >> 24) & 0xff);
+
   // Draw the barcode
   for (var elem in recipe) {
     if (elem is BarcodeBar) {
@@ -141,11 +144,11 @@ void _drawBarcode(
         // Draw one black bar
         fillRect(
           image,
-          (x + elem.left).round(),
-          (y + elem.top).round(),
-          (x + elem.right).round(),
-          (y + elem.bottom).round(),
-          color,
+          x1: (x + elem.left).round(),
+          y1: (y + elem.top).round(),
+          x2: (x + elem.right).round(),
+          y2: (y + elem.bottom).round(),
+          color: imageColor,
         );
       }
     } else if (elem is BarcodeText) {
@@ -170,11 +173,11 @@ void _drawBarcode(
       // Draw some text using 14pt arial font
       drawString(
         image,
-        font,
-        left.round(),
-        top.round(),
         elem.text,
-        color: color,
+        font: font,
+        x: left.round(),
+        y: top.round(),
+        color: imageColor,
       );
     }
   }

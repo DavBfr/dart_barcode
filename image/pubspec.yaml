@@ -13,8 +13,8 @@ environment:
 
 dependencies:
   args: ^2.3.0
-  barcode: ^2.2.2
-  image: ^3.1.0
+  barcode: ^2.2.4
+  image: ^4.0.6
   meta: ^1.7.0
 
 dependency_overrides:
@@ -22,10 +22,14 @@ dependency_overrides:
     path: ../barcode
 
 dev_dependencies:
+  build_runner: ^2.4.4
   crypto: ^3.0.2
   flutter_lints: ^2.0.1
-  pubspec_extract: ^2.0.4
+  pubspec_extract: ^2.0.5
   test: ^1.21.4
 
 executables:
   barcode:
+
+pubspec_extract:
+  destination: lib/src/pubspec.dart
