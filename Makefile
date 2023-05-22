@@ -133,8 +133,9 @@ maps: build_maps.py
 
 gh-pages:
 	test -z "$(shell git status --porcelain)"
-	cd demo; $(FLUTTER_BIN) build web --release --dart-define=FLUTTER_WEB_USE_SKIA=true
+	cd demo; $(FLUTTER_BIN) build web --suppress-analytics --verbose --no-null-assertions --no-native-null-assertions --pwa-strategy none --no-source-maps --base-href '/dart_barcode/' --release
 	git checkout gh-pages
+	for f in $$(find demo/build/web -name '*.html' -o -name '*.css' -o -name '*.js' -a -not -name '*.dart.js'); do minify -o $$f $$f; done
 	cp -rf demo/build/web/* .
 
 get:
