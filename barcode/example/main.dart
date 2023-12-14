@@ -82,7 +82,7 @@ void main() {
 
   buildBarcode(
     Barcode.ean2(),
-    '12',
+    '05',
     width: 40,
   );
 

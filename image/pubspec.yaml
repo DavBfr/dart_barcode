@@ -6,14 +6,14 @@ _author: David PHAM-VAN <dev.nfet.net@gmail.com>
 homepage: https://github.com/DavBfr/dart_barcode/tree/master/image
 repository: https://github.com/DavBfr/dart_barcode
 issue_tracker: https://github.com/DavBfr/dart_barcode/issues
-version: 2.0.4
+version: 2.0.3
 
 environment:
   sdk: ">=2.12.0 <4.0.0"
 
 dependencies:
   args: ^2.3.0
-  barcode: ^2.2.5
+  barcode: ^2.2.4
   image: ^4.0.6
   meta: ^1.7.0
 
