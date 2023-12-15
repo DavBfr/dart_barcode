@@ -117,14 +117,14 @@ class Download extends StatelessWidget {
       ),
     ));
 
-    final path = await getSavePath();
-    if (path != null) {
+    final location = await getSaveLocation();
+    if (location != null) {
       final file = XFile.fromData(
         await pdf.save(),
         name: '${bc.name}.pdf',
         mimeType: 'application/pdf',
       );
-      await file.saveTo(path);
+      await file.saveTo(location.path);
     }
   }
 
@@ -136,14 +136,14 @@ class Download extends StatelessWidget {
     drawBarcode(image, bc, conf.normalizedData, font: im.arial48);
     final data = im.encodePng(image);
 
-    final path = await getSavePath();
-    if (path != null) {
+    final location = await getSaveLocation();
+    if (location != null) {
       final file = XFile.fromData(
         Uint8List.fromList(data),
         name: '${bc.name}.png',
         mimeType: 'image/png',
       );
-      await file.saveTo(path);
+      await file.saveTo(location.path);
     }
   }
 
@@ -157,14 +157,14 @@ class Download extends StatelessWidget {
       fontHeight: conf.fontSize,
     );
 
-    final path = await getSavePath();
-    if (path != null) {
+    final location = await getSaveLocation();
+    if (location != null) {
       final file = XFile.fromData(
         Uint8List.fromList(utf8.encode(data)),
         name: '${bc.name}.svg',
         mimeType: 'image/svg+xml',
       );
-      await file.saveTo(path);
+      await file.saveTo(location.path);
     }
   }
 }
