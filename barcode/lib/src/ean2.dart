@@ -63,10 +63,10 @@ class BarcodeEan2 extends BarcodeEan {
         yield* add(BarcodeMaps.eanCenterEan2, 2);
       }
 
-      if(index == 0){
+      if (index == 0) {
         yield* add(codes[pattern < 2 ? 0 : 1], 7);
-      }
-      else { //index == 1
+      } else {
+        //index == 1
         yield* add(codes[pattern % 2 == 0 ? 0 : 1], 7);
       }
       index++;
