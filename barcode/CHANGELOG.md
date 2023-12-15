@@ -1,5 +1,9 @@
 # Changelog
 
+## 2.2.5
+
+- Fix EAN2 incorrect encoding issue [shinbin]
+
 ## 2.2.4
 
 - Fix invalid Aztec in some cases [Tobias Eklund]
