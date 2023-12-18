@@ -137,6 +137,38 @@ void main() {
       throw Exception('upce is not a BarcodeEan');
     }
 
-    expect(upce.normalize('1'), equals('010000000009'));
+    expect(upce.normalize('1'), equals('01000009'));
+    expect(upce.normalize('555555'), equals('05555550'));
+    expect(upce.normalize('18740000015'), equals('18741538'));
+    expect(upce.normalize('48347295752'), equals('483472957520'));
+    expect(upce.normalize('212345678992'), equals('212345678992'));
+    expect(upce.normalize('014233365553'), equals('014233365553'));
+
+
+    final upce2 = Barcode.upcE(fallback: false);
+    if (upce2 is! BarcodeEan) {
+      throw Exception('upce is not a BarcodeEan');
+    }
+    expect(upce2.normalize('1'), equals('01000009'));
+
+    expect(upce2.normalize('01008029'), equals('01008029'));
+    expect(upce2.normalize('0100802'), equals('01008029'));
+    expect(upce2.normalize('100802'), equals('01008029'));
+
+    expect(upce2.normalize('100902'), equals('01009028'));
+    expect(upce2.normalize('100965'), equals('01009651'));
+    expect(upce2.normalize('107444'), equals('01074448'));
+
+    expect(upce2.normalize('042100005264'), equals('04252614'));
+    expect(upce2.normalize('020600000019'), equals('02060139'));
+    expect(upce2.normalize('040350000077'), equals('04035747'));
+    expect(upce2.normalize('020201000050'), equals('02020150'));
+    expect(upce2.normalize('020204000064'), equals('02020464'));
+    expect(upce2.normalize('023456000073'), equals('02345673'));
+    expect(upce2.normalize('020204000088'), equals('02020488'));
+    expect(upce2.normalize('020201000098'), equals('02020198'));
+    expect(upce2.normalize('127200002013'), equals('12720123'));
+    expect(upce2.normalize('042100005264'), equals('04252614'));
+
   });
 }

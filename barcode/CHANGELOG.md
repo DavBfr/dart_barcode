@@ -1,5 +1,9 @@
 # Changelog
 
+## 2.2.6
+
+- Fix invalid UPC-E in some cases [shinbin]
+
 ## 2.2.5
 
 - Fix EAN2 incorrect encoding issue [shinbin]

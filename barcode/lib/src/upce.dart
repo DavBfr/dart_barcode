@@ -72,55 +72,36 @@ class BarcodeUpcE extends BarcodeEan {
 
   /// Convert an UPC-A barcode to a short version UPC-E
   String upcaToUpce(String data) {
-    final exp = RegExp(r'^[01](\d\d+)([0-2]000[05-9])(\d*)\d$');
-    final match = exp.firstMatch(data);
-
-    if (match == null) {
+    //Basic checking of string headers and lengths.
+    if ( RegExp(r'^[01]\d{11}$').firstMatch(data) == null) {
       throw BarcodeException('Unable to convert "$data" to $name Barcode');
     }
 
-    final left = match.group(1);
-    final right = match.group(3);
-    String? last;
-
-    switch (match.group(2)) {
-      case '00000':
-        if (left!.length == 2) {
-          last = '0';
-        } else if (left.length == 3) {
-          last = '3';
-        } else if (left.length == 4) {
-          last = '4';
-        }
-        break;
-      case '10000':
-        last = '1';
-        break;
-      case '20000':
-        last = '2';
-        break;
-      case '00005':
-        last = '5';
-        break;
-      case '00006':
-        last = '6';
-        break;
-      case '00007':
-        last = '7';
-        break;
-      case '00008':
-        last = '8';
-        break;
-      case '00009':
-        last = '9';
-        break;
+    //Refer to  https://www.keepautomation.com/upca/upca-to-upce-conversion.html
+    //and https://en.wikipedia.org/wiki/Universal_Product_Code#UPC-E
+    if([0x35, 0x36, 0x37, 0x38, 0x39].contains(data.codeUnits[10]) && data.substring(6,10) == '0000' && data[5] != '0') {
+      //If the 11th code of UPC-A equals to 5, 6, 7, 8 or 9, the 7th to 10th code are all 0, and the 6th is not 0,
+      //adding the 2nd to 6th code and 11th code of UPC-A to present the 1st to 6th of UPC-E.
+      return data.substring(1,6) + data[10];
     }
-
-    if (last == null) {
+    else if(data.substring(5,10) == '00000' && data[4] != '0'){
+      // If the 6th to 10th code are all 0, and the 5th is not 0,
+      // adding the 2nd to 5th code, 11th code of UPC-A and a digit 4 to present the 1st to 6th of UPC-E.
+      return '${data.substring(1,5)}${data[10]}4';
+    }
+    else if([0x30, 0x31, 0x32].contains(data.codeUnits[3]) && data.substring(4,8) == '0000'){
+      // If the 4th code is 0, 1, or 2, and the 5th to 8th code are all 0,
+      // adding the 2nd, 3rd, 9th, 10th, 11th, and 4th code of UPC-A to present the 1st to 6th of UPC-E.
+      return '${data.substring(1,3)}${data.substring(8,11)}${data[3]}';
+    }
+    else if([0x33, 0x34, 0x35, 0x36, 0x37, 0x38, 0x39].contains(data.codeUnits[3]) && data.substring(4,9) == '00000'){
+      //If the 4th code is 3, 4, 5, 6, 7, 8, 9, and the 5th to 9th code are all 0,
+      //adding the 2nd, 3rd, 4th, 10th, 11th code of UPC-A and a digit 3 to present the 1st to 6th of UPC-E.
+      return '${data.substring(1,4)}${data.substring(9,11)}3';
+    }
+    else {
       throw BarcodeException('Unable to convert "$data" to $name Barcode');
     }
-
-    return left! + right! + last;
   }
 
   /// Convert a short version UPC-E barcode to a full length UPC-A
