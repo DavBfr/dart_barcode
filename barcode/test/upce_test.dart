@@ -46,13 +46,16 @@ void main() {
       expect(bc.upcaToUpce('012100003454'), equals('123451'));
       expect(bc.upcaToUpce('012200003453'), equals('123452'));
       expect(bc.upcaToUpce('012300000451'), equals('123453'));
-      expect(bc.upcaToUpce('012340000053'), equals('123405'));
+      expect(bc.upcaToUpce('012340000053'), equals('123454'));
       expect(bc.upcaToUpce('012345000058'), equals('123455'));
       expect(bc.upcaToUpce('012345000065'), equals('123456'));
       expect(bc.upcaToUpce('012345000072'), equals('123457'));
       expect(bc.upcaToUpce('012345000089'), equals('123458'));
       expect(bc.upcaToUpce('012345000096'), equals('123459'));
+      expect(bc.upcaToUpce('000010000052'), equals('000154'));
+      expect(bc.upcaToUpce('010200000809'), equals('100802'));
     }
+    //For output data, please refer to https://barcodeqrcode.com/convert-upc-a-to-upc-e/
   });
 
   test('Barcode UPC-E', () {
@@ -63,4 +66,59 @@ void main() {
     expect(bc.isValid('11234593'), isTrue);
     expect(bc.isValid('123456789'), isFalse);
   });
+
+  test('Barcode UPC-E normalize (fallback)', () {
+    final bc = Barcode.upcE( fallback: true);
+    if (bc is BarcodeUpcE) {
+      expect(bc.normalize('18740000015'), equals('18741538'));
+      expect(bc.normalize('48347295752'), equals('483472957520'));
+      expect(bc.normalize('555555'), equals('05555550'));
+      expect(bc.normalize('212345678992'), equals('212345678992'));
+      expect(bc.normalize('014233365553'), equals('014233365553'));
+    }
+  });
+
+  test('Barcode UPC-E normalize', () {
+    final bc = Barcode.upcE();
+    if (bc is BarcodeUpcE) {
+      expect(bc.normalize('01008029'), equals('01008029'));
+      expect(bc.normalize('0100802'), equals('01008029'));
+      expect(bc.normalize('100802'), equals('01008029'));
+      expect(bc.normalize('1'), equals('01000009'));
+
+      expect(bc.normalize('100902'), equals('01009028'));
+      expect(bc.normalize('100965'), equals('01009651'));
+      expect(bc.normalize('107444'), equals('01074448'));
+      expect(bc.normalize('000100'), equals('00001009'));
+
+      expect(bc.normalize('042100005264'), equals('04252614'));
+      expect(bc.normalize('020600000019'), equals('02060139'));
+      expect(bc.normalize('040350000077'), equals('04035747'));
+      expect(bc.normalize('020201000050'), equals('02020150'));
+      expect(bc.normalize('020204000064'), equals('02020464'));
+      expect(bc.normalize('023456000073'), equals('02345673'));
+      expect(bc.normalize('020204000088'), equals('02020488'));
+      expect(bc.normalize('020201000098'), equals('02020198'));
+      expect(bc.normalize('127200002013'), equals('12720123'));
+      expect(bc.normalize('042100005264'), equals('04252614'));
+
+      //For special case : input '000105' etc.
+      //It's converted to '000010000052' ('L-MMMM0-0000P-C').
+      //This UPC-E code ends in 5, but its UPC-A manufacturer code is "00010" and its last digit should not be zero.
+      //'000010000052' should be paired with the last code of UPC-E being 4.
+      //'000010000052' converted to UPC-E will be '00001542'
+
+      //'000105' does not comply with the encoding principles for conversion from UPC-A to UPC-E,
+      //but it can applies to the conversion rules.
+      //It will be normalized to a new value when converting back to UPC-E.
+      //'000105' , '00001052' will be normalized to '00001542' , not '00001052'.
+      expect(bc.normalize('000105'), equals('00001542'));
+      expect(bc.normalize('00001052'), equals('00001542'));
+      expect(bc.normalize('000154'), equals('00001542'));
+      expect(bc.normalize('00001542'), equals('00001542'));
+      expect(bc.normalize('000010000052'), equals('00001542'));
+      expect(bc.normalize('001054'), equals('00000514')); //another special case
+    }
+  });
+
 }

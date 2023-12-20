@@ -72,15 +72,49 @@ class BarcodeUpcE extends BarcodeEan {
 
   /// Convert an UPC-A barcode to a short version UPC-E
   String upcaToUpce(String data) {
+
     //Basic checking of string headers and lengths.
     if ( RegExp(r'^[01]\d{11}$').firstMatch(data) == null) {
       throw BarcodeException('Unable to convert "$data" to $name Barcode');
     }
+    //Refer to  https://en.wikipedia.org/wiki/Universal_Product_Code#UPC-E
+    //Both algorithms below are correct and have been tested.
+    //Algorithm 1: https://gist.github.com/corpit/8204456 (Implement in this function)
+    //Algorithm 2: https://www.keepautomation.com/upca/upca-to-upce-conversion.html
 
-    //Refer to  https://www.keepautomation.com/upca/upca-to-upce-conversion.html
-    //and https://en.wikipedia.org/wiki/Universal_Product_Code#UPC-E
+    // Algorithm 1=>
+    final mc = data.substring(1,6);  //manufacturer code
+    final pc = data.substring(6,11); //product code
+
+    if(['000', '100', '200'].contains(mc.substring(mc.length - 3)) && int.parse(pc) <= 999){
+      //if manufacturer_code[-3:]  in ["000", "100", "200"] and int(product_code) <= 999:
+      // upce = manufacturer_code[:2] + product_code[-3:] + manufacturer_code[2]
+      return '${mc.substring(0,2)}${pc.substring(pc.length-3)}${mc[2]}';
+    }
+    else if(mc.substring(mc.length - 2) == '00' && int.parse(pc) <= 99){
+      //elif manufacturer_code[-2:] == '00' and int(product_code) <= 99:
+      // upce = manufacturer_code[:3] + product_code[-2:] + "3"
+      return '${mc.substring(0,3)}${pc.substring(pc.length-2)}3';
+    }
+    else if(mc.substring(mc.length - 1) == '0' && int.parse(pc) <= 9){
+      //elif manufacturer_code[-1] == "0" and int(product_code) <= 9:
+      // upce = manufacturer_code[:4] + product_code[-1] + "4"
+      return '${mc.substring(0,4)}${pc.substring(pc.length-1)}4';
+    }
+    else if(mc.substring(mc.length - 1) != '0' && [5, 6, 7, 8, 9].contains(int.parse(pc))){
+      //elif manufacturer_code[-1] != "0" and int(product_code) in [5,6,7,8,9]:
+      // upce = manufacturer_code + product_code[-1]
+      return mc + pc.substring(pc.length-1);
+    }
+    else {
+      throw BarcodeException('Unable to convert "$data" to $name Barcode');
+    }
+
+
+    // Algorithm 2=>
+    /*
     if([0x35, 0x36, 0x37, 0x38, 0x39].contains(data.codeUnits[10]) && data.substring(6,10) == '0000' && data[5] != '0') {
-      //If the 11th code of UPC-A equals to 5, 6, 7, 8 or 9, the 7th to 10th code are all 0, and the 6th is not 0,
+      //If the 11th code of UPC-A equals to 5, 6, 7, 8 or 9, the 7th to 10th code are all 0, and the 6th is not 0),
       //adding the 2nd to 6th code and 11th code of UPC-A to present the 1st to 6th of UPC-E.
       return data.substring(1,6) + data[10];
     }
@@ -102,6 +136,7 @@ class BarcodeUpcE extends BarcodeEan {
     else {
       throw BarcodeException('Unable to convert "$data" to $name Barcode');
     }
+    */
   }
 
   /// Convert a short version UPC-E barcode to a full length UPC-A
@@ -213,12 +248,12 @@ class BarcodeUpcE extends BarcodeEan {
 
   @override
   double marginLeft(
-    bool drawText,
-    double width,
-    double height,
-    double fontHeight,
-    double textPadding,
-  ) {
+      bool drawText,
+      double width,
+      double height,
+      double fontHeight,
+      double textPadding,
+      ) {
     if (!drawText) {
       return 0;
     }
@@ -228,12 +263,12 @@ class BarcodeUpcE extends BarcodeEan {
 
   @override
   double marginRight(
-    bool drawText,
-    double width,
-    double height,
-    double fontHeight,
-    double textPadding,
-  ) {
+      bool drawText,
+      double width,
+      double height,
+      double fontHeight,
+      double textPadding,
+      ) {
     if (!drawText) {
       return 0;
     }
@@ -243,14 +278,14 @@ class BarcodeUpcE extends BarcodeEan {
 
   @override
   double getHeight(
-    int index,
-    int count,
-    double width,
-    double height,
-    double fontHeight,
-    double textPadding,
-    bool drawText,
-  ) {
+      int index,
+      int count,
+      double width,
+      double height,
+      double fontHeight,
+      double textPadding,
+      bool drawText,
+      ) {
     if (!drawText) {
       return super.getHeight(
         index,
@@ -274,13 +309,13 @@ class BarcodeUpcE extends BarcodeEan {
 
   @override
   Iterable<BarcodeElement> makeText(
-    String data,
-    double width,
-    double height,
-    double fontHeight,
-    double textPadding,
-    double lineWidth,
-  ) sync* {
+      String data,
+      double width,
+      double height,
+      double fontHeight,
+      double textPadding,
+      double lineWidth,
+      ) sync* {
     if (data.length <= 8) {
       // Try to convert UPC-E to UPC-A
       data = upceToUpca(data);
