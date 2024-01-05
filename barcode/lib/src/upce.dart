@@ -72,55 +72,71 @@ class BarcodeUpcE extends BarcodeEan {
 
   /// Convert an UPC-A barcode to a short version UPC-E
   String upcaToUpce(String data) {
-    final exp = RegExp(r'^[01](\d\d+)([0-2]000[05-9])(\d*)\d$');
-    final match = exp.firstMatch(data);
 
-    if (match == null) {
+    //Basic checking of string headers and lengths.
+    if ( RegExp(r'^[01]\d{11}$').firstMatch(data) == null) {
+      throw BarcodeException('Unable to convert "$data" to $name Barcode');
+    }
+    //Refer to  https://en.wikipedia.org/wiki/Universal_Product_Code#UPC-E
+    //Both algorithms below are correct and have been tested.
+    //Algorithm 1: https://gist.github.com/corpit/8204456 (Implement in this function)
+    //Algorithm 2: https://www.keepautomation.com/upca/upca-to-upce-conversion.html
+
+    // Algorithm 1=>
+    final mc = data.substring(1,6);  //manufacturer code
+    final pc = data.substring(6,11); //product code
+
+    if(['000', '100', '200'].contains(mc.substring(mc.length - 3)) && int.parse(pc) <= 999){
+      //if manufacturer_code[-3:]  in ["000", "100", "200"] and int(product_code) <= 999:
+      // upce = manufacturer_code[:2] + product_code[-3:] + manufacturer_code[2]
+      return '${mc.substring(0,2)}${pc.substring(pc.length-3)}${mc[2]}';
+    }
+    else if(mc.substring(mc.length - 2) == '00' && int.parse(pc) <= 99){
+      //elif manufacturer_code[-2:] == '00' and int(product_code) <= 99:
+      // upce = manufacturer_code[:3] + product_code[-2:] + "3"
+      return '${mc.substring(0,3)}${pc.substring(pc.length-2)}3';
+    }
+    else if(mc.substring(mc.length - 1) == '0' && int.parse(pc) <= 9){
+      //elif manufacturer_code[-1] == "0" and int(product_code) <= 9:
+      // upce = manufacturer_code[:4] + product_code[-1] + "4"
+      return '${mc.substring(0,4)}${pc.substring(pc.length-1)}4';
+    }
+    else if(mc.substring(mc.length - 1) != '0' && [5, 6, 7, 8, 9].contains(int.parse(pc))){
+      //elif manufacturer_code[-1] != "0" and int(product_code) in [5,6,7,8,9]:
+      // upce = manufacturer_code + product_code[-1]
+      return mc + pc.substring(pc.length-1);
+    }
+    else {
       throw BarcodeException('Unable to convert "$data" to $name Barcode');
     }
 
-    final left = match.group(1);
-    final right = match.group(3);
-    String? last;
 
-    switch (match.group(2)) {
-      case '00000':
-        if (left!.length == 2) {
-          last = '0';
-        } else if (left.length == 3) {
-          last = '3';
-        } else if (left.length == 4) {
-          last = '4';
-        }
-        break;
-      case '10000':
-        last = '1';
-        break;
-      case '20000':
-        last = '2';
-        break;
-      case '00005':
-        last = '5';
-        break;
-      case '00006':
-        last = '6';
-        break;
-      case '00007':
-        last = '7';
-        break;
-      case '00008':
-        last = '8';
-        break;
-      case '00009':
-        last = '9';
-        break;
+    // Algorithm 2=>
+    /*
+    if([0x35, 0x36, 0x37, 0x38, 0x39].contains(data.codeUnits[10]) && data.substring(6,10) == '0000' && data[5] != '0') {
+      //If the 11th code of UPC-A equals to 5, 6, 7, 8 or 9, the 7th to 10th code are all 0, and the 6th is not 0),
+      //adding the 2nd to 6th code and 11th code of UPC-A to present the 1st to 6th of UPC-E.
+      return data.substring(1,6) + data[10];
     }
-
-    if (last == null) {
+    else if(data.substring(5,10) == '00000' && data[4] != '0'){
+      // If the 6th to 10th code are all 0, and the 5th is not 0,
+      // adding the 2nd to 5th code, 11th code of UPC-A and a digit 4 to present the 1st to 6th of UPC-E.
+      return '${data.substring(1,5)}${data[10]}4';
+    }
+    else if([0x30, 0x31, 0x32].contains(data.codeUnits[3]) && data.substring(4,8) == '0000'){
+      // If the 4th code is 0, 1, or 2, and the 5th to 8th code are all 0,
+      // adding the 2nd, 3rd, 9th, 10th, 11th, and 4th code of UPC-A to present the 1st to 6th of UPC-E.
+      return '${data.substring(1,3)}${data.substring(8,11)}${data[3]}';
+    }
+    else if([0x33, 0x34, 0x35, 0x36, 0x37, 0x38, 0x39].contains(data.codeUnits[3]) && data.substring(4,9) == '00000'){
+      //If the 4th code is 3, 4, 5, 6, 7, 8, 9, and the 5th to 9th code are all 0,
+      //adding the 2nd, 3rd, 4th, 10th, 11th code of UPC-A and a digit 3 to present the 1st to 6th of UPC-E.
+      return '${data.substring(1,4)}${data.substring(9,11)}3';
+    }
+    else {
       throw BarcodeException('Unable to convert "$data" to $name Barcode');
     }
-
-    return left! + right! + last;
+    */
   }
 
   /// Convert a short version UPC-E barcode to a full length UPC-A
@@ -232,12 +248,12 @@ class BarcodeUpcE extends BarcodeEan {
 
   @override
   double marginLeft(
-    bool drawText,
-    double width,
-    double height,
-    double fontHeight,
-    double textPadding,
-  ) {
+      bool drawText,
+      double width,
+      double height,
+      double fontHeight,
+      double textPadding,
+      ) {
     if (!drawText) {
       return 0;
     }
@@ -247,12 +263,12 @@ class BarcodeUpcE extends BarcodeEan {
 
   @override
   double marginRight(
-    bool drawText,
-    double width,
-    double height,
-    double fontHeight,
-    double textPadding,
-  ) {
+      bool drawText,
+      double width,
+      double height,
+      double fontHeight,
+      double textPadding,
+      ) {
     if (!drawText) {
       return 0;
     }
@@ -262,14 +278,14 @@ class BarcodeUpcE extends BarcodeEan {
 
   @override
   double getHeight(
-    int index,
-    int count,
-    double width,
-    double height,
-    double fontHeight,
-    double textPadding,
-    bool drawText,
-  ) {
+      int index,
+      int count,
+      double width,
+      double height,
+      double fontHeight,
+      double textPadding,
+      bool drawText,
+      ) {
     if (!drawText) {
       return super.getHeight(
         index,
@@ -293,13 +309,13 @@ class BarcodeUpcE extends BarcodeEan {
 
   @override
   Iterable<BarcodeElement> makeText(
-    String data,
-    double width,
-    double height,
-    double fontHeight,
-    double textPadding,
-    double lineWidth,
-  ) sync* {
+      String data,
+      double width,
+      double height,
+      double fontHeight,
+      double textPadding,
+      double lineWidth,
+      ) sync* {
     if (data.length <= 8) {
       // Try to convert UPC-E to UPC-A
       data = upceToUpca(data);

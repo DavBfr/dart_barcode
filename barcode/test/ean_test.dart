@@ -137,6 +137,6 @@ void main() {
       throw Exception('upce is not a BarcodeEan');
     }
 
-    expect(upce.normalize('1'), equals('010000000009'));
+    expect(upce.normalize('1'), equals('01000009'));
   });
 }
