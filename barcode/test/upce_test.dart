@@ -68,7 +68,7 @@ void main() {
   });
 
   test('Barcode UPC-E normalize (fallback)', () {
-    final bc = Barcode.upcE( fallback: true);
+    final bc = Barcode.upcE(fallback: true);
     if (bc is BarcodeUpcE) {
       expect(bc.normalize('18740000015'), equals('18741538'));
       expect(bc.normalize('48347295752'), equals('483472957520'));
@@ -120,5 +120,4 @@ void main() {
       expect(bc.normalize('001054'), equals('00000514')); //another special case
     }
   });
-
 }
