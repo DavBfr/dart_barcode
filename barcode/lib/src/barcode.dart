@@ -166,7 +166,15 @@ abstract class Barcode {
     bool useCode128C = true,
     bool escapes = false,
   }) =>
-      BarcodeCode128(useCode128A, useCode128B, useCode128C, false, escapes);
+      BarcodeCode128(
+        useCode128A: useCode128A,
+        useCode128B: useCode128B,
+        useCode128C: useCode128C,
+        isGS1: false,
+        escapes: escapes,
+        addSpaceAfterParenthesis: false,
+        keepParenthesis: false,
+      );
 
   /// GS1-128 [Barcode]
   ///
@@ -192,13 +200,29 @@ abstract class Barcode {
   /// Use `"{1}"` for FNC1, `"{2}"` for FNC2, `"{3}"` for FNC3, `"{4}"` for FNC4.
   /// Example: `"Test{1}1233{3}45"` will be equivalent to `Test FNC1 1233 FNC3 45`
   /// for the reader application.
+  ///
+  /// When [addSpaceAfterParenthesis] is enabled a space is added after the
+  /// parenthesis to make the barcode more readable when text is enabled
+  ///
+  /// When [keepParenthesis] is enabled, the parenthesis are kept in the barcode
+  /// when text is enabled
   static Barcode gs128({
     bool useCode128A = true,
     bool useCode128B = true,
     bool useCode128C = true,
     bool escapes = false,
+    bool addSpaceAfterParenthesis = true,
+    bool keepParenthesis = false,
   }) =>
-      BarcodeCode128(useCode128A, useCode128B, useCode128C, true, escapes);
+      BarcodeCode128(
+        useCode128A: useCode128A,
+        useCode128B: useCode128B,
+        useCode128C: useCode128C,
+        isGS1: true,
+        escapes: escapes,
+        addSpaceAfterParenthesis: addSpaceAfterParenthesis,
+        keepParenthesis: keepParenthesis,
+      );
 
   /// ITF-14 Barcode
   ///

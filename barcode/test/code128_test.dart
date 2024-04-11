@@ -199,7 +199,84 @@ void main() {
       );
     }
   });
+  test('Barcode GS1-128 text default', () {
+    final bc = Barcode.gs128();
+    if (bc is BarcodeCode128) {
+      expect(
+        bc.adaptData('(3)0(92)', true),
+        equals('${BarcodeCode128Fnc.fnc1}3 0${BarcodeCode128Fnc.fnc1}92 '),
+      );
 
+      expect(
+        bc.adaptData('x(3)0(92)x', true),
+        equals('x${BarcodeCode128Fnc.fnc1}3 0${BarcodeCode128Fnc.fnc1}92 x'),
+      );
+
+      expect(
+        bc.adaptData('x(30(92)x', true),
+        equals('x${BarcodeCode128Fnc.fnc1}30(92 x'),
+      );
+    }
+  });
+  test('Barcode GS1-128 text keep parenthesis', () {
+    final bc = Barcode.gs128(keepParenthesis: true);
+    if (bc is BarcodeCode128) {
+      expect(
+        bc.adaptData('(3)0(92)', true),
+        equals('${BarcodeCode128Fnc.fnc1}(3) 0${BarcodeCode128Fnc.fnc1}(92) '),
+      );
+
+      expect(
+        bc.adaptData('x(3)0(92)x', true),
+        equals(
+            'x${BarcodeCode128Fnc.fnc1}(3) 0${BarcodeCode128Fnc.fnc1}(92) x'),
+      );
+
+      expect(
+        bc.adaptData('x(30(92)x', true),
+        equals('x${BarcodeCode128Fnc.fnc1}(30(92) x'),
+      );
+    }
+  });
+  test('Barcode GS1-128 text no space', () {
+    final bc = Barcode.gs128(addSpaceAfterParenthesis: false);
+    if (bc is BarcodeCode128) {
+      expect(
+        bc.adaptData('(3)0(92)', true),
+        equals('${BarcodeCode128Fnc.fnc1}30${BarcodeCode128Fnc.fnc1}92'),
+      );
+
+      expect(
+        bc.adaptData('x(3)0(92)x', true),
+        equals('x${BarcodeCode128Fnc.fnc1}30${BarcodeCode128Fnc.fnc1}92x'),
+      );
+
+      expect(
+        bc.adaptData('x(30(92)x', true),
+        equals('x${BarcodeCode128Fnc.fnc1}30(92x'),
+      );
+    }
+  });
+  test('Barcode GS1-128 text keep parenthesis no space', () {
+    final bc =
+        Barcode.gs128(keepParenthesis: true, addSpaceAfterParenthesis: false);
+    if (bc is BarcodeCode128) {
+      expect(
+        bc.adaptData('(3)0(92)', true),
+        equals('${BarcodeCode128Fnc.fnc1}(3)0${BarcodeCode128Fnc.fnc1}(92)'),
+      );
+
+      expect(
+        bc.adaptData('x(3)0(92)x', true),
+        equals('x${BarcodeCode128Fnc.fnc1}(3)0${BarcodeCode128Fnc.fnc1}(92)x'),
+      );
+
+      expect(
+        bc.adaptData('x(30(92)x', true),
+        equals('x${BarcodeCode128Fnc.fnc1}(30(92)x'),
+      );
+    }
+  });
   test('Barcode CODE-128 charSet', () {
     const code128A = <int>{
       32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, //

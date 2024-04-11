@@ -1,5 +1,9 @@
 # Changelog
 
+## Unreleased
+
+- Add text display options to GS1-128 [NicolaVerbeeck]
+
 ## 2.2.6
 
 - Fix invalid UPC-E in some cases [shinbin]
