@@ -1,5 +1,9 @@
 # Changelog
 
+## 2.2.7
+
+- Add text formatting options to GS1-128 [NicolaVerbeeck]
+
 ## 2.2.6
 
 - Fix invalid UPC-E in some cases [shinbin]

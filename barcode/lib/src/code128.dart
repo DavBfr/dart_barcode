@@ -54,13 +54,15 @@ class BarcodeCode128Fnc {
 /// other attributes needed by the user.
 class BarcodeCode128 extends Barcode1D {
   /// Create a Code128 Barcode
-  const BarcodeCode128(
-    this.useCode128A,
-    this.useCode128B,
-    this.useCode128C,
-    this.isGS1,
-    this.escapes,
-  ) : assert(useCode128A || useCode128B || useCode128C,
+  const BarcodeCode128({
+    required this.useCode128A,
+    required this.useCode128B,
+    required this.useCode128C,
+    required this.isGS1,
+    required this.escapes,
+    required this.keepParenthesis,
+    required this.addSpaceAfterParenthesis,
+  }) : assert(useCode128A || useCode128B || useCode128C,
             'Enable at least one of the CODE 128 tables');
 
   /// Use Code 128 A table
@@ -77,6 +79,12 @@ class BarcodeCode128 extends Barcode1D {
 
   /// Generate a GS1-128 Barcode
   final bool isGS1;
+
+  /// Indicates that for text, the parenthesis should be kept
+  final bool keepParenthesis;
+
+  /// Indicates that for text should add a space after the parenthesis
+  final bool addSpaceAfterParenthesis;
 
   @override
   Iterable<int> get charSet => BarcodeMaps.code128B.keys
@@ -299,8 +307,14 @@ class BarcodeCode128 extends Barcode1D {
       for (final match in RegExp(r'\(.+?\)').allMatches(data)) {
         result.write(data.substring(start, match.start));
         result.write(BarcodeMaps.code128FNC1String);
+        if (text && keepParenthesis) {
+          result.write('(');
+        }
         result.write(data.substring(match.start + 1, match.end - 1));
-        if (text) {
+        if (text && keepParenthesis) {
+          result.write(')');
+        }
+        if (text && addSpaceAfterParenthesis) {
           result.write(' ');
         }
         start = match.end;
