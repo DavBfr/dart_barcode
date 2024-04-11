@@ -1,8 +1,8 @@
 # Changelog
 
-## Unreleased
+## 2.2.7
 
-- Add text display options to GS1-128 [NicolaVerbeeck]
+- Add text formatting options to GS1-128 [NicolaVerbeeck]
 
 ## 2.2.6
 
