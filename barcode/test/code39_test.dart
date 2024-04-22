@@ -66,4 +66,25 @@ void main() {
     expect(Barcode.fromType(BarcodeType.Code39),
         equals(const TypeMatcher<BarcodeCode39>()));
   });
+
+  test('Barcode CODE 39 without spacers', () {
+    final bc = Barcode.code39(drawSpacers: false);
+    final elements = bc.make('CODE-39',
+        width: 100, height: 100, drawText: true, fontHeight: 1, textPadding: 1);
+
+    final textElements = elements.whereType<BarcodeText>();
+
+    expect(textElements.any((element) => element.text.contains('*')), false);
+  });
+
+  test('Barcode CODE 39 with spacers', () {
+    final bc = Barcode.code39(drawSpacers: true);
+    final elements = bc.make('CODE-39',
+        width: 100, height: 100, drawText: true, fontHeight: 1, textPadding: 1);
+
+    final textElements = elements.whereType<BarcodeText>();
+
+    expect(textElements.first.text, '*');
+    expect(textElements.last.text, '*');
+  });
 }

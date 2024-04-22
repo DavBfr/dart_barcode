@@ -26,10 +26,13 @@ import 'barcode_operations.dart';
 /// characters (-, ., \$, /, +, %, and space).
 ///
 /// An additional character (denoted '*') is used for both start and stop
-/// delimiters.
+/// delimiters. This can be disabled by setting [drawSpacers] to false.
 class BarcodeCode39 extends Barcode1D {
   /// Create a code 39 Barcode
-  const BarcodeCode39();
+  const BarcodeCode39(this.drawSpacers);
+
+  /// Draw the start '*' and end '*' chars in the left and right margins
+  final bool drawSpacers;
 
   @override
   Iterable<int> get charSet => BarcodeMaps.code39.keys;
@@ -62,7 +65,7 @@ class BarcodeCode39 extends Barcode1D {
     double textPadding,
     double lineWidth,
   ) sync* {
-    final text = '*$data*';
+    final text = drawSpacers ? '*$data*' : data;
 
     for (var i = 0; i < text.length; i++) {
       yield BarcodeText(

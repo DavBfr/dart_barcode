@@ -112,10 +112,11 @@ abstract class Barcode {
   /// characters (-, ., \$, /, +, %, and space).
   ///
   /// An additional character (denoted '*') is used for both start and stop
-  /// delimiters.
+  /// delimiters, this can be controlled with the [drawSpacers] parameter.
   ///
   /// <img width="250" alt="CODE 39" src="https://raw.githubusercontent.com/DavBfr/dart_barcode/master/img/code-39.svg?sanitize=true">
-  static Barcode code39() => const BarcodeCode39();
+  static Barcode code39({bool drawSpacers = true}) =>
+      BarcodeCode39(drawSpacers);
 
   /// Code 93 [Barcode]
   ///
