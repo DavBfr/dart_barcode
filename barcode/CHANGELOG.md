@@ -1,5 +1,9 @@
 # Changelog
 
+## 2.2.8
+
+- Add option to turn off spacers for CODE 39 [NicolaVerbeeck]
+
 ## 2.2.7
 
 - Add text formatting options to GS1-128 [NicolaVerbeeck]
