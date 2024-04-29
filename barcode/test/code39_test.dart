@@ -74,6 +74,8 @@ void main() {
 
     final textElements = elements.whereType<BarcodeText>();
 
+    // If we don't draw spacers, the text starts after the imaginary first spacer
+    expect(textElements.first.left, isNonZero);
     expect(textElements.any((element) => element.text.contains('*')), false);
   });
 
@@ -84,6 +86,8 @@ void main() {
 
     final textElements = elements.whereType<BarcodeText>();
 
+    // If we do draw spacers, the text starts at the start of the barcode
+    expect(textElements.first.left, isZero);
     expect(textElements.first.text, '*');
     expect(textElements.last.text, '*');
   });
