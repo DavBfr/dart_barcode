@@ -1,5 +1,9 @@
 # Changelog
 
+## 2.2.9
+
+- Fixed wrong left text position for CODE 39 with spacers disabled [NicolaVerbeeck]
+
 ## 2.2.8
 
 - Add option to turn off spacers for CODE 39 [NicolaVerbeeck]

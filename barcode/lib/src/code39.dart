@@ -67,9 +67,10 @@ class BarcodeCode39 extends Barcode1D {
   ) sync* {
     final text = drawSpacers ? '*$data*' : data;
 
+    final additionalOffset = drawSpacers ? 0 : 1;
     for (var i = 0; i < text.length; i++) {
       yield BarcodeText(
-        left: lineWidth * BarcodeMaps.code39Len * i,
+        left: lineWidth * BarcodeMaps.code39Len * (i + additionalOffset),
         top: height - fontHeight,
         width: lineWidth * BarcodeMaps.code39Len,
         height: fontHeight,
