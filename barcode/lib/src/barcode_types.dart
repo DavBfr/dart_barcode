@@ -62,7 +62,7 @@ enum BarcodeType {
   QrCode,
 
   /// Codabar
-  Codabar,
+  Codebar,
 
   /// Pdf417
   PDF417,
