@@ -244,6 +244,14 @@ class BarcodeConf extends ChangeNotifier {
         _method = 'rm4scc()';
         _barcode = Barcode.rm4scc();
         break;
+      case BarcodeType.Postnet:
+        height = 60;
+        _defaultData = '55555-1237';
+        _desc =
+            'POSTNET (Postal Numeric Encoding Technique) is a barcode symbology used by the United States Postal Service to assist in directing mail.';
+        _method = 'postnet()';
+        _barcode = Barcode.postnet();
+        break;
     }
 
     notifyListeners();

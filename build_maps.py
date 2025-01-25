@@ -640,6 +640,44 @@ def rm4scc():
     print(f'static const rm4sccStop = {hex(0b11)}; // F')
 
 
+def postnet():
+    data = {
+        "0": "11000",
+        "1": "00011",
+        "2": "00101",
+        "3": "00110",
+        "4": "01001",
+        "5": "01010",
+        "6": "01100",
+        "7": "10001",
+        "8": "10010",
+        "9": "1010",
+    }
+
+    print('/// POSTNET conversion bits')
+    print('static const postnet = <int, int>{')
+    for k in data.keys():
+        v = ''
+        # t = bits[i//6]
+        # b = bits[i % 6]
+        o = 0
+        n = 0
+        for j in data[k]:
+            if j == '0':
+                v += 'D'
+                o += 0b10 << n
+            if j == '1':
+                v += 'F'
+                o += 0b11 << n
+            n += 2
+        print(f'{hex(ord(k))}: {hex(o)}, // "{k}" => {v}')
+    print('};')
+
+    print('/// POSTNET misc bits')
+    print('static const postnetLen = 5;')
+    print(f'static const postnetStartStop = {hex(0b11)}; // F')
+
+
 if __name__ == '__main__':
     print('/*')
     print(' * Copyright (C) 2020, David PHAM-VAN <dev.nfet.net@gmail.com>')
@@ -669,5 +707,6 @@ if __name__ == '__main__':
     telepen()
     codabar()
     rm4scc()
+    postnet()
 
     print('}')

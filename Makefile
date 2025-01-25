@@ -129,7 +129,7 @@ icons:
 
 maps: build_maps.py
 	python3 build_maps.py > barcode/lib/src/barcode_maps.dart
-	dartfmt -w --fix barcode/lib/src/barcode_maps.dart
+	dart format barcode/lib/src/barcode_maps.dart
 
 gh-pages:
 	test -z "$(shell git status --porcelain)"

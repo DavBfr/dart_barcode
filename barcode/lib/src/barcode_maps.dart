@@ -895,4 +895,21 @@ class BarcodeMaps {
   static const rm4sccLen = 4;
   static const rm4sccStart = 0x1; // A
   static const rm4sccStop = 0x3; // F
+  /// POSTNET conversion bits
+  static const postnet = <int, int>{
+    0x30: 0x2af, // "0" => FFDDD
+    0x31: 0x3ea, // "1" => DDDFF
+    0x32: 0x3ba, // "2" => DDFDF
+    0x33: 0x2fa, // "3" => DDFFD
+    0x34: 0x3ae, // "4" => DFDDF
+    0x35: 0x2ee, // "5" => DFDFD
+    0x36: 0x2be, // "6" => DFFDD
+    0x37: 0x3ab, // "7" => FDDDF
+    0x38: 0x2eb, // "8" => FDDFD
+    0x39: 0xbb, // "9" => FDFD
+  };
+
+  /// POSTNET misc bits
+  static const postnetLen = 5;
+  static const postnetStartStop = 0x3; // F
 }

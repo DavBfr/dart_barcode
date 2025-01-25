@@ -40,9 +40,9 @@ enum BarcodeHMBar {
 /// Height Modulated Barcode generation class
 abstract class BarcodeHM extends Barcode1D {
   /// Create a [BarcodeHM] object
-  const BarcodeHM();
+  const BarcodeHM({double tracker = 0.3}) : _tracker = tracker;
 
-  static const _tracker = .3;
+  final double _tracker;
 
   @override
   Iterable<BarcodeElement> makeBytes(
@@ -143,12 +143,18 @@ abstract class BarcodeHM extends Barcode1D {
 
   @override
   String toHex(String data) {
-    var result = 0;
+    var result = '';
+    var b = 0;
+    var n = false;
     for (var bit in convertHM(data)) {
-      result = (result << 2) + bit.index;
+      b = (b << 2) + bit.index;
+      if (n) {
+        result += b.toRadixString(16);
+        b = 0;
+      }
+      n = !n;
     }
-
-    return result.toRadixString(16);
+    return result;
   }
 
   /// Convert 2 bits to a bar type

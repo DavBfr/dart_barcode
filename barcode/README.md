@@ -138,6 +138,10 @@ The following barcode images are SVG. The proper rendering, especially text, dep
 
 <img width="200" alt="RM4SCC" src="https://raw.githubusercontent.com/DavBfr/dart_barcode/master/img/rm4scc.svg?sanitize=true">
 
+#### POSTNET
+
+<img width="200" alt="POSTNET" src="https://raw.githubusercontent.com/DavBfr/dart_barcode/master/img/postnet.svg?sanitize=true">
+
 ### 2D Barcodes
 
 #### QR-Code

@@ -76,6 +76,9 @@ enum BarcodeType {
   /// RM4SCC
   Rm4scc,
 
+  /// POSTNET
+  Postnet,
+
   /// Interleaved 2 of 5 (ITF)
   Itf,
 }

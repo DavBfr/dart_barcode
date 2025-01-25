@@ -37,6 +37,7 @@ import 'itf.dart';
 import 'itf14.dart';
 import 'itf16.dart';
 import 'pdf417.dart';
+import 'postnet.dart';
 import 'qrcode.dart';
 import 'rm4scc.dart';
 import 'telepen.dart';
@@ -92,6 +93,8 @@ abstract class Barcode {
         return Barcode.codabar();
       case BarcodeType.Rm4scc:
         return Barcode.rm4scc();
+      case BarcodeType.Postnet:
+        return Barcode.postnet();
       case BarcodeType.QrCode:
         return Barcode.qrCode();
       case BarcodeType.PDF417:
@@ -463,6 +466,14 @@ abstract class Barcode {
   ///
   /// <img width="200" alt="RM4SCC" src="https://raw.githubusercontent.com/DavBfr/dart_barcode/master/img/rm4scc.svg?sanitize=true">
   static Barcode rm4scc() => const BarcodeRm4scc();
+
+  /// POSTNET Barcode
+  ///
+  /// POSTNET (Postal Numeric Encoding Technique) is a barcode symbology used by
+  /// the United States Postal Service to assist in directing mail.
+  ///
+  /// <img width="200" alt="POSTNET" src="https://raw.githubusercontent.com/DavBfr/dart_barcode/master/img/postnet.svg?sanitize=true">
+  static Barcode postnet() => const BarcodePostnet();
 
   /// Data Matrix
   ///

@@ -150,6 +150,13 @@ void main() {
   );
 
   buildBarcode(
+    Barcode.postnet(),
+    '55555-1237',
+    height: 60,
+    fontHeight: 30,
+  );
+
+  buildBarcode(
     Barcode.itf(),
     '987234',
   );

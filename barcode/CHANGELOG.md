@@ -1,5 +1,9 @@
 # Changelog
 
+## 2.2.9
+
+- Implement POSTNET Barcode
+
 ## 2.2.8
 
 - Add option to turn off spacers for CODE 39 [NicolaVerbeeck]
